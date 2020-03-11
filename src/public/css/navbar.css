@@ -1,0 +1,23 @@
+#main-header {
+    background-color: #8c568d;
+}
+
+#amico-brand {
+    width: 85px;
+}
+
+.dropdown-menu {
+    background-color: #8c568d;
+}
+
+.dropdown-menu a {
+    color: white;
+}
+
+.user-icons {
+    width: 25px;
+}
+
+.nav-icons {
+    width: 15px;
+}

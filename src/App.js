@@ -1,12 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery/dist/jquery.min.js'
+import 'bootstrap/dist/js/bootstrap.min.js'
+import 'popper.js'
 
+//importing components
+import Navbar from './components/navbar';
+import Footer from './components/footer';
+import IndexBody from './components/indexBody'
 function App() {
 	return (
-		<div className="App">
-			<h1>Amico fashion store</h1>
-		</div>
+		<Router>
+			<Navbar />
+
+			<Route path="/" exact component={IndexBody} />
+
+			<Footer />
+		</Router>
 	);
 }
 
