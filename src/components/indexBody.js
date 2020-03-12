@@ -69,7 +69,7 @@ export default class IndexBody extends Component {
                                     <h4 class="my-0 font-weight-normal ThemeText">New Arrivals</h4>
                                     </div>
                                     <div class="card-body d-flex flex-column">
-                                        <img src="https://yaliyah.com/wp-content/uploads/2019/10/7756-knfafl-350x350.jpg" />
+                                        <img src="https://stylelanka.lk/wp-content/uploads/2020/01/Sexy-Women-summer-dress-Sleeveless-Floral-Printed-Bodycon-Holiday-Party-Short-Mini-Dress-Fashion-bodycon-dresses-300x300.jpg" />
                                     </div>
                                     <div class="card-footer">
                                     <button type="button" class="btn btn-lg btn-block mt-auto text-white ThemeBackground">Shop Now</button>
@@ -81,7 +81,7 @@ export default class IndexBody extends Component {
                                     <h4 class="my-0 font-weight-normal ThemeText">Avuduru Offers</h4>
                                     </div>
                                     <div class="card-body d-flex flex-column">
-                                        <img src="https://yaliyah.com/wp-content/uploads/2019/10/7756-knfafl-350x350.jpg" />
+                                        <img src="https://stylelanka.lk/wp-content/uploads/2020/01/Sexy-Women-summer-dress-Sleeveless-Floral-Printed-Bodycon-Holiday-Party-Short-Mini-Dress-Fashion-bodycon-dresses-300x300.jpg" />
                                     </div>
                                     <div class="card-footer">
                                     <button type="button" class="btn btn-lg btn-block mt-auto text-white ThemeBackground">Shop Now</button>
@@ -93,7 +93,7 @@ export default class IndexBody extends Component {
                                     <h4 class="my-0 font-weight-normal ThemeText">Black Friday</h4>
                                     </div>
                                     <div class="card-body d-flex flex-column">
-                                        <img src="https://yaliyah.com/wp-content/uploads/2019/10/7756-knfafl-350x350.jpg" />
+                                        <img src="https://stylelanka.lk/wp-content/uploads/2020/01/Sexy-Women-summer-dress-Sleeveless-Floral-Printed-Bodycon-Holiday-Party-Short-Mini-Dress-Fashion-bodycon-dresses-300x300.jpg" />
                                     </div>
                                     <div class="card-footer">
                                     <button type="button" class="btn btn-lg btn-block mt-auto text-white ThemeBackground">Shop Now</button>
