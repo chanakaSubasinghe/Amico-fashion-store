@@ -12,7 +12,6 @@ import heart from '../public/images/navbar/heart-solid.png'
 import instagram from '../public/images/navbar/instagram-brands.png'
 import shoppingVan from '../public/images/navbar/shipping-fast-solid.png'
 import shoppingCart from '../public/images/navbar/shopping-bag-solid.png'
-import userSolid from '../public/images/navbar/user-solid.png'
 
 export default class Navbar extends Component {
     
@@ -35,33 +34,36 @@ export default class Navbar extends Component {
                                 <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                                     <ul class="navbar-nav">
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">Dresses</a>
+                                                <Link class="nav-link" to="#">Dresses</Link>
                                             </li>
 
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">Tops</a>
+                                                <Link class="nav-link" to="#">Tops</Link>
                                             </li>
 
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">Jeans</a>
+                                                <Link class="nav-link" to="#">Jeans</Link>
                                             </li>
 
 
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">Shoes</a>
+                                                <Link class="nav-link" to="#">Shoes</Link>
                                             </li>
 
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">Accessories</a>
+                                                <Link class="nav-link" to="#">Accessories</Link>
                                             </li>
                                     </ul>
                                 </div>   
 
                                 <div id="userIcon">
                                     <Link to="/" class="p-2"><img src={shoppingCart} class="user-icons" /><span class="badge badge-light">4</span></Link>
-                                    <Link to="/" class="p-3"><img src={heart} class="user-icons" /><span class="badge badge-light">10</span></Link>
-                                    <Link to="/" class="p-2"><img src={userSolid} class="user-icons" /></Link>
+                                    <Link to="/" class="p-4"><img src={heart} class="user-icons" /><span class="badge badge-light">10</span></Link>
                                 </div>
+                                <div class="navbar-nav">
+                                    <Link to="/" class="nav-link">Login | Join</Link>
+                                </div>
+                                
 
                                 <button className='navbar-toggler' onClick={collapseFunction} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     </div>
