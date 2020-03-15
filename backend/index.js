@@ -30,6 +30,17 @@ connection.once('open', () => {
 	console.log('database connected!');
 });
 
+// importing routes
+const adminRoute = require('./routes/admin')
+const userRoute = require('./routes/user')
+const storeManager = require('./routes/storeManager')
+
+// invoking routes
+app.use(adminRoute)
+app.use(userRoute)
+app.use(storeManager)
+
+
 app.listen(PORT, () => {
 	console.log(`Server is running on ` + PORT);
 });
