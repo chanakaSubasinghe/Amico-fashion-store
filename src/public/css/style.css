@@ -1,0 +1,20 @@
+.ThemeText {
+    color:  #8c568d;
+}
+
+.ThemeBackground {
+    background-color: #8c568d;
+    color: white;
+}
+
+.newDivider {
+    margin-top: 10%;
+}
+
+.btn:hover {
+    color: white;
+}
+
+.marginBottom {
+    margin-bottom: 20%;
+}

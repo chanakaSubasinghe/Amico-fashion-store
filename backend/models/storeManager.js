@@ -25,12 +25,8 @@ const storeManagerSchema = new Schema({
         unique: true,
         lowercase: true,
         trim: true,
-        minlength: 4
-    },
-    contactNumber: {
-        type: Number,
-        trim: true,
-        maxlength: 10,
+        minlength: 4,
+        maxlength: 15
     },
     email: {
         type: String,

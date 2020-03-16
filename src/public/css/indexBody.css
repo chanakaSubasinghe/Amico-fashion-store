@@ -31,15 +31,3 @@ visibility: visible;
     -webkit-transform: translateY(0%);
 }
 }
-
-.ThemeText {
-    color:  #8c568d;
-}
-
-.ThemeBackground {
-    background-color: #8c568d;
-}
-
-.newDivider {
-    margin-top: 10%;
-}

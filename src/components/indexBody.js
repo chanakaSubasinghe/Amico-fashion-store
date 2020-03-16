@@ -152,7 +152,7 @@ export default class IndexBody extends Component {
                         <div class="col-md-4 justify-content-center align-self-center ">
                             <h2 class="text-center text-muted">Lorem ipsum dolor sit</h2>
                             <div class="text-center">
-                            <button class="btn text-white ThemeBackground" type="submit">Buy now</button>
+                            <button class="btn ThemeBackground" type="submit">Buy now</button>
                             </div>
                         </div>
                     </div>
@@ -163,7 +163,7 @@ export default class IndexBody extends Component {
                         <div class="col-sm-4 justify-content-center align-self-center order-3">
                             <h2 class="text-center text-muted">Lorem ipsum dolor sit</h2>
                             <div class="text-center">
-                            <button class="btn text-white ThemeBackground" type="submit">Buy now</button>
+                            <button class="btn ThemeBackground" type="submit">Buy now</button>
                             </div>
                         </div>
 
@@ -182,7 +182,7 @@ export default class IndexBody extends Component {
                         <div class="col-sm-4 justify-content-center align-self-center ">
                             <h2 class="text-center text-muted">Lorem ipsum dolor sit</h2>
                             <div class="text-center">
-                            <button class="btn text-white ThemeBackground" type="submit">Buy now</button>
+                            <button class="btn ThemeBackground" type="submit">Buy now</button>
                             </div>
                         </div>
                     </div>

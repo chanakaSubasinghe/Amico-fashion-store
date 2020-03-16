@@ -36,7 +36,7 @@ export default class ContactForm extends Component {
                 </div>
 
                 <div class="text-center">
-                    <button class="btn text-white ThemeBackground" type="submit">Submit your request</button>
+                    <button class="btn ThemeBackground" type="submit">Submit your request</button>
                 </div>
 
             </form>
