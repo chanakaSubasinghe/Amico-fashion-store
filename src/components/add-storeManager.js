@@ -66,8 +66,6 @@ export default class AddStoreManager extends Component {
             password: this.state.password,
         }
 
-        console.log(storeManager)
-
         axios.post('http://localhost:5000/storeManagers', storeManager)
 
         this.setState ({

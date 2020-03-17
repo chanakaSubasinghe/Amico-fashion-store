@@ -61,7 +61,7 @@ export default class Navbar extends Component {
                                     <Link to="/" class="p-4"><img src={heart} class="user-icons" /><span class="badge badge-light">10</span></Link>
                                 </div>
                                 <div class="navbar-nav">
-                                    <Link to="/" class="nav-link">Login | Join</Link>
+                                    <Link to="/login" class="nav-link">Login | Join</Link>
                                 </div>
                                 
 

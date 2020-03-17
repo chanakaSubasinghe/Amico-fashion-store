@@ -13,6 +13,8 @@ import Navbar from './components/navbar';
 import Footer from './components/footer';
 import IndexBody from './components/indexBody'
 import AdminPanel from './components/adminPanel'
+import CustomerLogin from './components/customer-login'
+import CustomerRegister from './components/customer-register'
 
 function App() {
 	return (
@@ -21,6 +23,8 @@ function App() {
 
 			<Route path="/" exact component={IndexBody} />
 			<Route path="/adminPanel" exact component={AdminPanel} />
+			<Route path="/login" exact component={CustomerLogin} />
+			<Route path="/register" exact component={CustomerRegister} />
 
 			<Footer />
 		</Router>

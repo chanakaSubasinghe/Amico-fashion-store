@@ -10,6 +10,11 @@ const router = express.Router();
 // create user
 router.post('/users', async(req, res) => {
     try {
+
+        if (req.body.password !== req.body.confirmPassword) {
+            return res.status(400).send('Your password does not match confirmation!')
+        }
+
         // creating new user and assign to a variable
         const user = new User(req.body)
 
@@ -68,7 +73,7 @@ router.patch('/users/:id', async (req, res) => {
 
     // declaring variables to more secure 
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['firstName','lastName','contactNumber','province', 'password', 'newPassword', 'conNewPassword']
+    const allowedUpdates = ['firstName','lastName', 'password', 'newPassword', 'conNewPassword']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     // conditions
@@ -87,8 +92,6 @@ router.patch('/users/:id', async (req, res) => {
         // updating fields
         user.firstName = req.body.firstName
         user.lastName = req.body.lastName
-        user.contactNumber = req.body.contactNumber
-        user.province = req.body.province
         user.password = req.body.newPassword
 
         // save back to DB

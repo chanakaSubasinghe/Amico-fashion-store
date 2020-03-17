@@ -24,18 +24,6 @@ const userSchema = new Schema({
         minlength: 2,
         maxlength: 15,
     },
-    contactNumber: {
-        type: Number,
-        trim: true,
-        maxlength: 10,
-    },
-    province: {
-        type: String,
-        required: true,
-        lowercase: true,
-        trim: true,
-        maxlength: 10,
-    },
     email: {
         type: String,
         required: true,

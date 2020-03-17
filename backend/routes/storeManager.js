@@ -64,7 +64,7 @@ router.patch('/storeManagers/:id', async (req, res) => {
 
     // declaring variables to more secure 
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['firstName','lastName', 'email', 'contactNumber','password', 'newPassword', 'conNewPassword']
+    const allowedUpdates = ['firstName','lastName', 'email','password', 'newPassword', 'conNewPassword']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     // conditions
@@ -84,7 +84,6 @@ router.patch('/storeManagers/:id', async (req, res) => {
         storeManager.firstName = req.body.firstName
         storeManager.lastName = req.body.lastName
         storeManager.email = req.body.email
-        storeManager.contactNumber = req.body.contactNumber
         storeManager.password = req.body.newPassword
 
         // save back to DB

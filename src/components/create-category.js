@@ -14,7 +14,7 @@ export default class CreateCategory extends Component {
                 <form>
                     <div class="form-group">
                         <label>Category Name</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Skirt" />
+                        <input type="text" class="form-control"/>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn ThemeBackground">create category</button>
