@@ -53,28 +53,49 @@ export default class Navbar extends Component {
                                             <li class="nav-item">
                                                 <Link class="nav-link" to="#">Accessories</Link>
                                             </li>
+
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    More
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                    <a class="dropdown-item" href="#">Profile</a>
+                                                    <a class="dropdown-item" href="#">Wish list</a>
+                                                    <a class="dropdown-item" href="#">My cart</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#">Logout</a>
+                                                </div>
+                                            </li>
                                     </ul>
                                 </div>   
 
-                                <div id="userIcon">
+                                {/* <div id="userIcon">
                                     <Link to="/" class="p-2"><img src={shoppingCart} class="user-icons" /><span class="badge badge-light">4</span></Link>
                                     <Link to="/" class="p-4"><img src={heart} class="user-icons" /><span class="badge badge-light">10</span></Link>
                                 </div>
                                 <div class="navbar-nav">
                                     <Link to="/login" class="nav-link">Login | Join</Link>
-                                </div>
+                                </div> */}
 
                                 
-                                {/* <div id="userIcon"> 
+                                <div id="userIcon"> 
                                     <div class="row">
                                         <span class="p-2 text-white-50">Logged in as</span>
-                                        <span class="p-2 text-light">Chanaka</span>
-                                        
-                                        <div class="navbar-nav">
-                                            <Link to="/logout" class="nav-link">Logout</Link>
+
+                                        <div class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                chanaka
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="#">Profile</a>
+                                                <a class="dropdown-item" href="#">Wish list</a>
+                                                <a class="dropdown-item" href="#">My cart</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Logout</a>
+                                            </div>
                                         </div>
                                     </div>                                                                       
-                                </div> */}
+                                </div>
                                 
 
                                 <button className='navbar-toggler' onClick={collapseFunction} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
