@@ -63,6 +63,18 @@ export default class Navbar extends Component {
                                 <div class="navbar-nav">
                                     <Link to="/login" class="nav-link">Login | Join</Link>
                                 </div>
+
+                                
+                                {/* <div id="userIcon"> 
+                                    <div class="row">
+                                        <span class="p-2 text-white-50">Logged in as</span>
+                                        <span class="p-2 text-light">Chanaka</span>
+                                        
+                                        <div class="navbar-nav">
+                                            <Link to="/logout" class="nav-link">Logout</Link>
+                                        </div>
+                                    </div>                                                                       
+                                </div> */}
                                 
 
                                 <button className='navbar-toggler' onClick={collapseFunction} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>

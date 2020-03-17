@@ -3,14 +3,14 @@ import {Link} from 'react-router-dom'
 
 
 
-export default class CustomerLogin extends Component {
+export default class AdminLogin extends Component {
 
     render(){
 
         return(
             <div>
-                 <div class="container customer">
-                    <h3 class="text-center ThemeText">Already Registered ?</h3>
+                 <div class="container admin-storeManager">
+                    <h3 class="text-center ThemeText">Administrator Login</h3>
                     <br/>
                     <div class="row">
                         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -18,7 +18,7 @@ export default class CustomerLogin extends Component {
 
 
                                 <div class="input-group mb-2 mr-sm-2">
-                                    <input type="email" class="form-control" name="email" placeholder="Email" required/>
+                                    <input type="email" class="form-control" name="email" placeholder="UserName" required/>
                                 </div>
 
                                 <div class="input-group mb-2 mr-sm-2">
@@ -29,7 +29,7 @@ export default class CustomerLogin extends Component {
 
                             </form>
                             <br />
-                            <p class="float-right">Don't have an account? <Link to="/register" class="text-decoration-none">Register</Link></p>        
+                            <p class="float-right">For store manager login? <Link to="/storeManagerLogin" class="text-decoration-none">Store Manager</Link></p>        
                         </div>
                     </div>
                 </div>

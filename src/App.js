@@ -15,6 +15,8 @@ import IndexBody from './components/indexBody'
 import AdminPanel from './components/adminPanel'
 import CustomerLogin from './components/customer-login'
 import CustomerRegister from './components/customer-register'
+import AdminLogin from './components/admin-login'
+import StoreManagerLogin from './components/storeManager-login'
 
 function App() {
 	return (
@@ -25,6 +27,8 @@ function App() {
 			<Route path="/adminPanel" exact component={AdminPanel} />
 			<Route path="/login" exact component={CustomerLogin} />
 			<Route path="/register" exact component={CustomerRegister} />
+			<Route path="/adminLogin" exact component={AdminLogin} />
+			<Route path="/storeManagerLogin" exact component={StoreManagerLogin} />
 
 			<Footer />
 		</Router>
