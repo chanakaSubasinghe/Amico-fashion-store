@@ -1,9 +1,40 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-
+import axios from 'axios'
 
 
 export default class CustomerLogin extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.handleChange = this.handleChange.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
+
+        this.state = {
+            email: '',
+            password: ''
+        }
+    }
+
+    handleChange(e){
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+    onSubmit(e){
+        e.preventDefault();
+
+        const user = {
+            email: this.state.email,
+            password: this.state.password
+        }
+
+        
+
+
+    }
 
     render(){
 
@@ -14,15 +45,15 @@ export default class CustomerLogin extends Component {
                     <br/>
                     <div class="row">
                         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                            <form class="needs-validation" action="/login" method="POST">
+                            <form onSubmit={this.onSubmit}>
 
 
                                 <div class="input-group mb-2 mr-sm-2">
-                                    <input type="email" class="form-control" name="email" placeholder="Email" required/>
+                                    <input type="email" class="form-control" name="email" value={this.state.email} onChange={this.handleChange} placeholder="Email" required/>
                                 </div>
 
                                 <div class="input-group mb-2 mr-sm-2">
-                                    <input type="password" class="form-control" name="password" placeholder="Password" required/>
+                                    <input type="password" class="form-control" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password" required/>
                                 </div>
 
                                 <button type="submit" class="btn ThemeBackground btn-block">Login</button>

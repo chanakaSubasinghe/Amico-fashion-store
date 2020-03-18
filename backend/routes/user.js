@@ -1,5 +1,6 @@
 // declaring dependencies
 const express = require('express')
+const bcrypt = require('bcrypt')
 
 // importing user model
 const User = require('../models/user')
@@ -15,8 +16,16 @@ router.post('/users', async(req, res) => {
             return res.status(400).send('Your password does not match confirmation!')
         }
 
+        //hashing user password
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+
         // creating new user and assign to a variable
-        const user = new User(req.body)
+        const user = new User({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            password: hashedPassword,
+        })
 
         // save newUser to DB
         await user.save()
