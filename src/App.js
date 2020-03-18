@@ -29,7 +29,7 @@ function App() {
 			<Route path="/register" exact component={CustomerRegister} />
 			<Route path="/adminLogin" exact component={AdminLogin} />
 			<Route path="/storeManagerLogin" exact component={StoreManagerLogin} />
-
+		
 			<Footer />
 		</Router>
 	);
