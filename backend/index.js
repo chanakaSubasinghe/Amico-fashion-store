@@ -34,11 +34,13 @@ connection.once('open', () => {
 const adminRoute = require('./routes/admin')
 const userRoute = require('./routes/user')
 const storeManager = require('./routes/storeManager')
+const itemCategoryRoute = require('./routes/itemCategory')
 
 // invoking routes
 app.use(adminRoute)
 app.use(userRoute)
 app.use(storeManager)
+app.use(itemCategoryRoute)
 
 
 app.listen(PORT, () => {
