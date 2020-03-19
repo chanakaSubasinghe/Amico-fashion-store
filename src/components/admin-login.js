@@ -14,7 +14,7 @@ export default class AdminLogin extends Component {
                     <br/>
                     <div class="row">
                         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                            <form class="needs-validation" action="/login" method="POST">
+                            <form>
 
 
                                 <div class="input-group mb-2 mr-sm-2">

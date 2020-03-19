@@ -1,5 +1,6 @@
 // declaring dependencies
 const express = require('express')
+const bcrypt = require('bcrypt')
 
 // importing user model
 const StoreManager = require('../models/storeManager')
@@ -10,8 +11,18 @@ const router = express.Router();
 // create storeManager
 router.post('/storeManagers', async(req, res) => {
     try {
+
+        //hashing store manager password
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+
         // creating new storeManager and assign to a variable
-        const storeManager = new StoreManager(req.body)
+        const storeManager = new StoreManager({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            userName: req.body.userName,
+            email: req.body.email,
+            password: hashedPassword,
+        })
 
         // save storeManager to DB
         await storeManager.save()

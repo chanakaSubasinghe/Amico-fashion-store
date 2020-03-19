@@ -8,76 +8,56 @@ export default class CustomerRegister extends Component {
         
         super(props)
 
-        this.onChangeFirstName = this.onChangeFirstName.bind(this)
-        this.onChangeLastName = this.onChangeLastName.bind(this)
-        this.onChangeEmail = this.onChangeEmail.bind(this)
-        this.onChangePassword = this.onChangePassword.bind(this)
-        this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this)
-        this.onSubmit = this.onSubmit.bind(this)
-
+        // declaring this state
         this.state = {
             firstName: '',
             lastName: '',
             email: '',
+            username: '',
             password: '',
             confirmPassword: ''
         }
+
+        // binding methods
+        this.handleChange = this.handleChange.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
     }
 
-    onChangeFirstName(e){
+    handleChange(e){
         this.setState({
-            firstName: e.target.value
-        })
-    }
-
-    onChangeLastName(e){
-        this.setState({
-            lastName: e.target.value
-        })
-    }
-
-
-    onChangeEmail(e){
-        this.setState({
-            email: e.target.value
-        })
-    }
-
-    onChangePassword(e){
-        this.setState({
-            password: e.target.value
-        })
-    }
-
-    onChangeConfirmPassword(e){
-        this.setState({
-            confirmPassword: e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
     onSubmit(e){
         e.preventDefault()
 
+        // user object
         const user = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
+            username: this.state.username,
             password: this.state.password,
             confirmPassword: this.state.confirmPassword
         }
 
-        axios.post('http://localhost:5000/users', user)
-            .then(res => console.log(res.data))
-            .catch(err => console.log(err))
+        // request to server to add a new user
+        axios.post('/users', user)
+            .then(res => {
+                
+                if(res.data.errmsg){
+                    console.log('username already taken!')
+                }else {
 
-        this.setState({
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            confirmPassword: ''
-        })
+                    console.log('successful sign up')
+                }
+            })
+            .catch(err => {
+                console.log('Register error: ' + err)
+            })
 
+            window.location = '/login'
     }
 
     render(){
@@ -94,27 +74,32 @@ export default class CustomerRegister extends Component {
 
                                 <label>First Name</label>
                                 <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control" value={this.state.firstName} onChange={this.onChangeFirstName} placeholder="John" minLength="2" maxLength="10" required/>
+                                    <input type="text" class="form-control" name="firstName" value={this.state.firstName} onChange={this.handleChange} placeholder="John" minLength="2" maxLength="10" required/>
                                 </div>
 
                                 <label>Last Name</label>
                                 <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control" value={this.state.lastName} onChange={this.onChangeLastName} placeholder="Smith" minLength="2" maxLength="15" required/>
+                                    <input type="text" class="form-control" name="lastName" value={this.state.lastName} onChange={this.handleChange} placeholder="Smith" minLength="2" maxLength="15" required/>
                                 </div>
 
                                 <label>Email</label>
                                 <div class="input-group mb-2 mr-sm-2">
-                                    <input type="email" class="form-control" value={this.state.email} onChange={this.onChangeEmail} placeholder="johnsmith@example.com" minLength="2" required/>
+                                    <input type="email" class="form-control" name="email" value={this.state.email} onChange={this.handleChange} placeholder="johnsmith@example.com" minLength="2" required/>
+                                </div>
+
+                                <label>Username</label>
+                                <div class="input-group mb-2 mr-sm-2">
+                                    <input type="text" class="form-control" name="username" value={this.state.username} onChange={this.handleChange} placeholder="johnsmith2020" minLength="2" required/>
                                 </div>
 
                                 <label>Password</label>
                                 <div class="input-group mb-2 mr-sm-2">
-                                    <input type="password" class="form-control" value={this.state.password} onChange={this.onChangePassword} placeholder="Password" minLength="8" required/>
+                                    <input type="password" class="form-control" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password" minLength="8" required/>
                                 </div>
 
                                 <label>Confirm Password</label>
                                 <div class="input-group mb-2 mr-sm-2">
-                                    <input type="password" class="form-control" value={this.state.confirmPassword} onChange={this.onChangeConfirmPassword} placeholder="Confirm Password" minLength="8" required/>
+                                    <input type="password" class="form-control" name="confirmPassword" value={this.state.confirmPassword} onChange={this.handleChange} placeholder="Confirm Password" minLength="8" required/>
                                 </div>
 
                                 <br />

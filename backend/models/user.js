@@ -1,7 +1,7 @@
-
 // declaring dependencies
 const mongoose = require('mongoose')
 const validator = require('validator')
+const passportLocalMongoose = require('passport-local-mongoose')
 
 // define mongoose Schema
 const Schema = mongoose.Schema
@@ -24,6 +24,14 @@ const userSchema = new Schema({
         minlength: 2,
         maxlength: 15,
     },
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true,
+        minlength: 2,
+    },
     email: {
         type: String,
         required: true,
@@ -39,7 +47,6 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true,
         trim: true,
         minlength: 8,
         validate(value) {
@@ -52,6 +59,21 @@ const userSchema = new Schema({
 }, {
     timestamps: true
 })
+
+// to hide unnecessary details
+userSchema.methods.toJSON = function() {
+	const user = this;
+
+	const userObject = user.toObject();
+
+	delete userObject.salt;
+	delete userObject.hash;
+
+	return userObject;
+};
+
+userSchema.plugin(passportLocalMongoose)
+
 
 const User = mongoose.model('User', userSchema)
 
