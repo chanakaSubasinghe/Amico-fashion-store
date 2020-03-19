@@ -1,6 +1,7 @@
 // declaring dependencies
 const express = require('express')
-const bcrypt = require('bcrypt')
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
 
 // importing user model
 const User = require('../models/user')
@@ -8,35 +9,79 @@ const User = require('../models/user')
 // configuration
 const router = express.Router();
 
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
+
+// get user
+router.get('/current', (req, res) => {
+    
+    // print details of req user to console
+    console.log('current user ' + req.user)
+
+    // condition
+    if (req.user) {
+
+        res.json({ user: req.user })
+    } else {
+
+        res.json({ user: null })    
+    }
+})
+
 // create user
 router.post('/users', async(req, res) => {
     try {
 
+        // condition
         if (req.body.password !== req.body.confirmPassword) {
             return res.status(400).send('Your password does not match confirmation!')
         }
 
-        //hashing user password
-        const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
         // creating new user and assign to a variable
         const user = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            email: req.body.email,
-            password: hashedPassword,
+            username: req.body.username,
+            email: req.body.email
         })
 
-        // save newUser to DB
-        await user.save()
-    
-        // send response with status
-        res.status(201).send(user)
+        // handle register logic
+        User.register(user, req.body.password , (err, user) => {
+            if (err) {
+
+                return res.send(err.message)
+            }
+
+            passport.authenticate('local')(req, res, () => {
+                
+ 
+                res.status(201).send(user)
+            })
+        })
 
     } catch (e) {
         res.status(400).send(e.message)
     }
 })
+
+// login user
+router.post('/users/login', passport.authenticate('local'), (req, res, next) => {
+
+    res.send(req.user)
+    next()
+
+})
+
+// logout user
+router.post('/users/logout', (req, res) => {
+    req.logOut()
+    res.send('Successfully logged out')
+})
+
+
 
 // read user
 router.get('/users/:id', async (req, res) => {

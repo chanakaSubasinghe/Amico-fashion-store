@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 
 // importing custom css and javascript
 import '../public/css/navbar.css'
@@ -14,10 +15,41 @@ import shoppingVan from '../public/images/navbar/shipping-fast-solid.png'
 import shoppingCart from '../public/images/navbar/shopping-bag-solid.png'
 
 export default class Navbar extends Component {
+
+    constructor() {
+        super()
+        
+        this.logout = this.logout.bind(this)
+    }
+
+    logout(e) {
+
+        e.preventDefault()
+        console.log('logged out')
+
+        axios.post('http://localhost:5000/users/logout')
+            .then(res => {
+                console.log('logging out')
+
+                if(res.status === 200){
+
+                    this.props.updateUser({
+                        loggedIn: false,
+                        username: null
+                    })
+                }
+            }).catch(err => {
+                console.log('Logout error: ' + err)
+            })
+
+        window.location = '/'    
+    }
     
     render() {
-        return (
 
+        const loggedIn = this.props.loggedIn
+        const username = this.props.username
+        return (
             <div>
                 <nav class="navbar navbar-dark bg-dark">
                     <div class=" container row">
@@ -67,36 +99,41 @@ export default class Navbar extends Component {
                                                 </div>
                                             </li>
                                     </ul>
-                                </div>   
-
-                                {/* <div id="userIcon">
-                                    <Link to="/" class="p-2"><img src={shoppingCart} class="user-icons" /><span class="badge badge-light">4</span></Link>
-                                    <Link to="/" class="p-4"><img src={heart} class="user-icons" /><span class="badge badge-light">10</span></Link>
                                 </div>
-                                <div class="navbar-nav">
-                                    <Link to="/login" class="nav-link">Login | Join</Link>
-                                </div> */}
 
-                                
-                                <div id="userIcon"> 
-                                    <div class="row">
-                                        <span class="p-2 text-white-50">Logged in as</span>
-
-                                        <div class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                chanaka
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <a class="dropdown-item" href="#">Profile</a>
-                                                <a class="dropdown-item" href="#">Wish list</a>
-                                                <a class="dropdown-item" href="#">My cart</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Logout</a>
-                                            </div>
+                                <div id="hideWithCollapse">
+                                        <div class="d-inline">
+                                            <Link to="/"><img src={shoppingCart} class="user-icons" /><span class="badge badge-light">4</span></Link>
                                         </div>
-                                    </div>                                                                       
-                                </div>
-                                
+
+                                        <div class="d-inline m-3">
+                                            <Link to="/"><img src={heart} class="user-icons" /><span class="badge badge-light">10</span></Link>
+                                        </div> 
+                                </div>                                              
+                                {loggedIn ? ( 
+                                            
+                                        <div id="hideWithCollapse" class="row">
+                                            <div class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Logged In as {username}
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                    <Link class="dropdown-item" to="/adminPanel">Profile</Link>
+                                                    <a class="dropdown-item" href="#">Wish list</a>
+                                                    <a class="dropdown-item" href="#">My cart</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <Link class="dropdown-item" to="#" onClick={this.logout}>Logout</Link>
+                                                </div>
+                                            </div>
+                                        </div>                                                                       
+                                            
+                                    ) : ( 
+
+                                            <div class="d-inline">
+                                                <Link to="/login" style={{color: "white", textDecoration: "none"}}> Login</Link>
+                                            </div>
+
+                                    )} 
 
                                 <button className='navbar-toggler' onClick={collapseFunction} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     </div>

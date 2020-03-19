@@ -1,9 +1,14 @@
+// condition
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
+
+
 // requiring npm modules
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
-require('dotenv').config();
+const passport = require('passport')
 
 const app = express();
 
@@ -30,17 +35,31 @@ connection.once('open', () => {
 	console.log('database connected!');
 });
 
+/// passport configuration
+app.use(require('express-session')({
+	secret: process.env.SESSION_SECRET,
+	resave: false,
+	saveUninitialized: false
+}))
+
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+
 // importing routes
 const adminRoute = require('./routes/admin')
 const userRoute = require('./routes/user')
 const storeManager = require('./routes/storeManager')
 const itemCategoryRoute = require('./routes/itemCategory')
 
+
 // invoking routes
 app.use(adminRoute)
 app.use(userRoute)
 app.use(storeManager)
 app.use(itemCategoryRoute)
+
 
 
 app.listen(PORT, () => {
