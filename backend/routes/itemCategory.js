@@ -1,4 +1,4 @@
-//declaring dependencies
+//dependencies
 const express = require('express')
 
 //import model

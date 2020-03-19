@@ -17,6 +17,7 @@ import CustomerLogin from './components/customer-login'
 import CustomerRegister from './components/customer-register'
 import AdminLogin from './components/admin-login'
 import StoreManagerLogin from './components/storeManager-login'
+import EditCategory from './components/edit-category'
 
 function App() {
 	return (
@@ -29,6 +30,7 @@ function App() {
 			<Route path="/register" exact component={CustomerRegister} />
 			<Route path="/adminLogin" exact component={AdminLogin} />
 			<Route path="/storeManagerLogin" exact component={StoreManagerLogin} />
+			<Route path="/itemCategories/edit/:id" exact component={EditCategory} />
 		
 			<Footer />
 		</Router>

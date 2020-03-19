@@ -9,11 +9,12 @@ const Schema = mongoose.Schema
 const itemCategorySchema = new Schema ({
     categoryName :{
         type : String,
+        unique:true,
         required : true,
         lowercase : true,
         trim : true,
         minlength : 2,
-        maxlength : 10,
+        maxlength : 20,
     },
 },{
     timestamps : true

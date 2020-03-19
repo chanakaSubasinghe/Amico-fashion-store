@@ -9,7 +9,7 @@ export default class AdminLogin extends Component {
 
         return(
             <div>
-                 <div class="container admin-storeManager">
+                 <div class="container margin-top">
                     <h3 class="text-center ThemeText">Administrator Login</h3>
                     <br/>
                     <div class="row">

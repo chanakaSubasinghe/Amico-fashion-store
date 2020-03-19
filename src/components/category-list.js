@@ -1,6 +1,59 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import axios from 'axios';
+
+//inputs for the table
+
+const Category = props => (
+    <tr>
+        <td>{props.category.categoryName}</td>
+        <td><Link to={"itemCategories/edit/" +props.category._id }>edit</Link> | <a href="#" onClick={() => {props.deleteCategory(props.category._id)}}>delete </a></td>
+    </tr>
+)
+
 
 export default class CategoryList extends Component {
+
+
+    //constructor
+    constructor (props) {
+        super(props);
+
+        this.deleteCategory = this.deleteCategory.bind(this);
+        this.state = { categories: []}
+    }
+
+    //list all categories
+    componentDidMount(){
+      
+        axios.get('http://localhost:5000/itemCategories/')
+            .then(response => {
+                this.setState({ categories: response.data})
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
+    //delete categories
+    deleteCategory(id){
+
+        axios.delete('http://localhost:5000/itemCategories/' + id)
+            .then(res => console.log(res.data));
+
+        this.setState({
+            categories: this.state.categories.filter(el => el._id !== id)
+        })
+    }
+
+    //map to the list
+    CategoryList(){
+        return this.state.categories.map(currentcategory => {
+            return <Category category={currentcategory} deleteCategory={this.deleteCategory} key={currentcategory._id}/>
+        })
+    }
+
+
 
     render() {
         return(
@@ -8,27 +61,12 @@ export default class CategoryList extends Component {
                 <table class="table">
                     <thead class="ThemeBackground">
                         <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Category Name</th>
                         <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        </tr>
-                        <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        </tr>
-                        <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        </tr>
+                        {this.CategoryList()}
                     </tbody>
                 </table>
             </div>

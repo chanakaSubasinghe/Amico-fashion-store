@@ -84,7 +84,7 @@ export default class CustomerRegister extends Component {
 
         return(
             <div>
-                 <div class="container customer">
+                 <div class="container margin-top">
                     <h3 class="text-center ThemeText">New Member ?</h3>
                     <br/>
                     <div class="row">

@@ -39,6 +39,8 @@ export default class CreateCategory extends Component {
          this.setState({
              categoryName : ''
          })
+
+         window.location = '/adminPanel'
     }
 
 
@@ -56,7 +58,7 @@ export default class CreateCategory extends Component {
                 <form onSubmit={this.onSubmit}>
                     <div class="form-group">
                         <label>Category Name</label>
-                        <input type="text" class="form-control" name="categoryName" value={this.state.categoryName} onChange={this.handleChange} minLength="2" maxLength="10" required />
+                        <input type="text" class="form-control" name="categoryName" value={this.state.categoryName} onChange={this.handleChange} minLength="2" maxLength="20" required />
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn ThemeBackground">create category</button>

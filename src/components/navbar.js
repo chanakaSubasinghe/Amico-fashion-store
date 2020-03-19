@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 
 // importing custom css and javascript
 import '../public/css/navbar.css'
@@ -13,9 +14,47 @@ import instagram from '../public/images/navbar/instagram-brands.png'
 import shoppingVan from '../public/images/navbar/shipping-fast-solid.png'
 import shoppingCart from '../public/images/navbar/shopping-bag-solid.png'
 
+
+
+//inputs for the table
+
+const Category = props => (
+    <li class="nav-item">
+        <Link class="nav-link" to="/">{props.category.categoryName}</Link>
+    </li>   
+)
+
+
 export default class Navbar extends Component {
+
+        //constructor
+        constructor (props) {
+            super(props);
+    
+            this.state = { categories: []}
+        }
+    
+        //list all categories
+        componentDidMount(){
+          
+            axios.get('http://localhost:5000/itemCategories/')
+                .then(response => {
+                    this.setState({ categories: response.data})
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+     
+        //map to the list
+        CategoryList(){
+            return this.state.categories.map(currentcategory => {
+                return <Category category={currentcategory} key={currentcategory._id}/>
+            })
+        }
     
     render() {
+
         return (
 
             <div>
@@ -54,18 +93,18 @@ export default class Navbar extends Component {
                                                 <Link class="nav-link" to="#">Accessories</Link>
                                             </li>
 
-                                            <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    More
-                                                </a>
-                                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                    <a class="dropdown-item" href="#">Profile</a>
-                                                    <a class="dropdown-item" href="#">Wish list</a>
-                                                    <a class="dropdown-item" href="#">My cart</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#">Logout</a>
-                                                </div>
-                                            </li>
+                                            {this.state.categories.length > 6  &&
+                                                <li class="nav-item dropdown">
+                                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        More
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                        {this.CategoryList()}
+                                                    </div>
+                                                </li>                                            
+                                            }
+
+                                            
                                     </ul>
                                 </div>   
 
