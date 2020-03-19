@@ -17,7 +17,7 @@ export default class EditCategory extends Component {
     }
 
     componentDidMount(){
-        axios.get('http://localhost:5000/itemCategories/' + this.props.match.params.id)
+        axios.get('itemCategories/' + this.props.match.params.id)
             .then(response => {
                 console.log(response.data)
                 this.setState({
@@ -48,7 +48,7 @@ export default class EditCategory extends Component {
        }
        
 
-       axios.patch('http://localhost:5000/itemCategories/', category)
+       axios.patch('/itemCategories/', category)
             .then(res => console.log(res.data));
 
          this.setState({

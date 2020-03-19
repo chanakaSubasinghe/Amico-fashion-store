@@ -33,7 +33,7 @@ export default class CreateCategory extends Component {
        }
        
 
-       axios.post('http://localhost:5000/itemCategories/', category)
+       axios.post('/itemCategories/', category)
             .then(res => console.log(res.data));
 
          this.setState({
