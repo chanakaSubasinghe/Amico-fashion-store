@@ -17,7 +17,7 @@ export default class EditCategory extends Component {
     }
 
     componentDidMount(){
-        axios.get('itemCategories/' + this.props.match.params.id)
+        axios.get('/itemCategories/' + this.props.match.params.id)
             .then(response => {
                 console.log(response.data)
                 this.setState({
@@ -47,15 +47,10 @@ export default class EditCategory extends Component {
                 categoryName:this.state.categoryName,
        }
        
-
-       axios.patch('/itemCategories/', category)
+       axios.patch('/itemCategories/' + this.props.match.params.id, category)
             .then(res => console.log(res.data));
 
-         this.setState({
-             categoryName : ''
-         })
-
-         //window.location = '/adminPanel'
+         window.location = '/adminPanel'
     }
 
 
@@ -68,7 +63,7 @@ export default class EditCategory extends Component {
                <br/>
                <div class="row">
                    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                       <form>
+                       <form onSubmit={this.onSubmit}>
 
                         <label>Category Name</label>
                         <div class="input-group mb-2 mr-sm-2">

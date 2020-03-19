@@ -31,6 +31,19 @@ export default class Navbar extends Component {
         super()
         
         this.logout = this.logout.bind(this)
+        this.state = { categories: []}
+    }
+
+    //list all categories
+    componentDidMount(){
+    
+        axios.get('/itemCategories/')
+            .then(response => {
+                this.setState({ categories: response.data})
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     logout(e) {
@@ -38,7 +51,7 @@ export default class Navbar extends Component {
         e.preventDefault()
         console.log('logged out')
 
-        axios.post('http://localhost:5000/users/logout')
+        axios.post('/users/logout')
             .then(res => {
                 console.log('logging out')
 
@@ -55,11 +68,19 @@ export default class Navbar extends Component {
 
         window.location = '/'    
     }
+
+    //map to the list
+    CategoryList(){
+        return this.state.categories.map(currentcategory => {
+            return <Category category={currentcategory} key={currentcategory._id}/>
+        })
+    }
     
     render() {
 
         const loggedIn = this.props.loggedIn
         const username = this.props.username
+
         return (
             <div>
                 <nav class="navbar navbar-dark bg-dark">

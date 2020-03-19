@@ -14,22 +14,6 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 
-// get user
-router.get('/current', (req, res) => {
-    
-    // print details of req user to console
-    console.log('current user ' + req.user)
-
-    // condition
-    if (req.user) {
-
-        res.json({ user: req.user })
-    } else {
-
-        res.json({ user: null })    
-    }
-})
-
 // create user
 router.post('/users', async(req, res) => {
     try {
@@ -57,8 +41,7 @@ router.post('/users', async(req, res) => {
 
             passport.authenticate('local')(req, res, () => {
                 
- 
-                res.status(201).send(user)
+                res.send(req.user)
             })
         })
 
@@ -68,20 +51,39 @@ router.post('/users', async(req, res) => {
 })
 
 // login user
-router.post('/users/login', passport.authenticate('local'), (req, res, next) => {
+router.post('/users/login',function (req, res, next) {
 
-    res.send(req.user)
     next()
+},
+    passport.authenticate('local'),(req, res) => {
+        
+        res.send(req.user);
+    }
+)
 
+// get user
+router.get('/current', (req, res, next) => {
+    
+    // condition
+    if (req.user) {
+
+        res.send({ user: req.user })
+    } else {
+
+        res.send({ user: null })    
+    }
 })
 
 // logout user
 router.post('/users/logout', (req, res) => {
-    req.logOut()
-    res.send('Successfully logged out')
+
+    if (req.user) {
+        req.logOut() 
+        res.send({ msg: 'logging out' })  
+    }else {
+        res.send({ msg: 'no user to log out' })
+    }
 })
-
-
 
 // read user
 router.get('/users/:id', async (req, res) => {

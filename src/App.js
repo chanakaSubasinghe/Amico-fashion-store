@@ -51,43 +51,36 @@ class App extends Component {
 
 	// send request to server to check whether is there ant current user logged in or not
 	getUser() {
-
-		// send request
 		axios.get('/current').then(res => {
 
-		// condition
-		if (res.data.user) {
-			console.log('Get User: There is a user saved in the server session: ')
-
-			// update this state
+		  if (res.data.user) {
+	
 			this.setState({
-			loggedIn: true,
-			username: res.data.user.username
+			  loggedIn: true,
+			  username: res.data.user.username
 			})
 
-		} else {
+		  } else {
 
-			console.log('Get user: no user');
-
-			// update this state
 			this.setState({
-			loggedIn: false,
-			username: null
+			  loggedIn: false,
+			  username: null
+
 			})
-		}
+		  }
 		})
-	  }
+	}
 
 	render(){
 		return (
 
 			<div>
 				<Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} username={this.state.username} />
-	
+
 				<Route path="/" exact component={IndexBody} />
 				<Route path="/adminPanel" exact component={AdminPanel} />
 				<Route path="/login" render={() => <CustomerLogin updateUser={this.updateUser} />} />
-				<Route path="/register" exact component={CustomerRegister} />
+				<Route path="/register" render={() => <CustomerRegister updateUser={this.updateUser} />} />
 				<Route path="/adminLogin" exact component={AdminLogin} />
 				<Route path="/storeManagerLogin" exact component={StoreManagerLogin} />
 				<Route path="/itemCategories/edit/:id" exact component={EditCategory} />

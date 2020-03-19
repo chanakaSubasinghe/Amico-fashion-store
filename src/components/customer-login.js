@@ -39,7 +39,7 @@ export default class CustomerLogin extends Component {
         axios.post('/users/login', user)
             .then(res => {
  
-                console.log('login response: ')
+                console.log('login response: ' + res)
  
                 if (res.status === 200) {
 
@@ -61,11 +61,14 @@ export default class CustomerLogin extends Component {
             })
 
             // redirect to index page
-            window.location = '/'
+            // window.location = '/'
     }
 
     render(){
-
+            if (this.state.redirectTo) {
+                return <Redirect to={{ pathname: this.state.redirectTo }} />
+            } 
+            else {
             return(
                 <div>
                      <div class="container margin-top">
@@ -94,6 +97,6 @@ export default class CustomerLogin extends Component {
                     </div>
                 </div>
             )
-        
+        }
     }
 }
