@@ -12,6 +12,11 @@ const itemSchema = new Schema({
         required: true,
         trim : true,
     },
+    category: {
+        type: String,
+        required,
+        trim:true
+    },
 
     description:{
         type: String,
