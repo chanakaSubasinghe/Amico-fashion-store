@@ -100,7 +100,7 @@ export default class CustomerRegister extends Component {
 
                                     <label>Username</label>
                                     <div class="input-group mb-2 mr-sm-2">
-                                        <input type="text" class="form-control" name="username" value={this.state.username} onChange={this.handleChange} placeholder="johnsmith2020" minLength="2" required/>
+                                        <input type="text" class="form-control" name="username" value={this.state.username} onChange={this.handleChange} placeholder="johnsmith2020" minLength="2" maxLength="9" required/>
                                     </div>
 
                                     <label>Password</label>

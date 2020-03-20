@@ -132,23 +132,24 @@ export default class Navbar extends Component {
                                             
                                     </ul>
                                 </div>
+                                {loggedIn ? ( 
+                                <div class="row hideWithCollapse">
+                                
+                                        <div class="d-inline m-2">
+                                            <Link to="/"><img src={heart} class="user-icons" /><span class="badge badge-light">10</span></Link>
 
-                                <div id="hideWithCollapse">
-                                        <div class="d-inline">
-                                            <Link to="/"><img src={shoppingCart} class="user-icons" /><span class="badge badge-light">4</span></Link>
                                         </div>
 
-                                        <div class="d-inline m-3">
-                                            <Link to="/"><img src={heart} class="user-icons" /><span class="badge badge-light">10</span></Link>
-                                        </div> 
-                                </div>                                              
-                                {loggedIn ? ( 
-                                            
-                                        <div id="hideWithCollapse" class="row">
-                                            <div class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Logged In as {username}
-                                                </a>
+                                        <div class="d-inline m-2">
+                                            <Link to="/"><img src={shoppingCart} class="user-icons" /><span class="badge badge-light">4</span></Link>
+
+                                        </div>
+
+                                        <div class="d-inline dropdown nav-link">
+                                            <Link class="dropdown-toggle text-light" style={{color: "white", textDecoration: "none"}} to="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Signed In As {username}
+                                                </Link>
+
                                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                                     <Link class="dropdown-item" to="/adminPanel">Profile</Link>
                                                     <a class="dropdown-item" href="#">Wish list</a>
@@ -156,13 +157,12 @@ export default class Navbar extends Component {
                                                     <div class="dropdown-divider"></div>
                                                     <Link class="dropdown-item" to="#" onClick={this.logout}>Logout</Link>
                                                 </div>
-                                            </div>
-                                        </div>                                                                       
-                                            
+                                        </div>  
+                                    </div>
                                     ) : ( 
 
                                             <div class="d-inline">
-                                                <Link to="/login" style={{color: "white", textDecoration: "none"}}> Login</Link>
+                                                <Link to="/login" class="hideWithCollapse" style={{color: "white", textDecoration: "none"}}>Login | Join</Link>
                                             </div>
 
                                     )} 

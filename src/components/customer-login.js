@@ -80,7 +80,7 @@ export default class CustomerLogin extends Component {
     
     
                                     <div class="input-group mb-2 mr-sm-2">
-                                        <input type="text" class="form-control" name="username" value={this.state.username} onChange={this.handleChange} placeholder="Username" required/>
+                                        <input type="text" class="form-control" name="username" value={this.state.username} onChange={this.handleChange} maxLength="9" placeholder="Username" required/>
                                     </div>
     
                                     <div class="input-group mb-2 mr-sm-2">
