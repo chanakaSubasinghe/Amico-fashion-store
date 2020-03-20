@@ -46,15 +46,18 @@ export default class Navbar extends Component {
             })
     }
 
+    // logout function
     logout(e) {
 
         e.preventDefault()
         console.log('logged out')
 
+        // send request to server to login user
         axios.post('/users/logout')
             .then(res => {
                 console.log('logging out')
 
+                // condition
                 if(res.status === 200){
 
                     this.props.updateUser({
@@ -66,6 +69,7 @@ export default class Navbar extends Component {
                 console.log('Logout error: ' + err)
             })
 
+        // redirect    
         window.location = '/'    
     }
 
@@ -152,8 +156,6 @@ export default class Navbar extends Component {
 
                                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                                     <Link class="dropdown-item" to="/adminPanel">Profile</Link>
-                                                    <a class="dropdown-item" href="#">Wish list</a>
-                                                    <a class="dropdown-item" href="#">My cart</a>
                                                     <div class="dropdown-divider"></div>
                                                     <Link class="dropdown-item" to="#" onClick={this.logout}>Logout</Link>
                                                 </div>
