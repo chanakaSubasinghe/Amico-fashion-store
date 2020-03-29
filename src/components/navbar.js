@@ -27,8 +27,8 @@ const Category = props => (
 
 export default class Navbar extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         
         this.logout = this.logout.bind(this)
         this.state = { categories: []}
@@ -62,7 +62,7 @@ export default class Navbar extends Component {
 
                     this.props.updateUser({
                         loggedIn: false,
-                        username: null
+                        user: null
                     })
                 }
             }).catch(err => {
@@ -75,15 +75,15 @@ export default class Navbar extends Component {
 
     //map to the list
     CategoryList(){
-        return this.state.categories.map(currentcategory => {
-            return <Category category={currentcategory} key={currentcategory._id}/>
+        return this.state.categories.map(currentCategory => {
+            return <Category category={currentCategory} key={currentCategory._id}/>
         })
     }
     
     render() {
 
-        const loggedIn = this.props.loggedIn
-        const username = this.props.username
+        // get properties
+        const {loggedIn, user} = this.props
 
         return (
             <div>
@@ -151,11 +151,11 @@ export default class Navbar extends Component {
 
                                         <div class="d-inline dropdown nav-link">
                                             <Link class="dropdown-toggle text-light" style={{color: "white", textDecoration: "none"}} to="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Signed In As {username}
+                                                    Signed In As {user.username}
                                                 </Link>
 
                                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                    <Link class="dropdown-item" to="/adminPanel">Profile</Link>
+                                                    <Link class="dropdown-item" to="/users/profile">Profile</Link>
                                                     <div class="dropdown-divider"></div>
                                                     <Link class="dropdown-item" to="#" onClick={this.logout}>Logout</Link>
                                                 </div>

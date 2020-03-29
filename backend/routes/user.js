@@ -129,7 +129,7 @@ router.patch('/users/:id', async (req, res) => {
 
     // declaring variables to more secure 
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['firstName','lastName', 'password', 'newPassword', 'conNewPassword']
+    const allowedUpdates = ['firstName','lastName']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     // conditions
@@ -137,13 +137,13 @@ router.patch('/users/:id', async (req, res) => {
         return  res.status(400).send('Invalid updates')
     }
 
-    if (req.body.newPassword !== req.body.conNewPassword) {
+    if (req.body.newPassword !== req.body.confirmPassword) {
         return res.status(400).send('Your new password does not match confirmation!')
     }
 
     try {
         // assigning user provided id
-        const user = await User.findOne({_id})
+        const user = await User.findOne({_id});
 
         // updating fields
         user.firstName = req.body.firstName
