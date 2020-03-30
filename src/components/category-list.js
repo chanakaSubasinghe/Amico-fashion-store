@@ -59,7 +59,7 @@ export default class CategoryList extends Component {
         return(
             <div>
                 <table class="table">
-                    <thead class="ThemeBackground">
+                    <thead class="thead-dark">
                         <tr>
                         <th scope="col">Category Name</th>
                         <th scope="col">Actions</th>

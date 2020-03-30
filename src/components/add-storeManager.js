@@ -84,7 +84,7 @@ export default class AddStoreManager extends Component {
                     </div>
 
                     <div class="text-center">
-                        <button type="submit" class="btn ThemeBackground">add store manager</button>
+                        <button type="submit" class="btn btn-dark">add store manager</button>
                     </div>
                 </form>
             </div>

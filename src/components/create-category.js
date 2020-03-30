@@ -61,7 +61,7 @@ export default class CreateCategory extends Component {
                         <input type="text" class="form-control" name="categoryName" value={this.state.categoryName} onChange={this.handleChange} minLength="2" maxLength="20" required />
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn ThemeBackground">create category</button>
+                        <button type="submit" class="btn btn-dark">create category</button>
                     </div>
                 </form>
             </div> 

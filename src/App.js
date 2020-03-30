@@ -21,6 +21,8 @@ import CustomerRegister from './components/customer-register'
 import AdminLogin from './components/admin-login'
 import StoreManagerLogin from './components/storeManager-login'
 import EditCategory from './components/edit-category'
+import StoreManagerPanel from './components/storeManagerPanel'
+import EditItem from './components/edit-item'
 
 class App extends Component {
 
@@ -84,6 +86,8 @@ class App extends Component {
 				<Route path="/adminLogin" exact component={AdminLogin} />
 				<Route path="/storeManagerLogin" exact component={StoreManagerLogin} />
 				<Route path="/itemCategories/edit/:id" exact component={EditCategory} />
+				<Route path="/storeManagerPanel" exact component={StoreManagerPanel} />
+				<Route path="/items/edit/:id" exact component={EditItem} />
 			
 				<Footer />
 			</div>

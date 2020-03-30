@@ -42,7 +42,7 @@ export default class AdminSettings extends Component {
                     </div>
 
                     <div class="text-center">
-                        <button type="submit" class="btn ThemeBackground">update settings</button>
+                        <button type="submit" class="btn btn-dark">update settings</button>
                     </div>
                 </form>
             </div>
