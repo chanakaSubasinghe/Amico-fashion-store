@@ -11,8 +11,6 @@ const router = express.Router();
 router.post('/items', async (req,res) => {
     try{
 
-        console.log(req.body)
-
 
         //create a new item
         const item = new Item(req.body);
@@ -52,7 +50,7 @@ router.get('/items' , async(req,res) => {
 
     try{
         //assign all items
-        const items = await items.find({})
+        const items = await Item.find({})
 
         //send response
         res.status(200).send(items)
@@ -64,14 +62,13 @@ router.get('/items' , async(req,res) => {
 
 //update items
 router.patch('/items/:id', async(req,res) => {
-
     
         //assign id
-        const _id = req.params._id
+        const _id = req.params.id
 
         //declaring variables to more secure
         const updates = Object.keys(req.body)
-        const allowedUpdates = ['itemName' , 'description' , 'discount' , 'price' , 'averageRate' ,'comments']
+        const allowedUpdates = ['itemName' , 'category','description' , 'discount' , 'price' , 'averageRate' ,'comments']
         const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
         //conditions
@@ -84,12 +81,13 @@ router.patch('/items/:id', async(req,res) => {
         const item = await Item.findOne({_id})
 
         //update field
-        item.itemName = req.body.itemName
-        item.description = req.body.description
-        item.discount = req.body.discount
-        item.price = req.body.price
-        item.averageRate = req.body.averageRate
-        item.comments = req.body.comments
+        item.itemName = req.body.itemName;
+        item.category = req.body.category;
+        item.description = req.body.description;
+        item.discount = req.body.discount;
+        item.price = req.body.price;
+        item.averageRate = req.body.averageRate;
+        item.comments = req.body.comments;
 
         //save to database
         await item.save()

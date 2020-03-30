@@ -57,7 +57,7 @@ export default class StoreManagersList extends Component {
         return(
             <div>
                 <table class="table">
-                    <thead class="ThemeBackground">
+                    <thead class="thead-dark">
                         <tr>
                         <th scope="col">Full Name</th>
                         <th scope="col">Username</th>
