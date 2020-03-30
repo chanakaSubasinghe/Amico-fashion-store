@@ -23,20 +23,28 @@ import StoreManagerLogin from './components/storeManager-login'
 import EditCategory from './components/edit-category'
 import StoreManagerPanel from './components/storeManagerPanel'
 import EditItem from './components/edit-item'
+import UserProfile from "./components/user-profile";
 
 class App extends Component {
 
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 
 		// declaring this state
 
 		this.state = {
-		  loggedIn: false,
-		  username: null
+			loggedIn: false,
+			user: {
+				id: '',
+				firstName: '',
+				lastName: '',
+				username: '',
+				email: ''
+			}
 		}
 	
 		// binding functions
+		this.componentDidMount = this.componentDidMount.bind(this)
 		this.getUser = this.getUser.bind(this)
 		this.updateUser = this.updateUser.bind(this)
 	}
@@ -46,38 +54,50 @@ class App extends Component {
 		this.getUser()
 	}
 
+	// send request to server to check whether is there ant current user logged in or not
+	getUser() {
+		axios.get('/current').then(res => {
+
+			if (res.data.user) {
+
+				this.setState({
+					loggedIn: true,
+					user: {
+						id: res.data.user._id,
+						firstName: res.data.user.firstName,
+						lastName: res.data.user.lastName,
+						username: res.data.user.username,
+						email: res.data.user.email
+					}
+				})
+
+			} else {
+
+				this.setState({
+					loggedIn: false,
+					user: {
+						id: '',
+						firstName: '',
+						lastName: '',
+						username: '',
+						email: ''
+					}
+				})
+			}
+		})
+	}
+
 	// update method for update this state
 	updateUser (userObject) {
 	this.setState(userObject)
 	}
 
-	// send request to server to check whether is there ant current user logged in or not
-	getUser() {
-		axios.get('/current').then(res => {
-
-		  if (res.data.user) {
-	
-			this.setState({
-			  loggedIn: true,
-			  username: res.data.user.username
-			})
-
-		  } else {
-
-			this.setState({
-			  loggedIn: false,
-			  username: null
-
-			})
-		  }
-		})
-	}
 
 	render(){
 		return (
 
 			<div>
-				<Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} username={this.state.username} />
+				<Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} user={this.state.user} />
 
 				<Route path="/" exact component={IndexBody} />
 				<Route path="/adminPanel" exact component={AdminPanel} />
@@ -89,6 +109,8 @@ class App extends Component {
 				<Route path="/storeManagerPanel" exact component={StoreManagerPanel} />
 				<Route path="/items/edit/:id" exact component={EditItem} />
 			
+				<Route path="/users/profile/" component={() => <UserProfile user={this.state.user} />} />
+
 				<Footer />
 			</div>
 		);

@@ -5,8 +5,8 @@ import axios from 'axios'
 
 export default class CustomerLogin extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         
         // declaring this state
         this.state = {
@@ -59,15 +59,12 @@ export default class CustomerLogin extends Component {
                 console.log('login error')
                 console.log(err)
             })
-
-            // redirect to index page
-            // window.location = '/'
     }
 
     render(){
             if (this.state.redirectTo) {
                 return <Redirect to={{ pathname: this.state.redirectTo }} />
-            } 
+            }
             else {
             return(
                 <div>
