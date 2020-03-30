@@ -8,6 +8,9 @@ import 'jquery/dist/jquery.min.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'popper.js'
 
+// importing font-awesome 
+import 'font-awesome/css/font-awesome.min.css'
+
 // import css for all components
 import './public/css/style.css'
 

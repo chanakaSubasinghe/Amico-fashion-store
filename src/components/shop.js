@@ -7,21 +7,23 @@ import axios from 'axios';
 const Item = props => (
    
     <div class="card-deck col-lg-4 my-3">
-        <div class="card">
-            <img class="card-img-top" src="https://cdn.shopify.com/s/files/1/0997/6502/files/30_4217_1024x1024.jpg?v=1512729140" alt="Card image cap" />
+        <div class="card h-100">
+            <img class="card-img-top" src="https://helpfulsheep.com/2017-07-25-google-adsense-ad-sizes/250x250.png" />
             <div class="card-body">
                 <h5 class="card-title">{props.item.itemName}</h5>
-                <h4 class="float-right text-danger">{props.item.discount}% off</h4>
-                <h5 class="card-text text-primary">Rs.{props.item.price}.00</h5>
-                <br />
-                <p class="float-right">Average Rate:{props.item.averageRate}</p>
+                <p><i class="fa fa-star"></i> {props.item.averageRate}.0</p>
+                <div class="float-right">
+                    <h5 class="card-text text-primary"><del class="mr-3"><small>Rs.{props.item.price}.00</small></del>Rs.{props.item.price}.00</h5>
+                </div>
             </div>
             <div class="card-footer">
-                <button class="btn ThemeBackground btn-block">Buy Now</button>
-                    {/* <div class="float-right">
-                        <button class="btn btn-info btn-sm m-1">edit</button>
-                        <button class="btn btn-danger - btn-sm m-1">delete</button>
-                    </div> */}
+                <div class="inline">
+                    <Link><i class="fa fa-heart"></i></Link>
+                    <Link><i class="fa fa-shopping-cart ml-3"></i></Link>
+                    <div class="float-right">
+                        <button class="btn ThemeBackground">Buy Now</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>  

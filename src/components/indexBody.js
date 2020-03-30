@@ -189,12 +189,12 @@ export default class IndexBody extends Component {
                     </div>
 
                     <div class="newDivider text-center">
-                    <h1 class="ThemeText">Our  Partners</h1>
-                    <section class="row newDivider slideanim">
-                        <img class="col-sm-3" src={adidas} />
-                        <img class="col-sm-3" src={amante} />
-                        <img class="col-sm-3" src={nike} />
-                        <img class="col-sm-3" src={gucci} />
+                    <h1 class="ThemeText">Our Partners</h1>
+                    <section class="row newDivider slideanim rounded mx-auto d-block">
+                        <img class="col-md-2" src={adidas} />
+                        <img class="col-md-2" src={amante} />
+                        <img class="col-md-2" src={nike} />
+                        <img class="col-md-2" src={gucci} />
                     </section>
                     </div>
 
