@@ -1,6 +1,7 @@
 // declaring dependencies
 const express = require('express')
 const bcrypt = require('bcrypt')
+const {sendWelcomeEmail, sendGoodByeEmail} = require('../email/storemanager')
 
 // importing user model
 const StoreManager = require('../models/storeManager')
@@ -26,6 +27,9 @@ router.post('/storeManagers', async(req, res) => {
 
         // save storeManager to DB
         await storeManager.save()
+
+        // send welcome email
+        sendWelcomeEmail(req.body.email)
     
         // send response with status
         res.status(201).send(storeManager)
@@ -117,6 +121,9 @@ router.delete('/storeManagers/:id', async (req, res) => {
 
         // delete specific storeManager
         const storeManager = await StoreManager.findOneAndDelete({_id})
+
+        // send good bye email to specific store manager
+        sendGoodByeEmail(storeManager.email)
 
         // send response
         res.status(200).send(storeManager)

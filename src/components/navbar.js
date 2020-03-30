@@ -19,9 +19,7 @@ import shoppingCart from '../public/images/navbar/shopping-bag-solid.png'
 //inputs for the table
 
 const Category = props => (
-    <li class="nav-item">
-        <Link class="nav-link" to="/">{props.category.categoryName}</Link>
-    </li>   
+        <Link class="dropdown-item" to="/">{props.category.categoryName}</Link>
 )
 
 
@@ -91,7 +89,7 @@ export default class Navbar extends Component {
                     <div class=" container row">
                         <small class="text-white"><img src={phone} class="nav-icons" /> +94112345678</small>
                         <small class="text-white"><img src={shoppingVan} class="nav-icons" /> free delivery on island wide</small>
-                        <small class="text-white"><Link to="http://www.google.com"><img src={instagram} class="nav-icons" /></Link> follow us</small>
+                        <small class="text-white"><Link to="http://www.instagram.com"><img src={instagram} class="nav-icons" /></Link> follow us</small>
 
                     </div>
                 </nav>
@@ -101,37 +99,28 @@ export default class Navbar extends Component {
                             <Link class="navbar-brand" to="/"><img class="mx-auto d-block" id="amico-brand" src={amico} /></Link>
                                 <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                                     <ul class="navbar-nav">
-                                            <li class="nav-item">
-                                                <Link class="nav-link" to="#">Dresses</Link>
-                                            </li>
 
-                                            <li class="nav-item">
-                                                <Link class="nav-link" to="#">Tops</Link>
-                                            </li>
+                                            <form className="form-inline">
+                                                <input className="form-control form-control-sm mr-2" type="text"
+                                                       placeholder="search category" />
+                                                    <button className="btn btn-sm searchButton my-2 my-sm-0"
+                                                            type="submit">Search
+                                                    </button>
+                                            </form>
 
-                                            <li class="nav-item">
-                                                <Link class="nav-link" to="#">Jeans</Link>
-                                            </li>
+                                            <div className="d-inline dropdown nav-link">
+                                                <Link class="dropdown-toggle text-light"
+                                                      style={{color: "white", textDecoration: "none"}} to="#"
+                                                      id="navbarDropdown" role="button" data-toggle="dropdown"
+                                                      aria-haspopup="true" aria-expanded="false">
+                                                    categories
+                                                </Link>
 
+                                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                    {this.CategoryList()}
+                                                </div>
+                                            </div>
 
-                                            <li class="nav-item">
-                                                <Link class="nav-link" to="#">Shoes</Link>
-                                            </li>
-
-                                            <li class="nav-item">
-                                                <Link class="nav-link" to="#">Accessories</Link>
-                                            </li>
-
-                                            {this.state.categories.length > 6  &&
-                                                <li class="nav-item dropdown">
-                                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        More
-                                                    </a>
-                                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                        {this.CategoryList()}
-                                                    </div>
-                                                </li>                                            
-                                            }
 
                                             
                                     </ul>

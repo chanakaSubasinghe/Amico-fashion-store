@@ -39,14 +39,20 @@ export default class CustomerLogin extends Component {
         axios.post('/users/login', user)
             .then(res => {
  
-                console.log('login response: ' + res)
+                console.log('login response: ' + res.data)
  
                 if (res.status === 200) {
 
                     // update App.js state
                     this.props.updateUser({
                         loggedIn: true,
-                        username: res.data.username
+                        user: {
+                            id: res.data._id,
+                            firstName: res.data.firstName,
+                            lastName: res.data.lastName,
+                            username: res.data.username,
+                            email: res.data.email
+                        }
                     })
 
                     // update the state to redirect to home

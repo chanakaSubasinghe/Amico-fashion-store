@@ -22,3 +22,13 @@
 .margin-top {
     margin-top: 10%;
 }
+
+.searchButton {
+    color: #f0f9ff;
+}
+
+.searchButton:hover {
+    color: #f0f9ff;
+    border-color: #f8f9fa;
+    text-decoration: none;
+}
