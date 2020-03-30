@@ -24,6 +24,7 @@ import EditCategory from './components/edit-category'
 import StoreManagerPanel from './components/storeManagerPanel'
 import EditItem from './components/edit-item'
 import UserProfile from "./components/user-profile";
+import Shop from "./components/shop";
 
 class App extends Component {
 
@@ -108,6 +109,7 @@ class App extends Component {
 				<Route path="/itemCategories/edit/:id" exact component={EditCategory} />
 				<Route path="/storeManagerPanel" exact component={StoreManagerPanel} />
 				<Route path="/items/edit/:id" exact component={EditItem} />
+				<Route path="/items" exact component={Shop} />
 			
 				<Route path="/users/profile/" component={() => <UserProfile user={this.state.user} />} />
 
