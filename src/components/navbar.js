@@ -100,7 +100,7 @@ export default class Navbar extends Component {
                                 <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                                     <ul class="navbar-nav">
 
-                                        <div className="d-inline dropdown nav-link">
+                                        <div className="d-inline dropdown nav-link mx-5">
                                                 <Link class="dropdown-toggle text-light"
                                                       style={{color: "white", textDecoration: "none"}} to="#"
                                                       id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -114,7 +114,7 @@ export default class Navbar extends Component {
                                             </div>
 
 
-                                            <form className="form-inline">
+                                            <form className="form-inline mx-5">
                                                 <input className="form-control form-control-sm mr-2" type="text"
                                                        placeholder="search category" />
                                                     <button className="btn btn-sm searchButton my-2 my-sm-0"

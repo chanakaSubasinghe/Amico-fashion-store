@@ -6,7 +6,7 @@ import axios from 'axios';
 //inputs
 const Item = props => (
    
-    <div class="card-deck col-lg-4 my-3">
+    <div class="card-deck col-md-4 my-3">
         <div class="card h-100">
             <img class="card-img-top" src="https://helpfulsheep.com/2017-07-25-google-adsense-ad-sizes/250x250.png" />
             <div class="card-body">
@@ -71,7 +71,7 @@ export default class Shop extends Component {
             <div class="container margin-top">
                 <ul class="nav justify-content-end">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle ThemeText" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categories</a>
+                        <a class="nav-link dropdown-toggle ThemeText" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">filter by category</a>
                         <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="#">All</a>
                         <a class="dropdown-item" href="#">Another action</a>
