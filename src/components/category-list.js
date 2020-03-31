@@ -7,7 +7,7 @@ import axios from 'axios';
 const Category = props => (
     <tr>
         <td>{props.category.categoryName}</td>
-        <td><Link to={"itemCategories/edit/" + props.category._id}>edit</Link> | <Link to="#" onClick={() => {props.deleteCategory(props.category._id)}}>delete </Link></td>
+        <td><Link to={"Categories/edit/" + props.category._id}>edit</Link> | <Link to="#" onClick={() => {props.deleteCategory(props.category._id)}}>delete </Link></td>
     </tr>
 )
 
@@ -26,7 +26,7 @@ export default class CategoryList extends Component {
     //list all categories
     componentDidMount(){
       
-        axios.get('/itemCategories/')
+        axios.get('/Categories/')
             .then(response => {
                 this.setState({ categories: response.data})
             })
@@ -37,7 +37,7 @@ export default class CategoryList extends Component {
 
     //delete categories
     deleteCategory(id){
-        axios.delete('/itemCategories/' + id)
+        axios.delete('/Categories/' + id)
             .then(res => console.log(res.data));
 
         this.setState({

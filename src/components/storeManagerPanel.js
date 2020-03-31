@@ -22,10 +22,10 @@ export default class storeManagerPanel extends Component {
                                     <div class="col-md-4 marginBottom">
                                         <div class="list-group" id="list-tab" role="tablist">
                                         <a class="list-group-item list-group-item-action active" id="list-createCategory-list" data-toggle="list" href="#list-createCategory" role="tab" aria-controls="createCategory">Create item</a>
-                                        <a class="list-group-item list-group-item-action" id="list-categoryList-list" data-toggle="list" href="#list-categoryList" role="tab" aria-controls="profile">Category list</a>
+                                        <a class="list-group-item list-group-item-action" id="list-categoryList-list" data-toggle="list" href="#list-categoryList" role="tab" aria-controls="profile">Item list</a>
                                         <a class="list-group-item list-group-item-action" id="list-storeManager-list" data-toggle="list" href="#list-storeManager" role="tab" aria-controls="storeManager">Add store manager</a>
                                         <a class="list-group-item list-group-item-action" id="list-storeManagerList-list" data-toggle="list" href="#list-storeManagerList" role="tab" aria-controls="storeManagerList">Store managers list</a>
-                                        <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Admin panel settings</a>
+                                        <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Store Manager panel settings</a>
                                         </div>
                                     </div>
                                     

@@ -12,12 +12,23 @@ export default class CreateItem extends Component {
         this.state = {
             itemName : '',
             category : '',
-            description : '',
             discount : 0,
-            price : 0.00,
-            averageRate : 1,
-            comments : ''
+            price : 100.00,
+            categories: []
         }
+    }
+
+    componentDidMount(){
+        axios.get('/Categories/')
+            .then(response => {
+                    if(response.data.length > 0){
+                        this.setState({
+                            categories : response.data.map(category => category.categoryName),
+                            category : response.data[0].categoryName
+                        })
+                    } 
+                }
+            )
     }
 
     
@@ -36,15 +47,10 @@ export default class CreateItem extends Component {
 
        const item = {
             itemName:this.state.itemName,
-            category : this.state.category,
-            description : this.state.description,
+            category: this.state.category,
             discount : this.state.discount,
-            price : this.state.price,
-            averageRate : this.state.averageRate,
-            comments : this.state.comments
-
-
-       }
+            price : this.state.price           
+         }
        
 
        axios.post('/items/', item)
@@ -52,12 +58,9 @@ export default class CreateItem extends Component {
 
          this.setState({
             itemName : '',
-            category : '',
-            description : '',
+            category : '',            
             discount : '',
-            price : '',
-            averageRate : '',
-            comments : ''
+            price : ''
          })
 
          window.location = '/storeManagerPanel'
@@ -83,18 +86,29 @@ export default class CreateItem extends Component {
                     </div>
 
                     <div class="form-group">
-                        <label>Category</label>
-                        <input type="text" class="form-control" name="category" value={this.state.category} onChange={this.handleChange}  required />
+                        <label for="exampleFormControlSelect1">Category</label>
+                        <select class="form-control" 
+                                name="category"
+                                value={this.state.category}
+                                onChange={this.handleChange}
+                                required>
+                                   {
+                                       this.state.categories.map(function(category){
+                                           return <option
+                                                        key ={category}
+                                                        value = {category} > {category}
+                                                  </option>;
+                                       })
+                                   }
+                        </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Description</label>
-                        <input type="text" class="form-control" name="description" value={this.state.description} onChange={this.handleChange}  required />
-                    </div>
+                    
+                    
 
                     <div class="form-group">
-                        <label>Discount</label>
-                        <input type="text" class="form-control" name="discount" value={this.state.discount} onChange={this.handleChange}   />
+                        <label>Discount %</label>
+                        <input type="number" class="form-control" name="discount" value={this.state.discount} onChange={this.handleChange} min="1" max="99"   />
                     </div>
 
                     <div class="form-group">
@@ -102,17 +116,7 @@ export default class CreateItem extends Component {
                         <input type="text" class="form-control" name="price" value={this.state.price} onChange={this.handleChange}  required />
                     </div>
 
-                    <div class="form-group">
-                        <label>Average Rate</label>
-                        <input type="text" class="form-control" name="averageRate" value={this.state.averageRate} onChange={this.handleChange}   />
-                    </div>
-
-                    <div class="form-group">
-                        <label>Comments</label>
-                        <input type="text" class="form-control" name="comments" value={this.state.comments} onChange={this.handleChange}   />
-                    </div>
-
-                    <div class="text-center">
+                     <div class="text-center">
                         <button type="submit" class="btn btn-dark">create item</button>
                     </div>
                 </form>

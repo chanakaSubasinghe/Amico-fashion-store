@@ -18,11 +18,6 @@ const itemSchema = new Schema({
         trim:true
     },
 
-    description:{
-        type: String,
-        required: true,
-    },
-
     discount:{
         type: Number,
 
