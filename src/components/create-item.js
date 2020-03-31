@@ -3,35 +3,41 @@ import axios from 'axios';
 
 export default class CreateItem extends Component {
     
+    // constructor
     constructor(props){
         super(props);
 
+        // binding functions
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
+        // declaring this state
         this.state = {
             itemName : '',
-            category : '',
-            discount : 0,
-            price : 100.00,
+            categoryID : '',
+            category: '',
+            discount : '',
+            totalPrice : '',
             categories: []
         }
     }
 
     componentDidMount(){
+
+        // get item categories from server
         axios.get('/itemCategories/')
             .then(response => {
                     if(response.data.length > 0){
+                        // set state
                         this.setState({
-                            categories : response.data.map(category => category.categoryName),
-                            category : response.data[0].categoryName
+                            categories : response.data.map(category => category),
+                            category : response.data[0].categoryName,
+                            categoryID: response.data[0]._id
                         })
                     } 
                 }
             )
-    }
-
-    
+    }    
 
     //handleChange
     handleChange(e) {
@@ -45,25 +51,21 @@ export default class CreateItem extends Component {
    onSubmit(e){
        e.preventDefault();
 
+       // create item object
        const item = {
             itemName:this.state.itemName,
-            category: this.state.category,
+            category: this.state.categoryID,
             discount : this.state.discount,
-            price : this.state.price           
+            totalPrice : this.state.totalPrice          
          }
        
-
+       // request to server to create an item 
        axios.post('/items/', item)
-            .then(res => console.log(res.data));
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
 
-         this.setState({
-            itemName : '',
-            category : '',            
-            discount : '',
-            price : ''
-         })
-
-         window.location = '/storeManagerPanel'
+        // redirect
+        window.location = '/storeManagerPanel'
     }
 
 
@@ -88,23 +90,17 @@ export default class CreateItem extends Component {
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Category</label>
                         <select class="form-control" 
-                                name="category"
+                                name="categoryID"
                                 value={this.state.category}
                                 onChange={this.handleChange}
                                 required>
                                    {
                                        this.state.categories.map(function(category){
-                                           return <option
-                                                        key ={category}
-                                                        value = {category} > {category}
-                                                  </option>;
+                                            return <option value={category._id}>{category.categoryName}</option>
                                        })
                                    }
                         </select>
                     </div>
-
-                    
-                    
 
                     <div class="form-group">
                         <label>Discount %</label>
@@ -112,8 +108,8 @@ export default class CreateItem extends Component {
                     </div>
 
                     <div class="form-group">
-                        <label>Price</label>
-                        <input type="text" class="form-control" name="price" value={this.state.price} onChange={this.handleChange}  required />
+                        <label>Price Rs.</label>
+                        <input type="text" class="form-control" name="totalPrice" value={this.state.price} onChange={this.handleChange}  required />
                     </div>
 
                      <div class="text-center">

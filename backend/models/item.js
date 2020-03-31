@@ -13,33 +13,36 @@ const itemSchema = new Schema({
         trim : true,
     },
     category: {
-        type: String,
-        required: true,
-        trim:true
+        type: mongoose.Schema.Types.ObjectId,
+        required:true,
+        ref: 'ItemCategory'
     },
-
     discount:{
-        type: Number,
-
+        type: Number
     },
-
-    price:{
+    totalPrice:{
         type: Number,
         required: true,
     },
-
+    discountedPrice: {
+        type: Number,
+        required: true
+    },
     averageRate:{
         type: Number,
-    },
-
-    comments:{
-        type: String,
-    },
-
-
+        default: 1.0
+    }
 },{
     timestamps: true,
 });
+
+
+itemSchema.statics.findDiscountedPrice = async (totalPrice, discount) => {
+
+    const discountedPrice = totalPrice - (totalPrice * (discount / 100))
+
+	return discountedPrice;
+};
 
 
 const Item = mongoose.model('Item',itemSchema);

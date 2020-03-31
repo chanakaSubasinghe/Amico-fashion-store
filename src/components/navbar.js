@@ -15,46 +15,25 @@ import shoppingVan from '../public/images/navbar/shipping-fast-solid.png'
 import shoppingCart from '../public/images/navbar/shopping-bag-solid.png'
 
 
-
-//inputs for the table
-
-const Category = props => (
-        <Link class="dropdown-item" to="/">{props.category.categoryName}</Link>
-)
-
-
 export default class Navbar extends Component {
 
+    // constructor 
     constructor(props) {
         super(props)
         
+        // binding functions
         this.logout = this.logout.bind(this)
         this.state = { categories: []}
-    }
-
-    //list all categories
-    componentDidMount(){
-    
-        axios.get('/itemCategories/')
-            .then(response => {
-                this.setState({ categories: response.data})
-            })
-            .catch((error) => {
-                console.log(error);
-            })
     }
 
     // logout function
     logout(e) {
 
         e.preventDefault()
-        console.log('logged out')
 
         // send request to server to login user
         axios.post('/users/logout')
             .then(res => {
-                console.log('logging out')
-
                 // condition
                 if(res.status === 200){
 
@@ -69,13 +48,6 @@ export default class Navbar extends Component {
 
         // redirect    
         window.location = '/'    
-    }
-
-    //map to the list
-    CategoryList(){
-        return this.state.categories.map(currentCategory => {
-            return <Category category={currentCategory} key={currentCategory._id}/>
-        })
     }
     
     render() {
@@ -100,27 +72,17 @@ export default class Navbar extends Component {
                                 <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                                     <ul class="navbar-nav">
 
-                                        <div className="d-inline dropdown nav-link mx-5">
-                                                <Link class="dropdown-toggle text-light"
-                                                      style={{color: "white", textDecoration: "none"}} to="#"
-                                                      id="navbarDropdown" role="button" data-toggle="dropdown"
-                                                      aria-haspopup="true" aria-expanded="false">
-                                                    categories
-                                                </Link>
+                                        <li class="nav-item">
+                                            <Link class="nav-link active" to="/items">Shop our products</Link>
+                                        </li>
 
-                                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                    {this.CategoryList()}
-                                                </div>
-                                            </div>
-
-
-                                            <form className="form-inline mx-5">
-                                                <input className="form-control form-control-sm mr-2" type="text"
-                                                       placeholder="search category" />
-                                                    <button className="btn btn-sm searchButton my-2 my-sm-0"
-                                                            type="submit">Search
-                                                    </button>
-                                            </form>
+                                        <form className="form-inline mx-5">
+                                            <input className="form-control form-control-sm mr-2" type="text"
+                                                    placeholder="search category" />
+                                                <button className="btn btn-sm searchButton my-2 my-sm-0"
+                                                        type="submit">Search
+                                                </button>
+                                        </form>
                                             
                                     </ul>
                                 </div>

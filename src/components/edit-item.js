@@ -1,39 +1,36 @@
 import React, {Component} from 'react'
 import axios from 'axios';
 
-
-
 export default class EditItem extends Component {
 
+    // constructor
     constructor(props){
         super(props);
 
+        // binding functions
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
+        // this state
         this.state = {
             itemName : '',
             category : '',
-            description : '',
-            discount : 0,
-            price : 0.00,
-            averageRate : 1,
-            comments : '',
+            discount : '',
+            totalPrice : ''
         }
     }
 
     componentDidMount(){
+
+        // request to server to get details about provided item
         axios.get('/items/' + this.props.match.params.id)
             .then(response => {
-                console.log(response.data)
+                // set state
                 this.setState({
                     itemName:response.data.itemName,
                     category : response.data.category,
-                    description : response.data.description,
                     discount : response.data.discount,
-                    price : response.data.price,
-                    averageRate : response.data.averageRate,
-                    comments : response.data.comments
+                    totalPrice : response.data.totalPrice
                 })
             })
             .catch(function (error) {
@@ -48,33 +45,27 @@ export default class EditItem extends Component {
 		})
     }
     
-
-
-
    //button submit
    onSubmit(e){
        e.preventDefault();
 
+       // updated item
        const item = {
                 itemName:this.state.itemName,
                 category : this.state.category,
-                description : this.state.description,
                 discount : this.state.discount,
-                price : this.state.price,
-                averageRate : this.state.averageRate,
-                comments : this.state.comments
+                totalPrice : this.state.totalPrice
        }
        
+       // request to server to update item 
        axios.patch('/items/' + this.props.match.params.id, item)
             .then(res => console.log(res.data));
 
+         // redirect   
          window.location = '/storeManagerPanel'
     }
 
-
     render(){
-
-        
 
             return(
                 <div class="container margin-top">
@@ -96,28 +87,13 @@ export default class EditItem extends Component {
                         </div>
     
                         <div class="form-group">
-                            <label>Description</label>
-                            <input type="text" class="form-control" name="description" value={this.state.description} onChange={this.handleChange}  required />
-                        </div>
-    
-                        <div class="form-group">
                             <label>Discount</label>
-                            <input type="text" class="form-control" name="discount" value={this.state.discount} onChange={this.handleChange}   />
+                            <input type="number" class="form-control" name="discount" value={this.state.discount} onChange={this.handleChange} min="1" max="99"  />
                         </div>
     
                         <div class="form-group">
-                            <label>Price</label>
-                            <input type="text" class="form-control" name="price" value={this.state.price} onChange={this.handleChange}  required />
-                        </div>
-    
-                        <div class="form-group">
-                            <label>Average Rate</label>
-                            <input type="text" class="form-control" name="averageRate" value={this.state.averageRate} onChange={this.handleChange}   />
-                        </div>
-    
-                        <div class="form-group">
-                            <label>Comments</label>
-                            <input type="text" class="form-control" name="comments" value={this.state.comments} onChange={this.handleChange}   />
+                            <label>Price Rs.</label>
+                            <input type="text" class="form-control" name="totalPrice" value={this.state.totalPrice} onChange={this.handleChange}  required />
                         </div>
     
                         <div class="text-center">
@@ -126,5 +102,5 @@ export default class EditItem extends Component {
                     </form>
                 </div> 
             )
-            }
+    }
 }

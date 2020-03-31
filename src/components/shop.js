@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 
-//inputs
+// item - functional component
 const Item = props => (
    
     <div class="card-deck col-md-4 my-3">
@@ -11,11 +11,20 @@ const Item = props => (
             <img class="card-img-top" src="https://helpfulsheep.com/2017-07-25-google-adsense-ad-sizes/250x250.png" />
             <div class="card-body">
                 <h5 class="card-title">{props.item.itemName}</h5>
-                <p><i class="fa fa-star"></i> {props.item.averageRate}.0</p>
-                <div class="float-right">
-                    <h5 class="card-text text-primary"><del class="mr-3"><small>Rs.{props.item.price}.00</small></del>Rs.{props.item.price}.00</h5>
-                </div>
-            </div>
+                <p><i class="fa fa-star"></i>{props.item.averageRate}</p>            
+                {props.item.discountedPrice < props.item.totalPrice 
+                &&
+                    <div class="float-right">
+                        <del class="card-text text-dark">Rs.{props.item.totalPrice}.00</del>
+                        <h5 class="card-text text-primary">Rs.{props.item.discountedPrice}.00</h5>
+                    </div>    
+                || 
+                    <div class="float-right">     
+                        <br />            
+                        <h5 class="card-text text-primary">Rs.{props.item.discountedPrice}.00</h5>
+                    </div> 
+                }                                                
+            </div>     
             <div class="card-footer">
                 <div class="inline">
                     <Link><i class="fa fa-heart"></i></Link>
@@ -26,11 +35,12 @@ const Item = props => (
                 </div>
             </div>
         </div>
-    </div>  
-       
-                   
+    </div>                           
 )
 
+const Category = (props) => (
+    <Link class="dropdown-item" to="#">{props.category.categoryName}</Link>
+)
 
 export default class Shop extends Component {
 
@@ -38,17 +48,19 @@ export default class Shop extends Component {
     constructor(props) {
         super(props);
 
+        // declaring this state
         this.state = { 
-            items : []
+            items : [],
+            categories: []
         };
     }
 
     //list all categories
     componentDidMount(){
 
+        // get items from server
         axios.get('/items/')
             .then(response => {
-    
                this.setState({
                    items: response.data
                })
@@ -56,12 +68,29 @@ export default class Shop extends Component {
             .catch((error) => {
                 console.log(error);
             })
+
+        // get categories from server
+        axios.get('/itemCategories')
+            .then(response => {
+                this.setState({
+                    categories: response.data
+                })
+                console.log(response.data)
+            })
+            .catch(err => console.log(err))    
     }
 
-    //map to list
+    //map to list items
     ItemList() {
         return this.state.items.map(currentItem => {
             return <Item item={currentItem} key={currentItem.id} />
+        })
+    }
+
+    // map to list category
+    CategoryList() {
+        return this.state.categories.map(currentCategory => {
+            return <Category category={currentCategory} key={currentCategory._id} />
         })
     }
 
@@ -73,8 +102,8 @@ export default class Shop extends Component {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle ThemeText" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">filter by category</a>
                         <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#">All</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        <Link class="dropdown-item" to="/items">All</Link>
+                        {this.CategoryList()}
                         </div>
                     </li>
                 </ul>
@@ -85,11 +114,11 @@ export default class Shop extends Component {
 
 
                 <nav>
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link ThemeText" href="#">First</a></li>
-                        <li class="page-item"><a class="page-link ThemeText" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link ThemeText" href="#">Next</a></li>
-                        <li class="page-item"><a class="page-link ThemeText" href="#">Last</a></li>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item"><Link class="page-link ThemeText" href="#">First</Link></li>
+                        <li class="page-item"><Link class="page-link ThemeText" href="#">Previous</Link></li>
+                        <li class="page-item"><Link class="page-link ThemeText" href="#">Next</Link></li>
+                        <li class="page-item"><Link class="page-link ThemeText" href="#">Last</Link></li>
                     </ul>
                 </nav>
 

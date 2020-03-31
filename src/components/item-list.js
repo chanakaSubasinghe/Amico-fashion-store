@@ -7,13 +7,10 @@ import axios from 'axios';
 const Item = props => (
     <tr>
         <td>{props.item.itemName}</td>
-        <td>{props.item.category}</td>
-        <td>{props.item.discount}</td>
-        <td>{props.item.price}</td>
-        <td>{props.item.averageRate}</td>
-        
-
-        <td><Link to={"items/edit/" + props.item._id}>edit</Link> | <a href="#" onClick={() => {props.deleteItem(props.item._id)}}>delete </a></td>
+        <td>{props.item.totalPrice}</td>
+        <td>{props.item.discountedPrice}</td>
+        <td>{props.item.averageRate}</td>        
+        <td class="row"><Link class="btn btn-info btn-sm mr-2" to={"items/edit/" + props.item._id}>edit</Link> <Link class="btn btn-danger btn-sm" to="#" onClick={() => {props.deleteItem(props.item._id)}}>delete</Link></td>
     </tr>
 )
 
@@ -25,6 +22,7 @@ export default class ItemList extends Component {
     constructor (props) {
         super(props);
 
+        // binding functions
         this.deleteItem = this.deleteItem.bind(this);
         this.state = { items: []};
     }
@@ -32,9 +30,12 @@ export default class ItemList extends Component {
     //list all categories
     componentDidMount(){
       
+        // request to server to get items
         axios.get('/items/')
             .then(response => {
-                this.setState({ items: response.data})
+                this.setState({ 
+                    items: response.data
+                })
                 console.log(response.data);
             })
             .catch((error) => {
@@ -45,9 +46,11 @@ export default class ItemList extends Component {
     //delete categories
     deleteItem(id){
 
+        // request to server to delete specific item
         axios.delete('/items/' + id)
             .then(res => console.log(res.data));
 
+        // set state
         this.setState({
             items: this.state.items.filter(el => el._id !== id)
         })
@@ -55,12 +58,10 @@ export default class ItemList extends Component {
 
     //map to the list
     ItemList(){
-        return this.state.items.map(currentitem => {
-            return <Item item={currentitem} deleteItem={this.deleteItem} key={currentitem._id}/>
+        return this.state.items.map(currentItem => {
+            return <Item item={currentItem} deleteItem={this.deleteItem} key={currentItem._id}/>
         })
     }
-
-
 
     render() {
         return(
@@ -68,11 +69,10 @@ export default class ItemList extends Component {
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                        <th scope="col">Item Name</th>
-                        <th scope="col">category</th>
-                        <th scope="col">discount</th>
-                        <th scope="col">price</th>
-                        <th scope="col">average rate</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Dis/price</th>
+                        <th scope="col">A/rate</th>
                         <th scope="col">Actions</th>
                         </tr>
                     </thead>

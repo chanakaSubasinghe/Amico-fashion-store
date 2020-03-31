@@ -31,11 +31,11 @@ import Shop from "./components/shop";
 
 class App extends Component {
 
+	// constructor
 	constructor(props) {
 		super(props)
 
 		// declaring this state
-
 		this.state = {
 			loggedIn: false,
 			user: {
@@ -62,8 +62,10 @@ class App extends Component {
 	getUser() {
 		axios.get('/current').then(res => {
 
+			// condition
 			if (res.data.user) {
 
+				// set state
 				this.setState({
 					loggedIn: true,
 					user: {
@@ -76,7 +78,7 @@ class App extends Component {
 				})
 
 			} else {
-
+				// set state
 				this.setState({
 					loggedIn: false,
 					user: {
@@ -93,9 +95,8 @@ class App extends Component {
 
 	// update method for update this state
 	updateUser (userObject) {
-	this.setState(userObject)
+		this.setState(userObject)
 	}
-
 
 	render(){
 		return (
@@ -112,8 +113,7 @@ class App extends Component {
 				<Route path="/itemCategories/edit/:id" exact component={EditCategory} />
 				<Route path="/storeManagerPanel" exact component={StoreManagerPanel} />
 				<Route path="/items/edit/:id" exact component={EditItem} />
-				<Route path="/items" exact component={Shop} />
-			
+				<Route path="/items" exact component={Shop} />			
 				<Route path="/users/profile/" component={() => <UserProfile user={this.state.user} />} />
 
 				<Footer />
