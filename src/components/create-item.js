@@ -19,7 +19,7 @@ export default class CreateItem extends Component {
     }
 
     componentDidMount(){
-        axios.get('/Categories/')
+        axios.get('/itemCategories/')
             .then(response => {
                     if(response.data.length > 0){
                         this.setState({
