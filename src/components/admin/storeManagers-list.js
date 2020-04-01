@@ -8,7 +8,7 @@ const StoreManager = props => (
         <td>{props.storeManager.userName}</td>
         <td>{props.storeManager.email}</td>
         <td>
-            <Link onClick={() => {props.deleteStoreManager(props.storeManager._id)}}>delete</Link>
+            <Link class="btn btn-danger btn-sm" onClick={() => {props.deleteStoreManager(props.storeManager._id)}}>delete</Link>
         </td>
     </tr>
 )
