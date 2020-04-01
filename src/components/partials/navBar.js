@@ -15,7 +15,7 @@ import shoppingVan from '../../public/images/navbar/shipping-fast-solid.png'
 import shoppingCart from '../../public/images/navbar/shopping-bag-solid.png'
 
 
-export default class Navbar extends Component {
+export default class NavBar extends Component {
 
     // constructor 
     constructor(props) {
@@ -47,7 +47,7 @@ export default class Navbar extends Component {
             })
 
         // redirect    
-        window.location = '/'    
+        window.location = '/'
     }
     
     render() {

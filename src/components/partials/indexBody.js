@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom'
 
 // importing components
 import ContactForm from '../user/contact-form'
-import NavBar from '../partials/navbar'
 
 // importing custom css and javascript
 import '../../public/css/indexBody.css'
@@ -14,7 +13,6 @@ import adidas from '../../public/images/indexBody/adidas.png'
 import amante from '../../public/images/indexBody/amante.png'
 import nike from '../../public/images/indexBody/nike.png'
 import gucci from '../../public/images/indexBody/gucci.png'
-import Navbar from '../partials/navbar'
 
 
 
@@ -22,11 +20,9 @@ export default class IndexBody extends Component {
 
     render() {
 
-        const {} = this.props
 
         return (
             <div>
-                <Navbar />
 
                 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
                     <div class="carousel-inner">

@@ -15,19 +15,27 @@ import 'font-awesome/css/font-awesome.min.css'
 import './public/css/style.css'
 
 //importing components
-import Navbar from './components/navbar';
-import Footer from './components/footer';
-import IndexBody from './components/indexBody'
-import AdminPanel from './components/adminPanel'
-import CustomerLogin from './components/customer-login'
-import CustomerRegister from './components/customer-register'
-import AdminLogin from './components/admin-login'
-import StoreManagerLogin from './components/storeManager-login'
-import EditCategory from './components/edit-category'
-import StoreManagerPanel from './components/storeManagerPanel'
-import EditItem from './components/edit-item'
-import UserProfile from "./components/user-profile";
-import Shop from "./components/shop";
+
+// partials
+import NavBar from './components/partials/navBar';
+import Footer from './components/partials/footer';
+import IndexBody from './components/partials/indexBody'
+import Shop from "./components/partials/shop";
+
+// admin
+import AdminPanel from './components/admin/adminPanel'
+import AdminLogin from './components/admin/admin-login'
+
+// store Manager
+import StoreManagerLogin from './components/storeManager/storeManager-login'
+import StoreManagerPanel from './components/storeManager/storeManagerPanel'
+import EditItem from './components/storeManager/edit-item'
+
+// user
+import CustomerLogin from './components/user/customer-login'
+import CustomerRegister from './components/user/customer-register'
+import UserProfile from "./components/user/user-profile";
+
 
 class App extends Component {
 
@@ -102,19 +110,20 @@ class App extends Component {
 		return (
 
 			<div>
-				<Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} user={this.state.user} />
+				 <NavBar updateUser={this.updateUser} loggedIn={this.state.loggedIn} user={this.state.user} />
 
 				<Route path="/" exact component={IndexBody} />
-				<Route path="/adminPanel" exact component={AdminPanel} />
+				<Route path="/items" exact component={Shop} />			
 				<Route path="/login" render={() => <CustomerLogin updateUser={this.updateUser} />} />
 				<Route path="/register" render={() => <CustomerRegister updateUser={this.updateUser} />} />
+				<Route path="/users/profile/" component={() => <UserProfile user={this.state.user} />} />
+
+				<Route path="/adminPanel" exact component={AdminPanel} />
 				<Route path="/adminLogin" exact component={AdminLogin} />
+
 				<Route path="/storeManagerLogin" exact component={StoreManagerLogin} />
-				<Route path="/itemCategories/edit/:id" exact component={EditCategory} />
 				<Route path="/storeManagerPanel" exact component={StoreManagerPanel} />
 				<Route path="/items/edit/:id" exact component={EditItem} />
-				<Route path="/items" exact component={Shop} />			
-				<Route path="/users/profile/" component={() => <UserProfile user={this.state.user} />} />
 
 				<Footer />
 			</div>

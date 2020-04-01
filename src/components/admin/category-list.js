@@ -7,7 +7,7 @@ import axios from 'axios';
 const Category = props => (
     <tr>
         <td>{props.category.categoryName}</td>
-        <td><Link to={"itemCategories/edit/" + props.category._id}>edit</Link> | <Link to="#" onClick={() => {props.deleteCategory(props.category._id)}}>delete </Link></td>
+        <td><Link to="#" class="btn btn-danger btn-sm" onClick={() => {props.deleteCategory(props.category._id)}}>delete </Link></td>
     </tr>
 )
 

@@ -96,34 +96,33 @@ export default class Shop extends Component {
 
     render() {
         return (
-
-            <div class="container margin-top">
-                <ul class="nav justify-content-end">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle ThemeText" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">filter by category</a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                        <Link class="dropdown-item" to="/items">All</Link>
-                        {this.CategoryList()}
-                        </div>
-                    </li>
-                </ul>
-
-                <div class="my-5 row">
-                    {this.ItemList()}                           
-                </div>
-
-
-                <nav>
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item"><Link class="page-link ThemeText" href="#">First</Link></li>
-                        <li class="page-item"><Link class="page-link ThemeText" href="#">Previous</Link></li>
-                        <li class="page-item"><Link class="page-link ThemeText" href="#">Next</Link></li>
-                        <li class="page-item"><Link class="page-link ThemeText" href="#">Last</Link></li>
+                <div className="container margin-top">
+                    <ul className="nav justify-content-end">
+                        <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle ThemeText" data-toggle="dropdown" href="#"
+                               role="button" aria-haspopup="true" aria-expanded="false">filter by category</a>
+                            <div className="dropdown-menu dropdown-menu-right">
+                                <Link class="dropdown-item" to="/items">All</Link>
+                                {this.CategoryList()}
+                            </div>
+                        </li>
                     </ul>
-                </nav>
 
-            </div>
+                    <div className="my-5 row">
+                        {this.ItemList()}
+                    </div>
 
+
+                    <nav>
+                        <ul className="pagination justify-content-center">
+                            <li className="page-item"><Link class="page-link ThemeText" href="#">First</Link></li>
+                            <li className="page-item"><Link class="page-link ThemeText" href="#">Previous</Link></li>
+                            <li className="page-item"><Link class="page-link ThemeText" href="#">Next</Link></li>
+                            <li className="page-item"><Link class="page-link ThemeText" href="#">Last</Link></li>
+                        </ul>
+                    </nav>
+
+                </div>
         )
     }
 }
