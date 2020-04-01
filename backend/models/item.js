@@ -14,8 +14,8 @@ const itemSchema = new Schema({
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'ItemCategory',
         required:true,
-        ref: 'ItemCategory'
     },
     discount:{
         type: Number

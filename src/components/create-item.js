@@ -14,7 +14,6 @@ export default class CreateItem extends Component {
         // declaring this state
         this.state = {
             itemName : '',
-            categoryID : '',
             category: '',
             discount : '',
             totalPrice : '',
@@ -31,8 +30,7 @@ export default class CreateItem extends Component {
                         // set state
                         this.setState({
                             categories : response.data.map(category => category),
-                            category : response.data[0].categoryName,
-                            categoryID: response.data[0]._id
+                            category: response.data[0]._id
                         })
                     } 
                 }
@@ -54,7 +52,7 @@ export default class CreateItem extends Component {
        // create item object
        const item = {
             itemName:this.state.itemName,
-            category: this.state.categoryID,
+            category: this.state.category,
             discount : this.state.discount,
             totalPrice : this.state.totalPrice          
          }
@@ -90,8 +88,7 @@ export default class CreateItem extends Component {
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Category</label>
                         <select class="form-control" 
-                                name="categoryID"
-                                value={this.state.category}
+                                name="category"
                                 onChange={this.handleChange}
                                 required>
                                    {
