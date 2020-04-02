@@ -14,6 +14,15 @@ import amante from '../../public/images/indexBody/amante.png'
 import nike from '../../public/images/indexBody/nike.png'
 import gucci from '../../public/images/indexBody/gucci.png'
 
+import s1 from '../../public/images/indexBody/s1.jpg'
+import s2 from '../../public/images/indexBody/s2.jpg'
+import s3 from '../../public/images/indexBody/s3.jpg'
+
+
+import c1 from '../../public/images/indexBody/c1.jpg'
+import c2 from '../../public/images/indexBody/c2.jpg'
+import c3 from '../../public/images/indexBody/c3.jpg'
+
 
 
 export default class IndexBody extends Component {
@@ -27,15 +36,15 @@ export default class IndexBody extends Component {
                 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                        <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg"
+                        <img class="d-block w-100" src={c1}
                             alt="First slide" />
                         </div>
                         <div class="carousel-item">
-                        <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(16).jpg"
+                        <img class="d-block w-100" src={c2}
                             alt="Second slide" />
                         </div>
                         <div class="carousel-item">
-                        <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(17).jpg"
+                        <img class="d-block w-100" src={c3}
                             alt="Third slide" />
                         </div>
                     </div>
@@ -149,13 +158,13 @@ export default class IndexBody extends Component {
                         <div class="row">
 
                             <div class="col-md-8 slideanim">
-                                <a href="/"><img class="col-md-12" src="https://luckystrikebaitworks.com/wp-content/uploads/2019/03/banner_tournament-1366x500.jpg" /></a>
+                                <a href="/"><img class="col-md-12" src={s1} /></a>
                             </div>
                             
                             <div class="col-md-4 justify-content-center align-self-center ">
                                 <h2 class="text-center text-muted">Lorem ipsum dolor sit</h2>
                                 <div class="text-center">
-                                <button class="btn ThemeBackground" type="submit">Buy now</button>
+                                <button class="btn ThemeBackground" type="submit">Shop now</button>
                                 </div>
                             </div>
                         </div>
@@ -166,12 +175,12 @@ export default class IndexBody extends Component {
                             <div class="col-sm-4 justify-content-center align-self-center order-3">
                                 <h2 class="text-center text-muted">Lorem ipsum dolor sit</h2>
                                 <div class="text-center">
-                                <button class="btn ThemeBackground" type="submit">Buy now</button>
+                                <button class="btn ThemeBackground" type="submit">Shop now</button>
                                 </div>
                             </div>
 
                             <div class="col-md-8 order-2 order-md-12 slideanim">
-                                <a href="/"><img class="col-md-12" src="https://luckystrikebaitworks.com/wp-content/uploads/2019/03/banner_tournament-1366x500.jpg" /></a>
+                                <a href="/"><img class="col-md-12" src={s2} /></a>
                             </div>
                         </div>
                         </div>
@@ -179,13 +188,13 @@ export default class IndexBody extends Component {
                         <div class="newDivider">
                         <div class="row">
                             <div class="col-md-8 slideanim">
-                                <a href="/"><img class="col-md-12" src="https://luckystrikebaitworks.com/wp-content/uploads/2019/03/banner_tournament-1366x500.jpg" /></a>
+                                <a href="/"><img class="col-md-12" src={s3} /></a>
                             </div>
 
                             <div class="col-sm-4 justify-content-center align-self-center ">
                                 <h2 class="text-center text-muted">Lorem ipsum dolor sit</h2>
                                 <div class="text-center">
-                                <button class="btn ThemeBackground" type="submit">Buy now</button>
+                                <button class="btn ThemeBackground" type="submit">Shop now</button>
                                 </div>
                             </div>
                         </div>
