@@ -4,7 +4,6 @@ import axios from 'axios'
 
 const StoreManager = props => (
     <tr>
-        <td>{props.storeManager.firstName} {props.storeManager.lastName}</td>
         <td>{props.storeManager.userName}</td>
         <td>{props.storeManager.email}</td>
         <td>
@@ -59,7 +58,6 @@ export default class StoreManagersList extends Component {
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                        <th scope="col">Full Name</th>
                         <th scope="col">Username</th>
                         <th scope="col">Email</th>
                         <th scope="col">Actions</th>

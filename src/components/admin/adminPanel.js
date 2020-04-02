@@ -7,6 +7,7 @@ import AddStoreManager from './add-storeManager'
 import StoreManagersList from './storeManagers-list'
 import AdminSettings from './admin-settings'
 import AdminNavbar from './admin-navbar'
+import ClientRequestsList from './client-requests-list'
 
 export default class AdminPanel extends Component {
 
@@ -24,6 +25,7 @@ export default class AdminPanel extends Component {
                                         <a class="list-group-item list-group-item-action" id="list-categoryList-list" data-toggle="list" href="#list-categoryList" role="tab" aria-controls="profile">Category list</a>
                                         <a class="list-group-item list-group-item-action" id="list-storeManager-list" data-toggle="list" href="#list-storeManager" role="tab" aria-controls="storeManager">Add store manager</a>
                                         <a class="list-group-item list-group-item-action" id="list-storeManagerList-list" data-toggle="list" href="#list-storeManagerList" role="tab" aria-controls="storeManagerList">Store managers list</a>
+                                        <a class="list-group-item list-group-item-action" id="list-clientRequestsList-list" data-toggle="list" href="#list-clientRequestsList" role="tab" aria-controls="clientRequestsList">Client requests</a>
                                         <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Admin panel settings</a>
                                         </div>
                                     </div>
@@ -40,10 +42,13 @@ export default class AdminPanel extends Component {
                                         <AddStoreManager />
                                         </div>
                                         <div class="tab-pane fade" id="list-storeManagerList" role="tabpanel" aria-labelledby="list-storeManagerList-list">
-                                            <StoreManagersList />
+                                        <StoreManagersList />
+                                        </div>
+                                        <div class="tab-pane fade" id="list-clientRequestsList" role="tabpanel" aria-labelledby="list-clientRequestsList-list">
+                                        <ClientRequestsList />
                                         </div>
                                         <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
-                                            <AdminSettings />
+                                        <AdminSettings />
                                         </div>
                                         </div>
                                     </div>

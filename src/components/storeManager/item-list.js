@@ -6,11 +6,15 @@ import axios from 'axios';
 
 const Item = props => (
     <tr>
-        <td>{props.item.itemName}</td>
+        <td><img src="https://helpfulsheep.com/2017-07-25-google-adsense-ad-sizes/250x250.png" style={{width: "80px"}} /></td>
         <td>{props.item.totalPrice}</td>
         <td>{props.item.discountedPrice}</td>
         <td>{props.item.averageRate}</td>        
-        <td class="row"><Link class="btn btn-info btn-sm mr-2" to={"items/edit/" + props.item._id}>edit</Link> <Link class="btn btn-danger btn-sm" to="#" onClick={() => {props.deleteItem(props.item._id)}}>delete</Link></td>
+        <td>
+            <div class="row">
+            <Link class="btn btn-info btn-sm mr-1" to={"items/edit/" + props.item._id}>edit</Link> <Link class="btn btn-danger btn-sm" to="#" onClick={() => {props.deleteItem(props.item._id)}}>delete</Link>
+            </div>
+        </td>    
     </tr>
 )
 
@@ -69,7 +73,7 @@ export default class ItemList extends Component {
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                        <th scope="col">Name</th>
+                        <th scope="col">Image</th>
                         <th scope="col">Total</th>
                         <th scope="col">Dis/price</th>
                         <th scope="col">A/rate</th>
