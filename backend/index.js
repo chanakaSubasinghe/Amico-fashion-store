@@ -26,7 +26,8 @@ const databaseURL = process.env.ATLAS_URI;
 mongoose.connect(databaseURL, {
 	useNewUrlParser: true,
 	useCreateIndex: true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true,
+	useFindAndModify: false
 });
 
 const connection = mongoose.connection;
