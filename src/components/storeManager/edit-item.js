@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Redirect} from 'react-router-dom'
 import axios from 'axios';
 
 export default class EditItem extends Component {
@@ -15,8 +16,10 @@ export default class EditItem extends Component {
         this.state = {
             itemName : '',
             category : '',
+            categories: [],
             discount : '',
-            totalPrice : ''
+            totalPrice : '',
+            redirectTo: null
         }
     }
 
@@ -28,7 +31,7 @@ export default class EditItem extends Component {
                 // set state
                 this.setState({
                     itemName:response.data.itemName,
-                    category : response.data.category,
+                    category : response.data.category._id,
                     discount : response.data.discount,
                     totalPrice : response.data.totalPrice
                 })
@@ -36,6 +39,20 @@ export default class EditItem extends Component {
             .catch(function (error) {
                 console.log(error)
             })
+
+                    
+            // get item categories from server
+            axios.get('/itemCategories/')
+            .then(response => {
+                    if(response.data.length > 0){
+
+                        // set state
+                        this.setState({
+                            categories : response.data
+                        })
+                    } 
+                }
+            )     
     }
 
     //handleChange
@@ -62,10 +79,21 @@ export default class EditItem extends Component {
             .then(res => console.log(res.data));
 
          // redirect   
-         window.location = '/storeManagerPanel'
+         this.setState({
+            redirectTo: '/storeManagerPanel'
+        })   
+
     }
 
     render(){
+
+        // assigning this.category to a variable
+        const defaultCategory = this.state.category
+
+        if (this.state.redirectTo) {
+            return <Redirect to={{ pathname: this.state.redirectTo }} />
+        }
+        else {
 
             return(
                 <div class="container margin-top">
@@ -82,8 +110,20 @@ export default class EditItem extends Component {
                         </div>
     
                         <div class="form-group">
-                            <label>Category</label>
-                            <input type="text" class="form-control" name="category" value={this.state.category} onChange={this.handleChange}  required />
+                            <label for="exampleFormControlSelect1">Category</label>
+                                <select class="form-control" 
+                                        name="category"
+                                        onChange={this.handleChange}                            
+                                        required>
+                                        {this.state.category &&
+                                            this.state.categories.map(function(category,key){
+                                                    return <option key={key} value={category._id}
+                                                    selected={defaultCategory == category._id}>
+                                                            {category.categoryName}
+                                                            </option>
+                                            })
+                                        }
+                                </select>
                         </div>
     
                         <div class="form-group">
@@ -102,5 +142,7 @@ export default class EditItem extends Component {
                     </form>
                 </div> 
             )
+        }
+    
     }
 }

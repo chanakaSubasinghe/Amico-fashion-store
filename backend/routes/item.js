@@ -40,6 +40,10 @@ router.get('/items/:id', async(req,res) => {
         //find the specific id
         const item = await Item.findOne({_id})
 
+        // populate category property
+        await item.populate('category').execPopulate()
+
+
         //if condition
         if(!item) {
             throw new Error('Item is not found')
@@ -58,7 +62,7 @@ router.get('/items' , async(req,res) => {
 
     try{
         //assign all items
-        const items = await Item.find({})
+        const items = await Item.find({}).populate('category').exec()
 
         //send response
         res.status(200).send(items)

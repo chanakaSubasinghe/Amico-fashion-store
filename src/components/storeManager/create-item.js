@@ -29,8 +29,7 @@ export default class CreateItem extends Component {
                     if(response.data.length > 0){
                         // set state
                         this.setState({
-                            categories : response.data.map(category => category),
-                            category: response.data[0]._id
+                            categories : response.data.map(category => category)
                         })
                     } 
                 }
@@ -89,11 +88,14 @@ export default class CreateItem extends Component {
                         <label for="exampleFormControlSelect1">Category</label>
                         <select class="form-control" 
                                 name="category"
-                                onChange={this.handleChange}
+                                onChange={this.handleChange}                            
                                 required>
-                                   {
-                                       this.state.categories.map(function(category){
-                                            return <option value={category._id}>{category.categoryName}</option>
+                                    <option value="">select category</option>
+                                   {this.state.categories &&
+                                       this.state.categories.map(function(category,key){
+                                            return <option key={key} value={category._id}>
+                                                    {category.categoryName}
+                                                    </option>
                                        })
                                    }
                         </select>
