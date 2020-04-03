@@ -32,8 +32,8 @@ import StoreManagerPanel from './components/storeManager/storeManagerPanel'
 import EditItem from './components/storeManager/edit-item'
 
 // user
-import CustomerLogin from './components/user/customer-login'
-import CustomerRegister from './components/user/customer-register'
+import LoginForm from './components/user/login'
+import RegisterForm from './components/user/register'
 import UserProfile from "./components/user/user-profile";
 
 
@@ -46,13 +46,7 @@ class App extends Component {
 		// declaring this state
 		this.state = {
 			loggedIn: false,
-			user: {
-				id: '',
-				firstName: '',
-				lastName: '',
-				username: '',
-				email: ''
-			}
+			user: {}
 		}
 	
 		// binding functions
@@ -68,36 +62,37 @@ class App extends Component {
 
 	// send request to server to check whether is there ant current user logged in or not
 	getUser() {
-		axios.get('/current').then(res => {
-
-			// condition
-			if (res.data.user) {
+		axios.get('/users/me', 
+			{headers: 
+				{
+					Authorization: `Bearer ${localStorage.getItem('JWT_Token')}`
+				}
+			})
+			.then(res => {
+			console.log(res.data)
+			// // condition
+			if (res.data) {
 
 				// set state
 				this.setState({
 					loggedIn: true,
-					user: {
-						id: res.data.user._id,
-						firstName: res.data.user.firstName,
-						lastName: res.data.user.lastName,
-						username: res.data.user.username,
-						email: res.data.user.email
-					}
+					user: res.data
 				})
 
 			} else {
 				// set state
 				this.setState({
 					loggedIn: false,
-					user: {
-						id: '',
-						firstName: '',
-						lastName: '',
-						username: '',
-						email: ''
-					}
+					user: {}
 				})
 			}
+		}).catch(err => {
+			console.log(err.response)
+			// set state
+			this.setState({
+				loggedIn: false,
+				user: {}
+			})
 		})
 	}
 
@@ -114,9 +109,9 @@ class App extends Component {
 
 				<Route path="/" exact component={IndexBody} />
 				<Route path="/items" exact component={Shop} />			
-				<Route path="/login" render={() => <CustomerLogin updateUser={this.updateUser} />} />
-				<Route path="/register" render={() => <CustomerRegister updateUser={this.updateUser} />} />
-				<Route path="/users/profile/" component={() => <UserProfile user={this.state.user} />} />
+				<Route path="/login" render={() => <LoginForm updateUser={this.updateUser} />} />
+				<Route path="/register" render={() => <RegisterForm updateUser={this.updateUser} />} />
+				<Route path="/users/me/" component={() => <UserProfile user={this.state.user} />} />
 
 				<Route path="/adminPanel" exact component={AdminPanel} />
 				<Route path="/adminLogin" exact component={AdminLogin} />

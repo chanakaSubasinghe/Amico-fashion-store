@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const StoreManager = props => (
     <tr>
-        <td>{props.storeManager.userName}</td>
+        <td>{props.storeManager.firstName}</td>
         <td>{props.storeManager.email}</td>
         <td>
             <Link class="btn btn-danger btn-sm" onClick={() => {props.deleteStoreManager(props.storeManager._id)}}>delete</Link>
@@ -25,7 +25,7 @@ export default class StoreManagersList extends Component {
     }
 
     componentDidMount(){
-        axios.get('http://localhost:5000/storeManagers')
+        axios.get('/users')
             .then(res => {
                 this.setState({
                     storeManagers: res.data
@@ -58,7 +58,7 @@ export default class StoreManagersList extends Component {
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                        <th scope="col">Username</th>
+                        <th scope="col">first Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Actions</th>
                         </tr>

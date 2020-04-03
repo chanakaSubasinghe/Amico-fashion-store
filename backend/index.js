@@ -8,7 +8,6 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const passport = require('passport')
 
 const app = express();
 
@@ -42,10 +41,6 @@ app.use(require('express-session')({
 	resave: false,
 	saveUninitialized: false
 }))
-
-
-app.use(passport.initialize())
-app.use(passport.session())
 
 
 // importing routes

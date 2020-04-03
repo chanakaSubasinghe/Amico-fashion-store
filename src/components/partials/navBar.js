@@ -23,7 +23,6 @@ export default class NavBar extends Component {
         
         // binding functions
         this.logout = this.logout.bind(this)
-        this.state = { categories: []}
     }
 
     // logout function
@@ -32,22 +31,29 @@ export default class NavBar extends Component {
         e.preventDefault()
 
         // send request to server to login user
-        axios.post('/users/logout')
-            .then(res => {
-                // condition
-                if(res.status === 200){
+        axios.post('/users/logout', null,
+        {headers: 
+            {
+                Authorization: `Bearer ${localStorage.getItem('JWT_Token')}`
+            }
+        })
+        .then(res => {
+            // condition
+            if(res.status === 200){
 
-                    this.props.updateUser({
-                        loggedIn: false,
-                        user: null
-                    })
-                }
-            }).catch(err => {
-                console.log('Logout error: ' + err)
-            })
+                this.props.updateUser({
+                    loggedIn: false,
+                    user: {}
+                })
+
+                localStorage.removeItem('JWT_Token')
+            }
+        }).catch(err => {
+            console.log('Logout error: ' + err.error)
+        })
 
         // redirect    
-        window.location = '/'
+        // window.location = '/'
     }
     
     render() {
@@ -101,11 +107,17 @@ export default class NavBar extends Component {
 
                                         <div class="d-inline dropdown nav-link">
                                             <Link class="dropdown-toggle text-light" style={{color: "white", textDecoration: "none"}} to="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Signed In As {user.username}
+                                                    Signed In As {user.firstName}
                                                 </Link>
 
-                                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                    <Link class="dropdown-item" to="/users/profile">Profile</Link>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                                    <Link class="dropdown-item" to="/users/me">Profile</Link>
+                                                    {user.role === 'admin'
+                                                        &&  <Link class="dropdown-item" to="/adminPanel">Admin Settings</Link>
+                                                    }
+                                                    {user.role === 'storeManager'
+                                                        &&  <Link class="dropdown-item" to="/storeManagerPanel">StoreManager Settings</Link>
+                                                    }      
                                                     <div class="dropdown-divider"></div>
                                                     <Link class="dropdown-item" to="#" onClick={this.logout}>Logout</Link>
                                                 </div>

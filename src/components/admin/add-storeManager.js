@@ -13,7 +13,6 @@ export default class AddStoreManager extends Component {
         this.state = {
             firstName: '',
             lastName: '',
-            userName: '',
             email: '',
             password: 'amico123#'
         }
@@ -31,17 +30,16 @@ export default class AddStoreManager extends Component {
         const storeManager = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
-            userName: this.state.userName,
             email: this.state.email,
             password: this.state.password,
+            role: 'storeManager'
         }
 
-        axios.post('http://localhost:5000/storeManagers', storeManager)
+        axios.post('/users', storeManager)
 
         this.setState ({
             firstName: '',
             lastName: '',
-            userName: '',
             email: '',
             password: ''
         })
@@ -60,17 +58,12 @@ export default class AddStoreManager extends Component {
                 <form onSubmit={this.onSubmit}>
                     <div class="form-group">
                         <label>First Name</label>
-                        <input type="text" class="form-control" name="firstName" value={this.state.firstName} onChange={this.handleChange} maxLength="10"/>
+                        <input type="text" class="form-control" name="firstName" value={this.state.firstName} onChange={this.handleChange} maxLength="10" required />
                     </div>
 
                     <div class="form-group">
                         <label>Last Name</label>
-                        <input type="text" class="form-control" name="lastName" value={this.state.lastName} onChange={this.handleChange} maxLength="15"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>User Name</label>
-                        <input type="text" class="form-control" name="userName" value={this.state.userName} onChange={this.handleChange} minLength="4" maxLength="15" required/>
+                        <input type="text" class="form-control" name="lastName" value={this.state.lastName} onChange={this.handleChange} maxLength="15" required />
                     </div>
 
                     <div class="form-group">

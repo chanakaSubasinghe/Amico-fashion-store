@@ -4,7 +4,6 @@ import React, {Component} from 'react'
 import CreateItem from './create-item'
 import ItemList from './item-list'
 import StoreManagerSettings from '../storeManager/storeManager-settings'
-import AdminNavbar from '../admin/admin-navbar'
 
 
 export default class storeManagerPanel extends Component {
@@ -13,7 +12,6 @@ export default class storeManagerPanel extends Component {
 
         return(
             <div>
-                <AdminNavbar />
                     <div class="newDivider">
                         <div class="container">
                                 <div class="row">

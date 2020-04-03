@@ -10,7 +10,7 @@ export default class CustomerLogin extends Component {
         
         // declaring this state
         this.state = {
-            username: '',
+            email: '',
             password: '',
             redirectTo: null
         }
@@ -31,7 +31,7 @@ export default class CustomerLogin extends Component {
         e.preventDefault();
 
         const user = {
-            username: this.state.username,
+            email: this.state.email,
             password: this.state.password
         }
 
@@ -39,22 +39,15 @@ export default class CustomerLogin extends Component {
         axios.post('/users/login', user)
             .then(res => {
  
-                console.log('login response: ' + res.data)
- 
                 if (res.status === 200) {
 
                     // update App.js state
                     this.props.updateUser({
                         loggedIn: true,
-                        user: {
-                            id: res.data._id,
-                            firstName: res.data.firstName,
-                            lastName: res.data.lastName,
-                            username: res.data.username,
-                            email: res.data.email
-                        }
+                        user: res.data.user
                     })
-
+                    // console.log(res.data.token)
+                    localStorage.setItem('JWT_Token', res.data.token)
                     // update the state to redirect to home
                     this.setState({
                         redirectTo: '/'
@@ -62,8 +55,7 @@ export default class CustomerLogin extends Component {
                 }
             })
             .catch(err => {
-                console.log('login error')
-                console.log(err)
+                console.log(err.response.data)
             })
     }
 
@@ -83,7 +75,7 @@ export default class CustomerLogin extends Component {
     
     
                                     <div class="input-group mb-2 mr-sm-2">
-                                        <input type="text" class="form-control" name="username" value={this.state.username} onChange={this.handleChange} maxLength="9" placeholder="Username" required/>
+                                        <input type="email" class="form-control" name="email" value={this.state.email} onChange={this.handleChange} placeholder="Email" required/>
                                     </div>
     
                                     <div class="input-group mb-2 mr-sm-2">

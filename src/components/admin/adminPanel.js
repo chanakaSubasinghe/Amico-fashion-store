@@ -6,7 +6,6 @@ import CategoryList from './category-list'
 import AddStoreManager from './add-storeManager'
 import StoreManagersList from './storeManagers-list'
 import AdminSettings from './admin-settings'
-import AdminNavbar from './admin-navbar'
 import ClientRequestsList from './client-requests-list'
 
 export default class AdminPanel extends Component {
@@ -15,7 +14,6 @@ export default class AdminPanel extends Component {
 
         return(
             <div>
-                <AdminNavbar />
                     <div class="newDivider">
                         <div class="container">
                                 <div class="row">
