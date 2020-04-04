@@ -9,10 +9,8 @@ import collapseFunction from '../../public/js/navbar.js'
 // importing images for navbar
 import amico from '../../public/images/navbar/amico.png'
 import phone from '../../public/images/navbar/phone-alt-solid.png'
-import heart from '../../public/images/navbar/heart-solid.png'
 import instagram from '../../public/images/navbar/instagram-brands.png'
 import shoppingVan from '../../public/images/navbar/shipping-fast-solid.png'
-import shoppingCart from '../../public/images/navbar/shopping-bag-solid.png'
 
 
 export default class NavBar extends Component {
@@ -95,15 +93,14 @@ export default class NavBar extends Component {
                                 {loggedIn ? ( 
                                 <div class="row hideWithCollapse">
                                 
-                                        <div class="d-inline m-2">
-                                            <Link to="/"><img src={heart} class="user-icons" /><span class="badge badge-light">10</span></Link>
+                                        {user.role === 'user' &&
+                                            <div class="d-inline m-2">
+                                                <Link class="m-2"><i class="fa fa-heart NavBar-heart-Icon"></i><span class="badge badge-light"><small>10</small></span></Link>
+                                                <Link><i class="fa fa-shopping-cart NavBar-shopping-cart-Icon"></i><span class="badge badge-light"><small>10</small></span></Link>
+                                            </div>
+                                        }
 
-                                        </div>
-
-                                        <div class="d-inline m-2">
-                                            <Link to="/"><img src={shoppingCart} class="user-icons" /><span class="badge badge-light">4</span></Link>
-
-                                        </div>
+                               
 
                                         <div class="d-inline dropdown nav-link">
                                             <Link class="dropdown-toggle text-light" style={{color: "white", textDecoration: "none"}} to="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -113,10 +110,10 @@ export default class NavBar extends Component {
                                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                                     <Link class="dropdown-item" to="/users/me">Profile</Link>
                                                     {user.role === 'admin'
-                                                        &&  <Link class="dropdown-item" to="/adminPanel">Admin Settings</Link>
+                                                        &&  <Link class="dropdown-item" to="/adminPanel">Settings</Link>
                                                     }
                                                     {user.role === 'storeManager'
-                                                        &&  <Link class="dropdown-item" to="/storeManagerPanel">StoreManager Settings</Link>
+                                                        &&  <Link class="dropdown-item" to="/storeManagerPanel">Settings</Link>
                                                     }      
                                                     <div class="dropdown-divider"></div>
                                                     <Link class="dropdown-item" to="#" onClick={this.logout}>Logout</Link>

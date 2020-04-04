@@ -12,6 +12,7 @@ export default class CustomerLogin extends Component {
         this.state = {
             email: '',
             password: '',
+            error: '',
             redirectTo: null
         }
 
@@ -56,6 +57,9 @@ export default class CustomerLogin extends Component {
             })
             .catch(err => {
                 console.log(err.response.data)
+                this.setState({
+                    error: err.response.data
+                })
             })
     }
 
@@ -71,6 +75,12 @@ export default class CustomerLogin extends Component {
                         <br/>
                         <div class="row">
                             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                            {this.state.error &&
+                                <div class="alert alert-danger" role="alert">
+                                    {this.state.error}
+                                </div>
+                            }    
+
                                 <form onSubmit={this.onSubmit}>
     
     

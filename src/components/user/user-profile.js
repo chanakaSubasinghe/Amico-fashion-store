@@ -14,6 +14,7 @@ export default class UserProfile extends Component {
             lastName: '',
             email: '',
             password: '',
+            error: '',
             redirectTo: null
         }
 
@@ -60,12 +61,25 @@ export default class UserProfile extends Component {
                 Authorization: `Bearer ${localStorage.getItem('JWT_Token')}`
             }
         })
-            .then(res => console.log(res.data))
-            .catch(err => console.log(err.response.data.error))
+            .then(res => {
+                console.log(res.data)
+
+                // update App.js state
+                this.props.updateUser({
+                    loggedIn: true,
+                    user: res.data
+                })
+            })
+            .catch(err => {
+                console.log(err.response)
+                this.setState({
+                    error: err.response.data.error
+                })
+            })
 
         // redirect to index page
         this.setState({
-            redirectTo: '/'
+            // redirectTo: '/'
         })
 
     }    
@@ -78,14 +92,19 @@ export default class UserProfile extends Component {
             return (
                 <div>
                     <div className="container margin-top">
-                        <h3 className="text-center ThemeText">Customer Profile</h3>
+                        <h3 className="text-center ThemeText">Profile Management</h3>
                         <br/>
                         <div className="row">
                             <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
+
+                                {this.state.error &&
+                                    <div class="alert alert-danger" role="alert">
+                                        {this.state.error}
+                                    </div>
+                                } 
+
                                 <form onSubmit={this.onSubmit}>
-    
-                                    <img src="https://fallenrockparke.com/images/avatar.png" class="rounded mx-auto d-block my-5"/>
-                                    
+
                                     <div className="form-group">
                                         <label htmlFor="exampleInputEmail1">First Name</label>
                                         <input type="text"
@@ -126,36 +145,14 @@ export default class UserProfile extends Component {
                                     </div>
     
                                     <div className="form-group">
-                                        <label htmlFor="exampleInputEmail1">Password</label>
+                                        <label htmlFor="exampleInputEmail1">New Password</label>
                                         <input type="password"
                                                className="form-control"
                                                name="password"
                                                value={this.state.password}
                                                onChange={this.handleChange}
                                                minLength={8}
-                                        />
-                                    </div>
-    
-                                    <div className="form-group">
-                                        <label htmlFor="exampleInputEmail1">New Password</label>
-                                        <input type="password"
-                                               className="form-control"
-                                               name="newPassword"
-                                               value={this.state.newPassword}
-                                               onChange={this.handleChange}
-                                               minLength={2}
-                                        />
-                                    </div>
-    
-    
-                                    <div className="form-group">
-                                        <label htmlFor="exampleInputEmail1">Confirm Password</label>
-                                        <input type="password"
-                                               className="form-control"
-                                               name="confirmPassword"
-                                               value={this.state.confirmPassword}
-                                               onChange={this.handleChange}
-                                               minLength={2}
+                                               required
                                         />
                                     </div>
     

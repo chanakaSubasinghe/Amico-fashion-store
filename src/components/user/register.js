@@ -13,9 +13,9 @@ export default class CustomerRegister extends Component {
             firstName: '',
             lastName: '',
             email: '',
-            username: '',
             password: '',
             confirmPassword: '',
+            error: '',
             redirectTo: null
 
         }
@@ -34,12 +34,12 @@ export default class CustomerRegister extends Component {
     onSubmit(e){
         e.preventDefault()
 
+
         // user object
         const user = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
-            username: this.state.username,
             password: this.state.password,
             confirmPassword: this.state.confirmPassword
         }
@@ -47,23 +47,28 @@ export default class CustomerRegister extends Component {
         // request to server to add a new user
         axios.post('/users', user)
             .then(res => {
-                console.log(res.data)
-                if(res.status === 200){
+                console.log(res.data.user.firstName)
+                if(res.status === 201){
                    
                     // update App.js state
                     this.props.updateUser({
                         loggedIn: true,
-                        username: res.data.username
+                        user: res.data.user
                     })
 
-                    // update the state to redirect to home
+                    localStorage.setItem('JWT_Token', res.data.token)
+
+                    // // update the state to redirect to home
                     this.setState({
                         redirectTo: '/'
                     })
                 }
             })
             .catch(err => {
-                console.log('Register error: ' + err)
+                console.log('Register error: ' + err.response.data)
+                this.setState({
+                    error: err.response.data
+                })
             })
     }
 
@@ -80,27 +85,28 @@ export default class CustomerRegister extends Component {
                         <br/>
                         <div class="row">
                             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                                <form onSubmit={this.onSubmit}>
 
+                                {this.state.error &&
+                                    <div class="alert alert-danger" role="alert">
+                                        {this.state.error}
+                                    </div>
+                                } 
+
+                                <form onSubmit={this.onSubmit}>
 
                                     <label>First Name</label>
                                     <div class="input-group mb-2 mr-sm-2">
-                                        <input type="text" class="form-control" name="firstName" value={this.state.firstName} onChange={this.handleChange} placeholder="John" minLength="2" maxLength="10" required/>
+                                        <input type="text" class="form-control" name="firstName" value={this.state.firstName} onChange={this.handleChange} placeholder="John" maxLength="10" required/>
                                     </div>
 
                                     <label>Last Name</label>
                                     <div class="input-group mb-2 mr-sm-2">
-                                        <input type="text" class="form-control" name="lastName" value={this.state.lastName} onChange={this.handleChange} placeholder="Smith" minLength="2" maxLength="15" required/>
+                                        <input type="text" class="form-control" name="lastName" value={this.state.lastName} onChange={this.handleChange} placeholder="Smith" maxLength="15" required/>
                                     </div>
 
                                     <label>Email</label>
                                     <div class="input-group mb-2 mr-sm-2">
-                                        <input type="email" class="form-control" name="email" value={this.state.email} onChange={this.handleChange} placeholder="johnsmith@example.com" minLength="2" required/>
-                                    </div>
-
-                                    <label>Username</label>
-                                    <div class="input-group mb-2 mr-sm-2">
-                                        <input type="text" class="form-control" name="username" value={this.state.username} onChange={this.handleChange} placeholder="johnsmith2020" minLength="2" maxLength="9" required/>
+                                        <input type="email" class="form-control" name="email" value={this.state.email} onChange={this.handleChange} placeholder="johnsmith@example.com" required/>
                                     </div>
 
                                     <label>Password</label>

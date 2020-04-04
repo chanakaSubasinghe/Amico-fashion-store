@@ -111,7 +111,7 @@ class App extends Component {
 				<Route path="/items" exact component={Shop} />			
 				<Route path="/login" render={() => <LoginForm updateUser={this.updateUser} />} />
 				<Route path="/register" render={() => <RegisterForm updateUser={this.updateUser} />} />
-				<Route path="/users/me/" component={() => <UserProfile user={this.state.user} />} />
+				<Route path="/users/me/" component={() => <UserProfile user={this.state.user} updateUser={this.updateUser} />} />
 
 				<Route path="/adminPanel" exact component={AdminPanel} />
 				<Route path="/adminLogin" exact component={AdminLogin} />

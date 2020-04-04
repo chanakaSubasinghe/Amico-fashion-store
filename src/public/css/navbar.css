@@ -21,3 +21,13 @@
 .nav-icons {
     width: 15px;
 }
+
+.NavBar-heart-Icon {
+    color: white;
+    font-size: 20px;
+}
+
+.NavBar-shopping-cart-Icon {
+    color: white;
+    font-size: 25px;
+}

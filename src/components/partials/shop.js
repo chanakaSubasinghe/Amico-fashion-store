@@ -27,8 +27,8 @@ const Item = props => (
             </div>     
             <div class="card-footer">
                 <div class="inline">
-                    <Link><i class="fa fa-heart"></i></Link>
-                    <Link><i class="fa fa-shopping-cart ml-3"></i></Link>
+                    <Link><i class="fa fa-heart heart-Icon"></i></Link>
+                    <Link><i class="fa fa-shopping-cart shopping-cart-Icon ml-3"></i></Link>
                     <div class="float-right">
                         <button class="btn ThemeBackground">Buy Now</button>
                     </div>

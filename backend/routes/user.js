@@ -15,6 +15,10 @@ const router = new express.Router();
 router.post('/users', async(req, res) => {
     try {
 
+        if (req.body.password !== req.body.confirmPassword) {
+            throw new Error('Your password does not match confirmation!')
+        }
+
         const user = new User(req.body)
 
         await user.save()
