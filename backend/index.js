@@ -53,6 +53,7 @@ const userRoute = require('./routes/user')
 const storeManager = require('./routes/storeManager')
 const itemCategoryRoute = require('./routes/itemCategory')
 const itemRoute = require('./routes/item')
+const cartRoute = require('./routes/cart')
 
 
 // invoking routes
@@ -61,6 +62,7 @@ app.use(userRoute)
 app.use(storeManager)
 app.use(itemCategoryRoute)
 app.use(itemRoute)
+app.use(cartRoute)
 
 
 
