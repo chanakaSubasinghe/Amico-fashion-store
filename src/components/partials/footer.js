@@ -2,14 +2,14 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 
 // importing custom css and javascript
-import '../public/css/footer.css'
+import '../../public/css/footer.css'
 
 export default class Footer extends Component {
 
     render() {
         return (
             <footer class="py-5 amico-footer">
-                <div class="container">
+                <div class="container slideanim">
                     <div class="row">
                         <div class="col-lg-4 col-md-3 item">
                             <h3>Navigate</h3>

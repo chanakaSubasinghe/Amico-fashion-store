@@ -29,9 +29,18 @@ export default class ContactForm extends Component {
                 </div>
 
                 <div class="form-row">
+
+                    <div class="col-md-12 mb-3">
+                        <label for="validationCustom04">Subject</label>
+                        <input type="text" class="form-control" id="validationCustom04" placeholder="Requesting product" maxLength="10" required />
+                    </div>
+
+                </div>
+
+                <div class="form-row">
                     <div class="col-md-12 mb-3">
                         <label>Your message</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="6"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="blah blah blah"></textarea>
                     </div> 
                 </div>
 

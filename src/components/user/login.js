@@ -5,13 +5,14 @@ import axios from 'axios'
 
 export default class CustomerLogin extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         
         // declaring this state
         this.state = {
-            username: '',
+            email: '',
             password: '',
+            error: '',
             redirectTo: null
         }
 
@@ -31,7 +32,7 @@ export default class CustomerLogin extends Component {
         e.preventDefault();
 
         const user = {
-            username: this.state.username,
+            email: this.state.email,
             password: this.state.password
         }
 
@@ -39,16 +40,15 @@ export default class CustomerLogin extends Component {
         axios.post('/users/login', user)
             .then(res => {
  
-                console.log('login response: ' + res)
- 
                 if (res.status === 200) {
 
                     // update App.js state
                     this.props.updateUser({
                         loggedIn: true,
-                        username: res.data.username
+                        user: res.data.user
                     })
-
+                    // console.log(res.data.token)
+                    localStorage.setItem('JWT_Token', res.data.token)
                     // update the state to redirect to home
                     this.setState({
                         redirectTo: '/'
@@ -56,18 +56,17 @@ export default class CustomerLogin extends Component {
                 }
             })
             .catch(err => {
-                console.log('login error')
-                console.log(err)
+                console.log(err.response.data)
+                this.setState({
+                    error: err.response.data
+                })
             })
-
-            // redirect to index page
-            // window.location = '/'
     }
 
     render(){
             if (this.state.redirectTo) {
                 return <Redirect to={{ pathname: this.state.redirectTo }} />
-            } 
+            }
             else {
             return(
                 <div>
@@ -76,11 +75,17 @@ export default class CustomerLogin extends Component {
                         <br/>
                         <div class="row">
                             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                            {this.state.error &&
+                                <div class="alert alert-danger" role="alert">
+                                    {this.state.error}
+                                </div>
+                            }    
+
                                 <form onSubmit={this.onSubmit}>
     
     
                                     <div class="input-group mb-2 mr-sm-2">
-                                        <input type="text" class="form-control" name="username" value={this.state.username} onChange={this.handleChange} maxLength="9" placeholder="Username" required/>
+                                        <input type="email" class="form-control" name="email" value={this.state.email} onChange={this.handleChange} placeholder="Email" required/>
                                     </div>
     
                                     <div class="input-group mb-2 mr-sm-2">

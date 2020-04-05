@@ -8,7 +8,6 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const passport = require('passport')
 
 const app = express();
 
@@ -26,7 +25,8 @@ const databaseURL = process.env.ATLAS_URI;
 mongoose.connect(databaseURL, {
 	useNewUrlParser: true,
 	useCreateIndex: true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true,
+	useFindAndModify: false
 });
 
 const connection = mongoose.connection;
@@ -43,23 +43,15 @@ app.use(require('express-session')({
 }))
 
 
-app.use(passport.initialize())
-app.use(passport.session())
-
-
 // importing routes
-const adminRoute = require('./routes/admin')
 const userRoute = require('./routes/user')
-const storeManager = require('./routes/storeManager')
 const itemCategoryRoute = require('./routes/itemCategory')
 const itemRoute = require('./routes/item')
 const cartRoute = require('./routes/cart')
 
 
 // invoking routes
-app.use(adminRoute)
 app.use(userRoute)
-app.use(storeManager)
 app.use(itemCategoryRoute)
 app.use(itemRoute)
 app.use(cartRoute)

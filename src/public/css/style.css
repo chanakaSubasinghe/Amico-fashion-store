@@ -1,3 +1,5 @@
+/* using theme color for text and background */
+
 .ThemeText {
     color:  #8c568d;
 }
@@ -7,18 +9,51 @@
     color: white;
 }
 
+/* for each section add margin  */
+
 .newDivider {
     margin-top: 10%;
 }
 
+/* buttons */
+
 .btn:hover {
     color: white;
+}
+
+/* keep space between tags */
+
+.margin-top {
+    margin-top: 8%;
 }
 
 .marginBottom {
     margin-bottom: 20%;
 }
 
-.margin-top {
-    margin-top: 10%;
+/* search bar in nav bar  */
+
+.searchButton {
+    color: #f0f9ff;
+}
+
+.searchButton:hover {
+    color: #f0f9ff;
+    border-color: #f8f9fa;
+    text-decoration: none;
+}
+
+/* icons */
+.fa-star {
+    color: #f4c150;
+}
+
+.heart-Icon {
+    color: #8c568d;
+    font-size: 35px;
+}
+
+.shopping-cart-Icon {
+    color: #8c568d;
+    font-size: 35px;
 }

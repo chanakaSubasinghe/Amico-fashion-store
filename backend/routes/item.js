@@ -11,13 +11,16 @@ const router = express.Router();
 router.post('/items', async (req,res) => {
     try{
 
-        console.log(req.body)
-
+        // get discounted price
+        const discountedPrice = await Item.findDiscountedPrice(req.body.totalPrice, req.body.discount)
 
         //create a new item
-        const item = new Item(req.body);
+        const item = new Item({
+            ...req.body,
+            discountedPrice: discountedPrice
+        });
 
-        //save to DB
+        // //save to DB
         await item.save()
 
         //send response
@@ -29,18 +32,25 @@ router.post('/items', async (req,res) => {
 })
 
 //read item
-router.get('/items/:id', async(rea,res) => {
+router.get('/items/:id', async(req,res) => {
     try{
         //assign id
-        const _id = req.params._id
+        const _id = req.params.id
 
         //find the specific id
         const item = await Item.findOne({_id})
+
+        // populate category property
+        await item.populate('category').execPopulate()
+
 
         //if condition
         if(!item) {
             throw new Error('Item is not found')
         }
+
+        // send response
+        res.status(200).send(item)
     }catch (e){
         res.status(400).send(e.message)
     }
@@ -52,7 +62,7 @@ router.get('/items' , async(req,res) => {
 
     try{
         //assign all items
-        const items = await items.find({})
+        const items = await Item.find({}).populate('category').exec()
 
         //send response
         res.status(200).send(items)
@@ -64,14 +74,13 @@ router.get('/items' , async(req,res) => {
 
 //update items
 router.patch('/items/:id', async(req,res) => {
-
     
         //assign id
-        const _id = req.params._id
+        const _id = req.params.id
 
         //declaring variables to more secure
         const updates = Object.keys(req.body)
-        const allowedUpdates = ['itemName' , 'description' , 'discount' , 'price' , 'averageRate' ,'comments']
+        const allowedUpdates = ['itemName' , 'category' , 'discount' , 'totalPrice']
         const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
         //conditions
@@ -83,13 +92,15 @@ router.patch('/items/:id', async(req,res) => {
         //assign item
         const item = await Item.findOne({_id})
 
+        // get discounted price
+        const discountedPrice = await Item.findDiscountedPrice(req.body.totalPrice, req.body.discount)
+
         //update field
-        item.itemName = req.body.itemName
-        item.description = req.body.description
-        item.discount = req.body.discount
-        item.price = req.body.price
-        item.averageRate = req.body.averageRate
-        item.comments = req.body.comments
+        item.itemName = req.body.itemName;
+        item.category = req.body.category;
+        item.discount = req.body.discount;
+        item.totalPrice = req.body.totalPrice;
+        item.discountedPrice = discountedPrice;
 
         //save to database
         await item.save()
@@ -107,7 +118,7 @@ router.delete('/items/:id' , async(req,res) => {
     
     try{
         //assign id
-        const _id = req.params._id
+        const _id = req.params.id
 
         //delete specific item
         const item = await Item.findOneAndDelete({_id})

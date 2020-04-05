@@ -7,7 +7,7 @@ import axios from 'axios';
 const Category = props => (
     <tr>
         <td>{props.category.categoryName}</td>
-        <td><Link to={"itemCategories/edit/" + props.category._id}>edit</Link> | <a href="#" onClick={() => {props.deleteCategory(props.category._id)}}>delete </a></td>
+        <td><Link to="#" class="btn btn-danger btn-sm" onClick={() => {props.deleteCategory(props.category._id)}}>delete </Link></td>
     </tr>
 )
 
@@ -37,7 +37,6 @@ export default class CategoryList extends Component {
 
     //delete categories
     deleteCategory(id){
-
         axios.delete('/itemCategories/' + id)
             .then(res => console.log(res.data));
 
@@ -59,7 +58,7 @@ export default class CategoryList extends Component {
         return(
             <div>
                 <table class="table">
-                    <thead class="ThemeBackground">
+                    <thead class="thead-dark">
                         <tr>
                         <th scope="col">Category Name</th>
                         <th scope="col">Actions</th>

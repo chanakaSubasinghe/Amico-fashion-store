@@ -1,49 +1,34 @@
 // declaring dependencies
 const express = require('express')
-const passport = require('passport')
-const LocalStrategy = require('passport-local')
+
+//importing middleware
+const auth = require('../middleware/auth')
 
 // importing user model
 const User = require('../models/user')
 
 // configuration
-const router = express.Router();
-
-passport.use(new LocalStrategy(User.authenticate()))
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
+const router = new express.Router();
 
 
 // create user
 router.post('/users', async(req, res) => {
     try {
 
-        // condition
         if (req.body.password !== req.body.confirmPassword) {
-            return res.status(400).send('Your password does not match confirmation!')
+            throw new Error('Your password does not match confirmation!')
         }
 
+        const user = new User(req.body)
 
-        // creating new user and assign to a variable
-        const user = new User({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            username: req.body.username,
-            email: req.body.email
-        })
+        await user.save()
 
-        // handle register logic
-        User.register(user, req.body.password , (err, user) => {
-            if (err) {
+        if (user.role === 'storeManager' || user.role === 'admin') {
+            return res.status(201).send(user)
+        }
 
-                return res.send(err.message)
-            }
-
-            passport.authenticate('local')(req, res, () => {
-                
-                res.send(req.user)
-            })
-        })
+        const token = await user.generateAuthToken()
+        res.status(201).send({user, token})
 
     } catch (e) {
         res.status(400).send(e.message)
@@ -51,48 +36,62 @@ router.post('/users', async(req, res) => {
 })
 
 // login user
-router.post('/users/login',function (req, res, next) {
+router.post('/users/login', async (req, res) => {
+    try {
+ 
+        const user = await User.findByCredentials(req.body.email,req.body.password)
 
-    next()
-},
-    passport.authenticate('local'),(req, res) => {
-        
-        res.send(req.user);
-    }
-)
+        const token = await user.generateAuthToken()
 
-// get user
-router.get('/current', (req, res, next) => {
-    
-    // condition
-    if (req.user) {
+        res.status(200).send({user, token})
 
-        res.send({ user: req.user })
-    } else {
-
-        res.send({ user: null })    
+    } catch (e) {
+        res.status(400).json(e.message)
     }
 })
 
 // logout user
-router.post('/users/logout', (req, res) => {
+router.post('/users/logout', auth, async (req, res) => {
 
-    if (req.user) {
-        req.logOut() 
-        res.send({ msg: 'logging out' })  
-    }else {
-        res.send({ msg: 'no user to log out' })
+    try {
+
+        const user = req.user
+
+        user.tokens = user.tokens.filter((token) => {
+            return token.token !== req.token
+        })
+
+        await user.save()
+
+        res.send('loggedOut')    
+    } catch (e) {
+        
     }
 })
 
-// read user
-router.get('/users/:id', async (req, res) => {
+
+router.post('/users/logoutAll', auth, async (req, res) => {
+
     try {
-        // assigning provided id
-        const _id = req.params.id
+        
+        const user = req.user
+
+        user.tokens = []
+
+        await user.save()
+
+        res.status(200).send('done')
+    } catch (e) {
+        res.status(400).send(e.message)        
+    }
+})
+
+// read user / me
+router.get('/users/me', auth, async (req, res) => {
+    try {
 
         // find specific user
-        const user = await User.findOne({_id})
+        const user = req.user
 
         // condition
         if (!user) {
@@ -122,14 +121,11 @@ router.get('/users', async (req, res) => {
 })
 
 // updating user
-router.patch('/users/:id', async (req, res) => {
-
-    // assigning provided id
-    const _id = req.params.id
+router.patch('/users/me', auth, async (req, res) => {
 
     // declaring variables to more secure 
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['firstName','lastName', 'password', 'newPassword', 'conNewPassword']
+    const allowedUpdates = ['firstName','lastName', 'password']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     // conditions
@@ -137,18 +133,18 @@ router.patch('/users/:id', async (req, res) => {
         return  res.status(400).send('Invalid updates')
     }
 
-    if (req.body.newPassword !== req.body.conNewPassword) {
+    if (req.body.newPassword !== req.body.confirmPassword) {
         return res.status(400).send('Your new password does not match confirmation!')
     }
 
     try {
-        // assigning user provided id
-        const user = await User.findOne({_id})
+        // assigning user 
+        const user = req.user
 
         // updating fields
-        user.firstName = req.body.firstName
-        user.lastName = req.body.lastName
-        user.password = req.body.newPassword
+        updates.forEach((update) => {
+            user[update] = req.body[update]
+        })
 
         // save back to DB
         await user.save()

@@ -8,33 +8,49 @@ import 'jquery/dist/jquery.min.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'popper.js'
 
+// importing font-awesome 
+import 'font-awesome/css/font-awesome.min.css'
+
 // import css for all components
 import './public/css/style.css'
 
 //importing components
-import Navbar from './components/navbar';
-import Footer from './components/footer';
-import IndexBody from './components/indexBody'
-import AdminPanel from './components/adminPanel'
-import CustomerLogin from './components/customer-login'
-import CustomerRegister from './components/customer-register'
-import AdminLogin from './components/admin-login'
-import StoreManagerLogin from './components/storeManager-login'
-import EditCategory from './components/edit-category'
+
+// partials
+import NavBar from './components/partials/navBar';
+import Footer from './components/partials/footer';
+import IndexBody from './components/partials/indexBody'
+import Shop from "./components/partials/shop";
+
+// admin
+import AdminPanel from './components/admin/adminPanel'
+import AdminLogin from './components/admin/admin-login'
+
+// store Manager
+import StoreManagerLogin from './components/storeManager/storeManager-login'
+import StoreManagerPanel from './components/storeManager/storeManagerPanel'
+import EditItem from './components/storeManager/edit-item'
+
+// user
+import LoginForm from './components/user/login'
+import RegisterForm from './components/user/register'
+import UserProfile from "./components/user/user-profile";
+
 
 class App extends Component {
 
-	constructor() {
-		super()
+	// constructor
+	constructor(props) {
+		super(props)
 
 		// declaring this state
-
 		this.state = {
-		  loggedIn: false,
-		  username: null
+			loggedIn: false,
+			user: {}
 		}
 	
 		// binding functions
+		this.componentDidMount = this.componentDidMount.bind(this)
 		this.getUser = this.getUser.bind(this)
 		this.updateUser = this.updateUser.bind(this)
 	}
@@ -44,47 +60,66 @@ class App extends Component {
 		this.getUser()
 	}
 
-	// update method for update this state
-	updateUser (userObject) {
-	this.setState(userObject)
-	}
-
 	// send request to server to check whether is there ant current user logged in or not
 	getUser() {
-		axios.get('/current').then(res => {
-
-		  if (res.data.user) {
-	
-			this.setState({
-			  loggedIn: true,
-			  username: res.data.user.username
+		axios.get('/users/me', 
+			{headers: 
+				{
+					Authorization: `Bearer ${localStorage.getItem('JWT_Token')}`
+				}
 			})
+			.then(res => {
+			console.log(res.data)
+			// // condition
+			if (res.data) {
 
-		  } else {
+				// set state
+				this.setState({
+					loggedIn: true,
+					user: res.data
+				})
 
+			} else {
+				// set state
+				this.setState({
+					loggedIn: false,
+					user: {}
+				})
+			}
+		}).catch(err => {
+			console.log(err.response)
+			// set state
 			this.setState({
-			  loggedIn: false,
-			  username: null
-
+				loggedIn: false,
+				user: {}
 			})
-		  }
 		})
+	}
+
+	// update method for update this state
+	updateUser (userObject) {
+		this.setState(userObject)
 	}
 
 	render(){
 		return (
 
 			<div>
-				<Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} username={this.state.username} />
+				 <NavBar updateUser={this.updateUser} loggedIn={this.state.loggedIn} user={this.state.user} />
 
 				<Route path="/" exact component={IndexBody} />
+				<Route path="/items" exact component={Shop} />			
+				<Route path="/login" render={() => <LoginForm updateUser={this.updateUser} />} />
+				<Route path="/register" render={() => <RegisterForm updateUser={this.updateUser} />} />
+				<Route path="/users/me/" component={() => <UserProfile user={this.state.user} updateUser={this.updateUser} />} />
+
 				<Route path="/adminPanel" exact component={AdminPanel} />
-				<Route path="/login" render={() => <CustomerLogin updateUser={this.updateUser} />} />
-				<Route path="/register" render={() => <CustomerRegister updateUser={this.updateUser} />} />
 				<Route path="/adminLogin" exact component={AdminLogin} />
+
 				<Route path="/storeManagerLogin" exact component={StoreManagerLogin} />
-				<Route path="/itemCategories/edit/:id" exact component={EditCategory} />
-			
+				<Route path="/storeManagerPanel" exact component={StoreManagerPanel} />
+				<Route path="/items/edit/:id" exact component={EditItem} />
+
 				<Footer />
 			</div>
 		);
