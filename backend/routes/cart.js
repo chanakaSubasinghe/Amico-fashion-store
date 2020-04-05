@@ -4,8 +4,6 @@ const router = require('express').Router();
 //import the model
 const Cart = require('../models/cart');
 
-//configuration
-const router = express.Router();
 
 //create a new cart
 router.post('/cart', async(req,res) => {
