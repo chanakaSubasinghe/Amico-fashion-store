@@ -1,6 +1,9 @@
 //dependencies
 const express = require('express')
 
+// middleware
+const isAdmin = require('../middleware/admin')
+
 //import model
 const ItemCategory = require('../models/itemCategory')
 
@@ -8,7 +11,7 @@ const ItemCategory = require('../models/itemCategory')
 const router = express.Router();
 
 //create item category
-router.post('/itemCategories', async(req,res) => {
+router.post('/itemCategories', isAdmin, async(req,res) => {
     try{
         //creating a new item category
         const itemCategory = new ItemCategory(req.body);
@@ -25,7 +28,7 @@ router.post('/itemCategories', async(req,res) => {
 })
 
 //read item categories
-router.get('/itemCategories/:id', async(req,res) => {
+router.get('/itemCategories/:id', isAdmin, async(req,res) => {
 
         try{
             //assigning ID
@@ -51,7 +54,7 @@ router.get('/itemCategories/:id', async(req,res) => {
 
 
 //read all item categories
-router.get('/itemCategories' , async(req,res) => {
+router.get('/itemCategories' , isAdmin, async(req,res) => {
 
     try{
         //assign all item categories
@@ -69,7 +72,7 @@ router.get('/itemCategories' , async(req,res) => {
 
 //update item category
 
-router.patch('/itemCategories/:id' , async(req,res) =>{
+router.patch('/itemCategories/:id' ,isAdmin, async(req,res) =>{
 
     //assign id
     const _id = req.params.id
@@ -107,7 +110,7 @@ router.patch('/itemCategories/:id' , async(req,res) =>{
 
 //deleting a item category
 
-router.delete('/itemCategories/:id' , async (req,res) => {
+router.delete('/itemCategories/:id' ,isAdmin, async (req,res) => {
 
     try{
         //assign the id

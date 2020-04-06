@@ -37,7 +37,7 @@ export default class StoreManagersList extends Component {
     }
 
     deleteStoreManager(id){
-        axios.delete('http://localhost:5000/storeManagers/' + id)
+        axios.delete('/users/' + id)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
 

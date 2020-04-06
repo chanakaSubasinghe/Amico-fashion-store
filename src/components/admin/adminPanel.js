@@ -9,15 +9,28 @@ import ClientRequestsList from './client-requests-list'
 
 export default class AdminPanel extends Component {
 
+    // constructor
+    constructor(props){
+        super(props)
+
+        this.state = {
+            error : ''
+        }
+    }
+
+
     render() {
 
         return(
             <div>
                     <div class="newDivider">
                         <div class="container">
-                            <div class="alert alert-danger" role="alert">
-                                        error message
-                            </div>
+                            {this.state.error &&
+                                <div class="alert alert-danger" role="alert">
+                                    {this.state.error}
+                                </div>
+                            }
+
                                 <div class="row">
                                     <div class="col-md-4 marginBottom">
                                         <div class="list-group" id="list-tab" role="tablist">

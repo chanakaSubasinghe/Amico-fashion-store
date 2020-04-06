@@ -3,6 +3,7 @@ const express = require('express')
 
 //importing middleware
 const auth = require('../middleware/auth')
+const isAdmin = require('../middleware/admin')
 
 // importing user model
 const User = require('../models/user')
@@ -107,11 +108,11 @@ router.get('/users/me', auth, async (req, res) => {
 
 
 // read all users
-router.get('/users', async (req, res) => {
+router.get('/users', isAdmin, async (req, res) => {
     
     try {
         // assigning all users
-        const users = await User.find({})
+        const users = await User.find({role: 'storeManager'})
 
         // send response
         res.status(200).send(users)
@@ -158,7 +159,7 @@ router.patch('/users/me', auth, async (req, res) => {
 })
 
 // deleting user
-router.delete('/users/:id', async (req, res) => {
+router.delete('/users/:id',isAdmin, async (req, res) => {
 
     try {
         // assigning provided id
