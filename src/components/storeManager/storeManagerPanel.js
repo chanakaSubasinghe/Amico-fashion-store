@@ -13,9 +13,9 @@ export default class storeManagerPanel extends Component {
             <div>
                     <div class="newDivider">
                         <div class="container">
-                            <div class="alert alert-danger" role="alert">
-                                        error message
-                            </div>
+                            {/* <div class="alert alert-danger" role="alert">
+                                        
+                            </div> */}
                                 <div class="row">
                                     <div class="col-md-4 marginBottom">
                                         <div class="list-group" id="list-tab" role="tablist">

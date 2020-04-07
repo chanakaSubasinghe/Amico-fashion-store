@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import axios from 'axios'
 
 // importing bootstrap, bootstrap js, jquery
@@ -14,7 +14,7 @@ import 'font-awesome/css/font-awesome.min.css'
 // import css for all components
 import './public/css/style.css'
 
-//importing components
+//importing components -----
 
 // partials
 import NavBar from './components/partials/navBar';
@@ -42,84 +42,32 @@ class App extends Component {
 	// constructor
 	constructor(props) {
 		super(props)
-
-		// declaring this state
-		this.state = {
-			loggedIn: false,
-			user: {}
-		}
 	
-		// binding functions
-		this.componentDidMount = this.componentDidMount.bind(this)
-		this.getUser = this.getUser.bind(this)
-		this.updateUser = this.updateUser.bind(this)
 	}
 	
-	// call get user method before load the pages
-	componentDidMount() {
-		this.getUser()
-	}
 
-	// send request to server to check whether is there ant current user logged in or not
-	getUser() {
-		axios.get('/users/me', 
-			{headers: 
-				{
-					Authorization: `Bearer ${localStorage.getItem('JWT_Token')}`
-				}
-			})
-			.then(res => {
-			console.log(res.data)
-			// // condition
-			if (res.data) {
-
-				// set state
-				this.setState({
-					loggedIn: true,
-					user: res.data
-				})
-
-			} else {
-				// set state
-				this.setState({
-					loggedIn: false,
-					user: {}
-				})
-			}
-		}).catch(err => {
-			console.log(err.response)
-			// set state
-			this.setState({
-				loggedIn: false,
-				user: {}
-			})
-		})
-	}
-
-	// update method for update this state
-	updateUser (userObject) {
-		this.setState(userObject)
-	}
 
 	render(){
 		return (
 
 			<div>
-				 <NavBar updateUser={this.updateUser} loggedIn={this.state.loggedIn} user={this.state.user} />
+				<NavBar />
+					<Switch> 	
+						<Route exact path="/" component={IndexBody} />
+						<Route exact path="/items" component={Shop} />			
+						<Route exact path="/login" render={() => <LoginForm />} />
+						<Route exact path="/register" render={() => <RegisterForm />} />
+						<Route exact path="/users/me/" component={() => <UserProfile />} />
 
-				<Route path="/" exact component={IndexBody} />
-				<Route path="/items" exact component={Shop} />			
-				<Route path="/login" render={() => <LoginForm updateUser={this.updateUser} />} />
-				<Route path="/register" render={() => <RegisterForm updateUser={this.updateUser} />} />
-				<Route path="/users/me/" component={() => <UserProfile user={this.state.user} updateUser={this.updateUser} />} />
+						<Route exact path="/adminPanel" component={AdminPanel} />
+						<Route exact path="/adminLogin" component={AdminLogin} />
 
-				<Route path="/adminPanel" exact component={AdminPanel} />
-				<Route path="/adminLogin" exact component={AdminLogin} />
+						<Route exact path="/storeManagerLogin" component={StoreManagerLogin} />
+						<Route exact path="/storeManagerPanel" component={StoreManagerPanel} />
+						<Route exact path="/items/edit/:id" component={EditItem} />
 
-				<Route path="/storeManagerLogin" exact component={StoreManagerLogin} />
-				<Route path="/storeManagerPanel" exact component={StoreManagerPanel} />
-				<Route path="/items/edit/:id" exact component={EditItem} />
-
+						<Route exact path="*" render={() => <h1>404 page</h1>} />
+					</Switch>
 				<Footer />
 			</div>
 		);

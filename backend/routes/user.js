@@ -15,11 +15,6 @@ const router = new express.Router();
 // create user
 router.post('/users', async(req, res) => {
     try {
-
-        if (req.body.password !== req.body.confirmPassword) {
-            throw new Error('Your password does not match confirmation!')
-        }
-
         const user = new User(req.body)
 
         await user.save()
@@ -108,7 +103,7 @@ router.get('/users/me', auth, async (req, res) => {
 
 
 // read all users
-router.get('/users', isAdmin, async (req, res) => {
+router.get('/users', async (req, res) => {
     
     try {
         // assigning all users
@@ -159,7 +154,7 @@ router.patch('/users/me', auth, async (req, res) => {
 })
 
 // deleting user
-router.delete('/users/:id',isAdmin, async (req, res) => {
+router.delete('/users/:id', async (req, res) => {
 
     try {
         // assigning provided id

@@ -12,10 +12,6 @@ export default class AdminPanel extends Component {
     // constructor
     constructor(props){
         super(props)
-
-        this.state = {
-            error : ''
-        }
     }
 
 
@@ -25,12 +21,6 @@ export default class AdminPanel extends Component {
             <div>
                     <div class="newDivider">
                         <div class="container">
-                            {this.state.error &&
-                                <div class="alert alert-danger" role="alert">
-                                    {this.state.error}
-                                </div>
-                            }
-
                                 <div class="row">
                                     <div class="col-md-4 marginBottom">
                                         <div class="list-group" id="list-tab" role="tablist">

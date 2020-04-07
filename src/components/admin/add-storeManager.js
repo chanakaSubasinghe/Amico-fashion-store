@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Redirect} from 'react-router-dom'
 import axios from 'axios'
 
 export default class AddStoreManager extends Component {
@@ -36,51 +37,56 @@ export default class AddStoreManager extends Component {
         }
 
         axios.post('/users', storeManager)
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log('Error',err.message)
+            })
 
-        this.setState ({
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: ''
-        })
-
-        window.location = '/adminPanel'
+            this.setState ({
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: 'amico123#',
+            })
     }
 
     render() {
-        return(
-            <div>
-                 <div class="alert alert-warning" role="alert">
-                    <h4 class="alert-heading">Note!</h4>
-                    <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+
+            return(
+                <div>
+                    <div class="alert alert-warning" role="alert">
+                        <h4 class="alert-heading">Note!</h4>
+                        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+                    </div>
+
+                    <form onSubmit={this.onSubmit}>
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" name="firstName" value={this.state.firstName} onChange={this.handleChange} maxLength="10" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" name="lastName" value={this.state.lastName} onChange={this.handleChange} maxLength="15" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" name="email" value={this.state.email} onChange={this.handleChange} minLength="2" required/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="text" class="form-control" name="password" value={this.state.password} onChange={this.handleChange} minLength="8" required/>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-dark">add store manager</button>
+                        </div>
+                    </form>
                 </div>
-
-                <form onSubmit={this.onSubmit}>
-                    <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" name="firstName" value={this.state.firstName} onChange={this.handleChange} maxLength="10" required />
-                    </div>
-
-                    <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" class="form-control" name="lastName" value={this.state.lastName} onChange={this.handleChange} maxLength="15" required />
-                    </div>
-
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" name="email" value={this.state.email} onChange={this.handleChange} minLength="2" required/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="text" class="form-control" name="password" value={this.state.password} onChange={this.handleChange} minLength="8" required/>
-                    </div>
-
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-dark">add store manager</button>
-                    </div>
-                </form>
-            </div>
-        )
+            )   
     }
 }
