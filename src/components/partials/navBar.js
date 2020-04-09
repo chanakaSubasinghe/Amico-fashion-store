@@ -56,9 +56,6 @@ export default class NavBar extends Component {
     
     render() {
 
-        // get properties
-        const {loggedIn, user} = this.props
-
         return (
             <div>
                 <nav class="navbar navbar-dark bg-dark">
@@ -90,10 +87,10 @@ export default class NavBar extends Component {
                                             
                                     </ul>
                                 </div>
-                                {loggedIn ? ( 
+                                {true ? ( 
                                 <div class="row hideWithCollapse">
                                 
-                                        {user.role === 'user' &&
+                                        {true &&
                                             <div class="d-inline m-2">
                                                 <Link class="m-2"><i class="fa fa-heart NavBar-heart-Icon"></i><span class="badge badge-light"><small>10</small></span></Link>
                                                 <Link><i class="fa fa-shopping-cart NavBar-shopping-cart-Icon"></i><span class="badge badge-light"><small>10</small></span></Link>
@@ -104,10 +101,10 @@ export default class NavBar extends Component {
 
                                         <div class="d-inline dropdown nav-link">
                                             <Link class="dropdown-toggle text-light" style={{color: "white", textDecoration: "none"}} to="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Signed In As {user.firstName}
+                                                    Signed In As
                                                 </Link>
 
-                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                                {/* <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                                     <Link class="dropdown-item" to="/users/me">Profile</Link>
                                                     {user.role === 'admin'
                                                         &&  <Link class="dropdown-item" to="/adminPanel">Settings</Link>
@@ -117,7 +114,7 @@ export default class NavBar extends Component {
                                                     }      
                                                     <div class="dropdown-divider"></div>
                                                     <Link class="dropdown-item" to="#" onClick={this.logout}>Logout</Link>
-                                                </div>
+                                                </div> */}
                                         </div>  
                                     </div>
                                     ) : ( 

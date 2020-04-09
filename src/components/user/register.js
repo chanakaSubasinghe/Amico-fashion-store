@@ -14,7 +14,6 @@ export default class CustomerRegister extends Component {
             lastName: '',
             email: '',
             password: '',
-            confirmPassword: '',
             error: '',
             redirectTo: null
 
@@ -40,36 +39,9 @@ export default class CustomerRegister extends Component {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
-            password: this.state.password,
-            confirmPassword: this.state.confirmPassword
+            password: this.state.password
         }
 
-        // request to server to add a new user
-        axios.post('/users', user)
-            .then(res => {
-                console.log(res.data.user.firstName)
-                if(res.status === 201){
-                   
-                    // update App.js state
-                    this.props.updateUser({
-                        loggedIn: true,
-                        user: res.data.user
-                    })
-
-                    localStorage.setItem('JWT_Token', res.data.token)
-
-                    // // update the state to redirect to home
-                    this.setState({
-                        redirectTo: '/'
-                    })
-                }
-            })
-            .catch(err => {
-                console.log('Register error: ' + err.response.data)
-                this.setState({
-                    error: err.response.data
-                })
-            })
     }
 
     render(){
@@ -112,11 +84,6 @@ export default class CustomerRegister extends Component {
                                     <label>Password</label>
                                     <div class="input-group mb-2 mr-sm-2">
                                         <input type="password" class="form-control" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password" minLength="8" required/>
-                                    </div>
-
-                                    <label>Confirm Password</label>
-                                    <div class="input-group mb-2 mr-sm-2">
-                                        <input type="password" class="form-control" name="confirmPassword" value={this.state.confirmPassword} onChange={this.handleChange} placeholder="Confirm Password" minLength="8" required/>
                                     </div>
 
                                     <br />

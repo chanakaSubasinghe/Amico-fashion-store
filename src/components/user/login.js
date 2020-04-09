@@ -36,31 +36,6 @@ export default class CustomerLogin extends Component {
             password: this.state.password
         }
 
-        // send request to server
-        axios.post('/users/login', user)
-            .then(res => {
- 
-                if (res.status === 200) {
-
-                    // update App.js state
-                    this.props.updateUser({
-                        loggedIn: true,
-                        user: res.data.user
-                    })
-                    // console.log(res.data.token)
-                    localStorage.setItem('JWT_Token', res.data.token)
-                    // update the state to redirect to home
-                    this.setState({
-                        redirectTo: '/'
-                    })
-                }
-            })
-            .catch(err => {
-                console.log(err.response.data)
-                this.setState({
-                    error: err.response.data
-                })
-            })
     }
 
     render(){
