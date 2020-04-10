@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
-import axios from 'axios'
+import {Link, Redirect} from 'react-router-dom'
 
 // importing custom css and javascript
 import '../../public/css/navbar.css'
@@ -12,6 +11,7 @@ import phone from '../../public/images/navbar/phone-alt-solid.png'
 import instagram from '../../public/images/navbar/instagram-brands.png'
 import shoppingVan from '../../public/images/navbar/shipping-fast-solid.png'
 
+import {isAuthenticated, logout} from '../../auth/index'
 
 export default class NavBar extends Component {
 
@@ -19,6 +19,9 @@ export default class NavBar extends Component {
     constructor(props) {
         super(props)
         
+        this.state ={
+            userObj: isAuthenticated()
+        }
         // binding functions
         this.logout = this.logout.bind(this)
     }
@@ -28,30 +31,9 @@ export default class NavBar extends Component {
 
         e.preventDefault()
 
-        // send request to server to login user
-        axios.post('/users/logout', null,
-        {headers: 
-            {
-                Authorization: `Bearer ${localStorage.getItem('JWT_Token')}`
-            }
-        })
-        .then(res => {
-            // condition
-            if(res.status === 200){
-
-                this.props.updateUser({
-                    loggedIn: false,
-                    user: {}
-                })
-
-                localStorage.removeItem('JWT_Token')
-            }
-        }).catch(err => {
-            console.log('Logout error: ' + err.error)
-        })
-
-        // redirect    
-        // window.location = '/'
+        logout(this.state.userObj, () => {
+            // window.location = '/'
+        });
     }
     
     render() {
@@ -87,10 +69,10 @@ export default class NavBar extends Component {
                                             
                                     </ul>
                                 </div>
-                                {true ? ( 
+                                {this.state.userObj ? ( 
                                 <div class="row hideWithCollapse">
                                 
-                                        {true &&
+                                        {this.state.userObj.user.role === 'user' &&
                                             <div class="d-inline m-2">
                                                 <Link class="m-2"><i class="fa fa-heart NavBar-heart-Icon"></i><span class="badge badge-light"><small>10</small></span></Link>
                                                 <Link><i class="fa fa-shopping-cart NavBar-shopping-cart-Icon"></i><span class="badge badge-light"><small>10</small></span></Link>
@@ -101,20 +83,20 @@ export default class NavBar extends Component {
 
                                         <div class="d-inline dropdown nav-link">
                                             <Link class="dropdown-toggle text-light" style={{color: "white", textDecoration: "none"}} to="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Signed In As
+                                                    Signed In As {this.state.userObj.user.firstName}
                                                 </Link>
 
-                                                {/* <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                                     <Link class="dropdown-item" to="/users/me">Profile</Link>
-                                                    {user.role === 'admin'
+                                                    {this.state.userObj.user.role === 'admin'
                                                         &&  <Link class="dropdown-item" to="/adminPanel">Settings</Link>
                                                     }
-                                                    {user.role === 'storeManager'
+                                                    {this.state.userObj.user.role === 'storeManager'
                                                         &&  <Link class="dropdown-item" to="/storeManagerPanel">Settings</Link>
                                                     }      
                                                     <div class="dropdown-divider"></div>
                                                     <Link class="dropdown-item" to="#" onClick={this.logout}>Logout</Link>
-                                                </div> */}
+                                                </div>
                                         </div>  
                                     </div>
                                     ) : ( 

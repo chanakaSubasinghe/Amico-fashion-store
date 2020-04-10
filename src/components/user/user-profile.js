@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Redirect} from  'react-router-dom'
 import axios from 'axios'
 
+import {isAuthenticated} from '../../auth/index'
+
 export default class UserProfile extends Component {
 
     // constructor
@@ -10,9 +12,9 @@ export default class UserProfile extends Component {
 
 
         this.state = {
-            firstName: '',
-            lastName: '',
-            email: '',
+            firstName: isAuthenticated().user.firstName,
+            lastName: isAuthenticated().user.lastName,
+            email: isAuthenticated().user.email,
             password: '',
             error: '',
             redirectTo: null
@@ -21,20 +23,6 @@ export default class UserProfile extends Component {
         // binding functions
         this.handleChange = this.handleChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
-    }
-
-
-    componentDidMount() {
-
-        // get user by props
-        const {user} = this.props
-
-        // set state
-        this.setState({
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email
-        })
     }
 
     // handle change function

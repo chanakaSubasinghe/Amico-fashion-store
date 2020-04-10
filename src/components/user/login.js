@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import axios from 'axios'
 
+import {logIn, authenticate, isAuthenticated} from '../../auth/index'
 
 export default class CustomerLogin extends Component {
 
@@ -13,7 +14,8 @@ export default class CustomerLogin extends Component {
             email: '',
             password: '',
             error: '',
-            redirectTo: null
+            userObj: {},
+            redirectTo: false
         }
 
         // binding methods
@@ -36,11 +38,36 @@ export default class CustomerLogin extends Component {
             password: this.state.password
         }
 
+        logIn(user)
+            .then(data => {
+                if (data.error) {
+                    console.log(data.error)
+                }
+                else {
+                   authenticate(data,
+                    () => {
+                        this.setState({
+                            userObj: data,
+                            redirectTo: true
+                        })
+                    }) 
+                }
+            })
+
     }
 
     render(){
             if (this.state.redirectTo) {
-                return <Redirect to={{ pathname: this.state.redirectTo }} />
+                if (this.state.userObj.user.role === 'admin') {
+                    return <Redirect to={{ pathname: '/adminPanel' }} />
+                }else if(this.state.userObj.user.role === 'storeManager'){
+                    return <Redirect to={{ pathname: '/storeManagerPanel' }} />
+                }else {
+                    return <Redirect to={{ pathname: '/' }} />
+                }
+            }
+            else if(isAuthenticated()){
+                return <Redirect to={{ pathname: '/' }} />
             }
             else {
             return(

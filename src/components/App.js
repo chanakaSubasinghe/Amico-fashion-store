@@ -20,6 +20,7 @@ import NavBar from './partials/navBar';
 import Footer from './partials/footer';
 import IndexBody from './partials/indexBody'
 import Shop from "./partials/shop";
+import PageNotFound from './partials/404'
 
 // admin
 import AdminPanel from './admin/adminPanel'
@@ -33,12 +34,18 @@ import LoginForm from './user/login'
 import RegisterForm from './user/register'
 import UserProfile from "./user/user-profile";
 
+// private routes
+import AdminRoute from '../auth/adminRoute'
+import StoreManagerRoute from '../auth/storeManagerRoute'
+import UserRoute from '../auth/userRoute'
+import PrivateRoute from '../auth/privateRoute'
+
 
 class App extends Component {
 
 	// constructor
 	constructor(props) {
-		super(props)	
+		super(props)
 	}
 
 	render(){
@@ -51,14 +58,14 @@ class App extends Component {
 						<Route path="/items" component={Shop} />			
 						<Route exact path="/login" render={() => <LoginForm />} />
 						<Route exact path="/register" render={() => <RegisterForm />} />
-						<Route exact path="/users/me/" component={() => <UserProfile />} />
+						<PrivateRoute exact path="/users/me/" component={() => <UserProfile />} />
 
-						<Route exact path="/adminPanel" component={AdminPanel} />
+						<AdminRoute exact path="/adminPanel" component={AdminPanel} />
 
-						<Route exact path="/storeManagerPanel" component={StoreManagerPanel} />
-						<Route exact path="/items/edit/:id" component={EditItem} />
+						<StoreManagerRoute exact path="/storeManagerPanel" component={StoreManagerPanel} />
+						<StoreManagerRoute exact path="/items/edit/:id" component={EditItem} />
 
-						<Route exact path="*" render={() => <h1>404 page</h1>} />
+						<Route exact path="*" component={PageNotFound} />
 					</Switch>
 				<Footer />
 			</div>
