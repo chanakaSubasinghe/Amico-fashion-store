@@ -1,4 +1,5 @@
 export const logIn = user => {
+    // send login request to server
     return fetch(`/users/login`, {
         method: 'POST',
         headers: {
@@ -11,12 +12,14 @@ export const logIn = user => {
             return response.json();
         })
         .catch(err => {
-            console.log(err);
-        });
+            return err.json()
+        })
 };
 
 export const authenticate = (data, next) => {
     if (typeof window !== undefined) {
+
+        // set token
         localStorage.setItem('jwt', JSON.stringify(data))
     }
     next()
@@ -27,6 +30,8 @@ export const isAuthenticated = () => {
         return false
     }
     if (localStorage.getItem('jwt')) {
+
+        // get token
         return JSON.parse(localStorage.getItem('jwt'))
     }else {
         return false
@@ -35,6 +40,8 @@ export const isAuthenticated = () => {
 
 
 export const register = (user) => {
+
+    // send register request to server
     return fetch(`/users`, {
         method: 'POST',
         headers: {
@@ -54,8 +61,12 @@ export const register = (user) => {
 
 export const logout = (user,next) => {
     if (typeof window !== undefined) {
+
+        // remove token
         localStorage.removeItem('jwt')
         next()
+
+        // send logout request to server
         return fetch(`/users/logout`, {
             method: 'POST',
             headers: {

@@ -15,6 +15,8 @@ export default class AddStoreManager extends Component {
             firstName: '',
             lastName: '',
             email: '',
+            success: '',
+            error: '',
             password: 'amico123#'
         }
     }
@@ -39,9 +41,17 @@ export default class AddStoreManager extends Component {
         axios.post('/users', storeManager)
             .then(res => {
                 console.log(res.data)
+                this.setState({
+                    error: '',
+                    success: 'Successfully added.'
+                })
             })
             .catch(err => {
                 console.log('Error',err.message)
+                this.setState({
+                    success: '',
+                    error: 'something went wrong!'
+                })
             })
 
             this.setState ({
@@ -50,17 +60,27 @@ export default class AddStoreManager extends Component {
                 email: '',
                 password: 'amico123#',
             })
+
+
+            window.location = '/adminPanel'
+
     }
 
     render() {
 
             return(
                 <div>
-                    <div class="alert alert-warning" role="alert">
-                        <h4 class="alert-heading">Note!</h4>
-                        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
-                    </div>
+                    {this.state.success &&
+                        <div class="alert alert-success" role="alert">
+                            {this.state.success}
+                        </div>
+                    }
 
+                    {this.state.error &&
+                        <div class="alert alert-error" role="alert">
+                            {this.state.error}
+                        </div>
+                    }  
                     <form onSubmit={this.onSubmit}>
                         <div class="form-group">
                             <label>First Name</label>

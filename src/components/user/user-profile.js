@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from  'react-router-dom'
 import axios from 'axios'
 
-import {isAuthenticated} from '../../auth/index'
+import {isAuthenticated ,authenticate} from '../../auth/index'
 
 export default class UserProfile extends Component {
 
@@ -12,10 +12,11 @@ export default class UserProfile extends Component {
 
 
         this.state = {
-            firstName: isAuthenticated().user.firstName,
-            lastName: isAuthenticated().user.lastName,
-            email: isAuthenticated().user.email,
+            firstName: '',
+            lastName: '',
+            email: '',
             password: '',
+            success: '',
             error: '',
             redirectTo: null
         }
@@ -23,6 +24,14 @@ export default class UserProfile extends Component {
         // binding functions
         this.handleChange = this.handleChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+    }
+
+    componentDidMount(){
+        this.setState({
+            firstName: isAuthenticated().user.firstName,
+            lastName: isAuthenticated().user.lastName,
+            email: isAuthenticated().user.email,
+        })
     }
 
     // handle change function
@@ -36,47 +45,53 @@ export default class UserProfile extends Component {
     onSubmit(e) {
         e.preventDefault()
 
+        // updated user
         const updateUser = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             password: this.state.password
         }
-
         // request to server to update the current user
         axios.patch('/users/me', updateUser,
         {headers: 
             {
-                Authorization: `Bearer ${localStorage.getItem('JWT_Token')}`
+                Authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt')).token}`
             }
         })
             .then(res => {
-                console.log(res.data)
+                authenticate(res.data,
+                    () => {
+                        this.setState({
+                            error: '',
+                            success: 'Successfully updated your profile.',
+                            password: ''
+                        })
+                        this.componentDidMount()
 
-                // update App.js state
-                this.props.updateUser({
-                    loggedIn: true,
-                    user: res.data
-                })
+                        window.location = '/users/me'
+
+                    }) 
             })
             .catch(err => {
-                console.log(err.response)
-                this.setState({
-                    error: err.response.data.error
-                })
+                if (err.response.data.indexOf('cannot contain')) {
+                    this.setState({
+                        success: '',
+                        error: err.response.data.slice(34),
+                        password: ''
+                    })
+                } else {
+                    this.setState({
+                        success: '',
+                        error: err.response.data,
+                        password: ''
+                    })
+                }
+
             })
-
-        // redirect to index page
-        this.setState({
-            // redirectTo: '/'
-        })
-
     }    
 
     render() {
 
-        if (this.state.redirectTo) {
-            return <Redirect to={{pathname: this.state.redirectTo}} />
-        }else {
             return (
                 <div>
                     <div className="container margin-top">
@@ -84,6 +99,13 @@ export default class UserProfile extends Component {
                         <br/>
                         <div className="row">
                             <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
+
+
+                                {this.state.success &&
+                                    <div class="alert alert-success" role="alert">
+                                        {this.state.success}
+                                    </div>
+                                } 
 
                                 {this.state.error &&
                                     <div class="alert alert-danger" role="alert">
@@ -158,7 +180,4 @@ export default class UserProfile extends Component {
                 </div>
             );
         }
-
-
-    }
 }

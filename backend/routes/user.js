@@ -39,7 +39,7 @@ router.post('/users', async(req, res) => {
         res.status(201).send({user, token})
 
     } catch (e) {
-        res.status(400).send(e.message)
+        res.status(400).send({error: e.message})
     }
 })
 
@@ -57,7 +57,7 @@ router.post('/users/login', async (req, res) => {
         res.status(200).send({user, token})
 
     } catch (e) {
-        res.status(400).json(e.message)
+        res.status(400).send({error: e.message})
     }
 })
 
@@ -160,6 +160,9 @@ router.patch('/users/me', auth, async (req, res) => {
         // assigning user 
         const user = req.user
 
+        // assigning token
+        const token = req.token
+
         // updating fields
         updates.forEach((update) => {
             user[update] = req.body[update]
@@ -169,10 +172,10 @@ router.patch('/users/me', auth, async (req, res) => {
         await user.save()
 
         // send response
-        res.status(200).send(user)
+        res.status(200).send({user, token})
 
     } catch (e) {
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 })
 

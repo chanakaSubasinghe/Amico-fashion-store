@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import {Link , Redirect} from 'react-router-dom'
-import axios from 'axios'
 
+// import functions from auth folder
 import {register, authenticate, isAuthenticated} from '../../auth/index'
 
 export default class CustomerRegister extends Component {
 
+    // define constructor
     constructor(props) {
         
         super(props)
@@ -19,7 +20,6 @@ export default class CustomerRegister extends Component {
             error: '',
             userObj: {},
             redirectTo: false
-
         }
 
         // binding methods
@@ -27,12 +27,14 @@ export default class CustomerRegister extends Component {
         this.onSubmit = this.onSubmit.bind(this)
     }
 
+    // handle change function
     handleChange(e){
         this.setState({
             [e.target.name]: e.target.value
         })
     }
 
+    // onSubmit function
     onSubmit(e){
         e.preventDefault()
 
@@ -45,11 +47,25 @@ export default class CustomerRegister extends Component {
             password: this.state.password
         }
 
+        // send register user to server
         register(user)
             .then(data => {
+                // check whether error is there or not
                 if (data.error) {
-                    console.log(data.error)
+                    // check whether the error has 'cannot contain' string
+                    if (data.error.indexOf('cannot contain')) {
+                        // if it is then set the state
+                        this.setState({
+                            error: data.error.slice(34)
+                        })
+                    } else {
+                        // if it is not then set state with error
+                        this.setState({
+                            error: data.error
+                        })
+                    }
                 }
+                // if no errors then save the token and set the state
                 else {
                     authenticate(data,
                         () => {
@@ -65,16 +81,26 @@ export default class CustomerRegister extends Component {
 
     render(){
 
+        // if redirectTo is true or false
         if (this.state.redirectTo) {
 
+            // redirect to user specific dashboard
             if (this.state.userObj.user.role === 'admin') {
-                return <Redirect to={{ pathname: '/adminPanel' }} />
+
+                return window.location = '/adminPanel'
             }else if(this.state.userObj.user.role === 'storeManager'){
-                return <Redirect to={{ pathname: '/storeManagerPanel' }} />
+
+                return window.location = '/storeManagerPanel'
             }else {
-                return <Redirect to={{ pathname: '/' }} />
+
+                return window.location = '/'
             }
         } 
+        // else check whether the current user is logged in or not
+        else if(isAuthenticated()){
+            return <Redirect to={{ pathname: '/' }} />
+        }
+        // if no issue then send login page 
         else {
             return(
                 <div>
@@ -104,12 +130,12 @@ export default class CustomerRegister extends Component {
 
                                     <label>Email</label>
                                     <div class="input-group mb-2 mr-sm-2">
-                                        <input type="email" class="form-control" name="email" value={this.state.email} onChange={this.handleChange} placeholder="johnsmith@example.com" required/>
+                                        <input type="email" class="form-control" name="email" value={this.state.email} onChange={this.handleChange} placeholder="johnsmith@example.com" maxLength="35" required/>
                                     </div>
 
                                     <label>Password</label>
                                     <div class="input-group mb-2 mr-sm-2">
-                                        <input type="password" class="form-control" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password" minLength="8" required/>
+                                        <input type="password" class="form-control" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password" minLength="8" maxLength="20" required/>
                                     </div>
 
                                     <br />

@@ -32,7 +32,7 @@ export default class NavBar extends Component {
         e.preventDefault()
 
         logout(this.state.userObj, () => {
-            // window.location = '/'
+            return window.location = '/'
         });
     }
     
