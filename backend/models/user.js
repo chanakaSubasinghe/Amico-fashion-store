@@ -9,9 +9,6 @@ const Schema = mongoose.Schema
 
 // declaring user Schema
 const userSchema = new Schema({
-    avatar: {
-        type: Buffer
-    },
     firstName : {
         type: String,
         required: true,
@@ -69,17 +66,21 @@ const userSchema = new Schema({
 })
 
 // to hide unnecessary details
-// userSchema.methods.toJSON = function() {
-// 	const user = this;
+userSchema.methods.toJSON = function() {
+	const user = this;
 
-// 	const userObject = user.toObject();
+	const userObject = user.toObject();
 
-// 	delete userObject.salt;
-// 	delete userObject.hash;
+	delete userObject.password;
+    delete userObject.tokens;
+    delete userObject.createdAt;
+    delete userObject.updatedAt;
+    delete userObject.__v;
 
-// 	return userObject;
-// };
+	return userObject;
+};
 
+// function for generate auth token 
 userSchema.methods.generateAuthToken = async function() {
 
     const user = this;
@@ -93,6 +94,7 @@ userSchema.methods.generateAuthToken = async function() {
     return token
 }
 
+// find user credentials
 userSchema.statics.findByCredentials = async (email, password) => {
  
     const user = await User.findOne({email})
@@ -111,6 +113,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
 }
 
 
+// before save the user check whether password is modified ot not
 userSchema.pre('save', async function(next) {
 
     const user = this;
