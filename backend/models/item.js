@@ -7,6 +7,12 @@ const Schema = mongoose.Schema
 
 //declaring item schema
 const itemSchema = new Schema({
+
+    itemPhoto:{
+        type:Buffer,
+        required: true
+        
+    },
     itemName:{
         type: String,
         required: true,

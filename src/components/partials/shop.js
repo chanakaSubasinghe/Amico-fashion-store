@@ -8,8 +8,11 @@ const Item = props => (
    
     <div class="card-deck col-md-4 my-3">
         <div class="card h-100">
-            <img class="card-img-top" src="https://helpfulsheep.com/2017-07-25-google-adsense-ad-sizes/250x250.png" />
+        <img class="card-img-top" src={`/items/${props.item._id}/itemPhoto`} alt="" />
             <div class="card-body">
+                <div class="text-center">
+                    <a href="#" class="text-decoration-none">view item</a>
+                </div>
                 <h5 class="card-title">{props.item.itemName}</h5>
                 <p><i class="fa fa-star"></i>{props.item.averageRate}</p>            
                 {props.item.discountedPrice < props.item.totalPrice 

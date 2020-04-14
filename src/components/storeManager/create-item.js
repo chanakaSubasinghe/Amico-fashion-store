@@ -13,6 +13,7 @@ export default class CreateItem extends Component {
 
         // declaring this state
         this.state = {
+            itemPhoto:'',
             itemName : '',
             category: '',
             discount : '',
@@ -38,10 +39,18 @@ export default class CreateItem extends Component {
 
     //handleChange
     handleChange(e) {
-		this.setState({
-			[e.target.name]: e.target.value
-		})
-	}
+
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+    itemPhoto(e) {
+
+        this.setState({
+            [e.target.name]: e.target.files[0]
+        })
+    }
 
 
    //button submit
@@ -50,6 +59,7 @@ export default class CreateItem extends Component {
 
        // create item object
        const item = {
+            itemPhoto:this.state.itemPhoto,
             itemName:this.state.itemName,
             category: this.state.category,
             discount : this.state.discount,
@@ -78,6 +88,18 @@ export default class CreateItem extends Component {
                 </div>
 
                 <form onSubmit={this.onSubmit}>
+
+               
+
+                    <label>Item Photo</label>
+
+                    <div class="custom-file">                    
+                        <input type="file" class="custom-file-input" name="itemPhoto" onChange={this.handleChange} required />
+                        <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                        <br/>
+                        <br/>
+                    </div>
+
 
                     <div class="form-group">
                         <label>Item Name</label>
