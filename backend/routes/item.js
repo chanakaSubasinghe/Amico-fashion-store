@@ -25,8 +25,7 @@ const upload = multer({
 
 //create a new item
 router.post('/items',upload.single('itemPhoto'), async (req,res) => {
-    try{
-        console.log(req.body)
+
         // uploading image and resize with sharp and save it in a variable as a buffer
         const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
 
@@ -45,11 +44,10 @@ router.post('/items',upload.single('itemPhoto'), async (req,res) => {
 
         //send response
         res.status(201).send(item)
+    },(error, req, res, next) => {
+        res.status(400).send({error: error.message})
     }
-    catch(e){
-        res.status(400).send(e.message)
-    }
-})
+)
 
 //read item
 router.get('/items/:id', async(req,res) => {

@@ -23,7 +23,7 @@ router.post('/itemCategories', async(req,res) => {
         res.status(201).send(itemCategory)
     }catch (e){
 
-        res.status(400).send(e.message)
+        res.status(400).send({error: e.message})
     }
 })
 
