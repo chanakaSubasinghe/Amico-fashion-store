@@ -91,14 +91,14 @@ router.get('/items' , async(req,res) => {
 })
 
 //update items
-router.patch('/items/:id', async(req,res) => {
-    
+router.patch('/items/:id',upload.single('itemPhoto'), async(req,res) => {
+        console.log(req.body)
         //assign id
         const _id = req.params.id
 
         //declaring variables to more secure
         const updates = Object.keys(req.body)
-        const allowedUpdates = ['itemName' , 'category' , 'discount' , 'totalPrice']
+        const allowedUpdates = ['itemPhoto','itemName' , 'category' , 'discount' , 'totalPrice']
         const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
         //conditions
@@ -107,6 +107,10 @@ router.patch('/items/:id', async(req,res) => {
         }
         
     try{
+
+        // uploading image and resize with sharp and save it in a variable as a buffer
+        const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
+
         //assign item
         const item = await Item.findOne({_id})
 
@@ -114,6 +118,7 @@ router.patch('/items/:id', async(req,res) => {
         const discountedPrice = await Item.findDiscountedPrice(req.body.totalPrice, req.body.discount)
 
         //update field
+        item.itemPhoto = buffer
         item.itemName = req.body.itemName;
         item.category = req.body.category;
         item.discount = req.body.discount;

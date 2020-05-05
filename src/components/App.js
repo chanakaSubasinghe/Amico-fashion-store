@@ -21,6 +21,7 @@ import Footer from './partials/footer';
 import IndexBody from './partials/indexBody'
 import Shop from "./partials/shop";
 import PageNotFound from './partials/404'
+import PreviewItem from './partials/preview-item'
 
 // admin
 import AdminPanel from './admin/adminPanel'
@@ -55,7 +56,8 @@ class App extends Component {
 				<NavBar />
 					<Switch>
 						<Route exact path="/" component={IndexBody} />
-						<Route path="/items" component={Shop} />			
+						<Route exact path="/items" component={Shop} />
+						<Route exact path="/items/:id" component={PreviewItem} />
 						<Route exact path="/login" render={() => <LoginForm />} />
 						<Route exact path="/register" render={() => <RegisterForm />} />
 						<PrivateRoute exact path="/users/me/" component={() => <UserProfile />} />
