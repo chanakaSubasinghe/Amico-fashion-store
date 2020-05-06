@@ -45,12 +45,13 @@ export default class AddStoreManager extends Component {
                     error: '',
                     success: 'Successfully added.'
                 })
+                window.location = '/adminPanel'
             })
             .catch(err => {
-                console.log('Error',err.message)
+                console.log('Error',err.response.data)
                 this.setState({
                     success: '',
-                    error: 'something went wrong!'
+                    error: 'store manager already exist with that email!'
                 })
             })
 
@@ -60,10 +61,6 @@ export default class AddStoreManager extends Component {
                 email: '',
                 password: 'amico123#',
             })
-
-
-            window.location = '/adminPanel'
-
     }
 
     render() {
@@ -72,15 +69,16 @@ export default class AddStoreManager extends Component {
                 <div>
                     {this.state.success &&
                         <div class="alert alert-success" role="alert">
-                            {this.state.success}
+                            <p>{this.state.success}</p>
                         </div>
                     }
 
                     {this.state.error &&
-                        <div class="alert alert-error" role="alert">
-                            {this.state.error}
+                        <div class="alert alert-danger" role="alert">
+                            <p>{this.state.error}</p>
                         </div>
-                    }  
+                    }
+
                     <form onSubmit={this.onSubmit}>
                         <div class="form-group">
                             <label>First Name</label>

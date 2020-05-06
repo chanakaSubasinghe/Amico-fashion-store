@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const Item = props => (
     <tr>
-        <td><img src="https://helpfulsheep.com/2017-07-25-google-adsense-ad-sizes/250x250.png" style={{width: "80px"}} /></td>
+        <td><img class="card-img-top" src={`/items/${props.item._id}/itemPhoto`} style={{width: "100px"}} /></td>
         <td>{props.item.totalPrice}</td>
         <td>{props.item.discountedPrice}</td>
         <td>{props.item.averageRate}</td>        

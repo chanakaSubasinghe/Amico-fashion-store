@@ -11,7 +11,7 @@ const Item = props => (
         <img class="card-img-top" src={`/items/${props.item._id}/itemPhoto`} alt="" />
             <div class="card-body">
                 <div class="text-center">
-                    <a href="#" class="text-decoration-none">view item</a>
+                    <Link to={`/items/${props.item._id}`} class="text-decoration-none">view item</Link>
                 </div>
                 <h5 class="card-title">{props.item.itemName}</h5>
                 <p><i class="fa fa-star"></i>{props.item.averageRate}</p>            

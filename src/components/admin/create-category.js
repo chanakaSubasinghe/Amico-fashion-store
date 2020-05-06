@@ -12,7 +12,9 @@ export default class CreateCategory extends Component {
 
         this.state = {
             categoryName : '',
-            redirectTo: null 
+            redirectTo: null,
+            success: '',
+            error: '' 
         }
     }
 
@@ -38,16 +40,17 @@ export default class CreateCategory extends Component {
        axios.post('/itemCategories/', category)
             .then(res => {
                 this.setState({
-                    categoryName : ''
+                    categoryName : '',
+                    success: 'successfully added category.',
+                    error: ''
                 })
+
+                window.location = '/adminPanel'
             })
             .catch(err => {
-                console.log(err.response.data)
+                this.setState({categoryName: ''})
+                if (err.response.data.error) this.setState({success: '',error: 'Sorry this is already exist!'})
             })
-
-        
-
-        //  window.location = '/adminPanel'
     }
 
 
@@ -61,10 +64,23 @@ export default class CreateCategory extends Component {
         else {
             return(
                 <div>                    
-                    <div class="alert alert-warning" role="alert">
-                        <h4 class="alert-heading">Note!</h4>
-                        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
-                    </div>
+                    {this.state.success &&
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <p>{this.state.success}</p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+
+                    {this.state.error &&
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <p>{this.state.error}</p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
 
                     <form onSubmit={this.onSubmit}>
                         <div class="form-group">

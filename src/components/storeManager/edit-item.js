@@ -11,9 +11,11 @@ export default class EditItem extends Component {
         // binding functions
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-
+        this.itemPhoto = this.itemPhoto.bind(this)
+        
         // this state
         this.state = {
+            itemPhoto: null,
             itemName : '',
             category : '',
             categories: [],
@@ -61,21 +63,30 @@ export default class EditItem extends Component {
 			[e.target.name]: e.target.value
 		})
     }
+
+    itemPhoto(e) {        
+        console.log(e.target.files[0])
+        this.setState({
+            itemPhoto: e.target.files[0]
+        })
+    }
     
    //button submit
    onSubmit(e){
        e.preventDefault();
 
-       // updated item
-       const item = {
-                itemName:this.state.itemName,
-                category : this.state.category,
-                discount : this.state.discount,
-                totalPrice : this.state.totalPrice
-       }
+       const {itemPhoto,itemName,category,discount,totalPrice} = this.state
+
+       const formData = new FormData();
+
+       formData.append('itemPhoto', itemPhoto)
+       formData.append('itemName', itemName)
+       formData.append('category', category)
+       formData.append('discount', discount)
+       formData.append('totalPrice', totalPrice)
        
        // request to server to update item 
-       axios.patch('/items/' + this.props.match.params.id, item)
+       axios.patch('/items/' + this.props.match.params.id, formData)
             .then(res => console.log(res.data));
 
          // redirect   
@@ -103,6 +114,14 @@ export default class EditItem extends Component {
                     </div>
     
                     <form onSubmit={this.onSubmit}>
+
+                    <label>Item Photo</label> 
+                        <div class="custom-file">                                               
+                            <input type="file" class="custom-file-input" name="itemPhoto" onChange={this.itemPhoto} required />
+                            <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                            <br/>
+                            <br/>
+                        </div>
     
                         <div class="form-group">
                             <label>Item Name</label>
