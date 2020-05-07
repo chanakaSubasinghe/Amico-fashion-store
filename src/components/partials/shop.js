@@ -1,131 +1,188 @@
-import React , {Component} from 'react' ;
-import {Link} from 'react-router-dom';
-import axios from 'axios';
-
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 // item - functional component
-const Item = props => (
-   
-    <div class="card-deck col-md-4 my-3">
-        <div class="card h-100">
-        <img class="card-img-top" src={`/items/${props.item._id}/itemPhoto`} alt="" />
-            <div class="card-body">
-                <div class="text-center">
-                    <Link to={`/items/${props.item._id}`} class="text-decoration-none">view item</Link>
-                </div>
-                <h5 class="card-title">{props.item.itemName}</h5>
-                <p><i class="fa fa-star"></i>{props.item.averageRate}</p>            
-                {props.item.discountedPrice < props.item.totalPrice 
-                &&
-                    <div class="float-right">
-                        <del class="card-text text-dark">Rs.{props.item.totalPrice}.00</del>
-                        <h5 class="card-text text-primary">Rs.{props.item.discountedPrice}.00</h5>
-                    </div>    
-                || 
-                    <div class="float-right">     
-                        <br />            
-                        <h5 class="card-text text-primary">Rs.{props.item.discountedPrice}.00</h5>
-                    </div> 
-                }                                                
-            </div>     
-            <div class="card-footer">
-                <div class="inline">
-                    <Link><i class="fa fa-heart heart-Icon"></i></Link>
-                    <Link><i class="fa fa-shopping-cart shopping-cart-Icon ml-3"></i></Link>
-                    <div class="float-right">
-                        <button class="btn ThemeBackground">Buy Now</button>
-                    </div>
-                </div>
-            </div>
+const Item = (props) => (
+  <div class="card-deck col-md-4 my-3">
+    <div class="card h-100">
+      <img
+        class="card-img-top"
+        src={`/items/${props.item._id}/itemPhoto`}
+        alt=""
+      />
+      <div class="card-body">
+        <div class="text-center">
+          <Link to={`/items/${props.item._id}`} class="text-decoration-none">
+            view item
+          </Link>
         </div>
-    </div>                           
-)
+        <h5 class="card-title">{props.item.itemName}</h5>
+        <p>
+          <i class="fa fa-star"></i>
+          {props.item.averageRate}
+        </p>
+        {(props.item.discountedPrice < props.item.totalPrice && (
+          <div class="float-right">
+            <del class="card-text text-dark">Rs.{props.item.totalPrice}.00</del>
+            <h5 class="card-text text-primary">
+              Rs.{props.item.discountedPrice}.00
+            </h5>
+          </div>
+        )) || (
+          <div class="float-right">
+            <br />
+            <h5 class="card-text text-primary">
+              Rs.{props.item.discountedPrice}.00
+            </h5>
+          </div>
+        )}
+      </div>
+      <div class="card-footer">
+        <div class="inline">
+          <Link>
+            <i class="fa fa-heart heart-Icon"></i>
+          </Link>
+          <Link>
+            <i class="fa fa-shopping-cart shopping-cart-Icon ml-3"></i>
+          </Link>
+          <div class="float-right">
+            <button class="btn ThemeBackground">Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const Category = (props) => (
-    <Link class="dropdown-item" to="#">{props.category.categoryName}</Link>
-)
+  <button class="ThemeBackground dropdown-item" onClick={props.sort}>
+    {props.category.categoryName}
+  </button>
+);
 
 export default class Shop extends Component {
+  //constructor
+  constructor(props) {
+    super(props);
 
-    //constructor
-    constructor(props) {
-        super(props);
+    // declaring this state
+    this.state = {
+      items: [],
+      categories: [],
+    };
+  }
 
-        // declaring this state
-        this.state = { 
-            items : [],
-            categories: []
-        };
-    }
+  //list all categories
+  componentDidMount() {
+    // get items from server
+    axios
+      .get("/items/")
+      .then((response) => {
+        this.setState({
+          items: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-    //list all categories
-    componentDidMount(){
+    // get categories from server
+    axios
+      .get("/itemCategories")
+      .then((response) => {
+        this.setState({
+          categories: response.data,
+        });
+        console.log(response.data);
+      })
+      .catch((err) => console.log(err));
+  }
 
-        // get items from server
-        axios.get('/items/')
-            .then(response => {
-               this.setState({
-                   items: response.data
-               })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+  //map to list items
+  ItemList() {
+    return this.state.items.map((currentItem) => {
+      return <Item item={currentItem} key={currentItem.id} />;
+    });
+  }
 
-        // get categories from server
-        axios.get('/itemCategories')
-            .then(response => {
-                this.setState({
-                    categories: response.data
-                })
-                console.log(response.data)
-            })
-            .catch(err => console.log(err))    
-    }
+  // map to list category
+  CategoryList() {
+    return this.state.categories.map((currentCategory) => {
+      return (
+        <Category
+          key={currentCategory._id}
+          category={currentCategory}
+          sort={() => {
+            // send request to server and get items back
+            axios.get("/items/").then((response) => {
+              // modifying set state
+              this.setState({
+                // filter items each onclick
+                items: response.data.filter((item) => {
+                  return (
+                    currentCategory.categoryName === item.category.categoryName
+                  );
+                }),
+              });
+            });
+          }}
+        />
+      );
+    });
+  }
 
-    //map to list items
-    ItemList() {
-        return this.state.items.map(currentItem => {
-            return <Item item={currentItem} key={currentItem.id} />
-        })
-    }
+  render() {
+    return (
+      <div className="container margin-top">
+        <ul className="nav justify-content-end">
+          <li className="nav-item dropdown">
+            <a
+              className="nav-link dropdown-toggle ThemeText"
+              data-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              filter by category
+            </a>
+            <div className="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="/items">
+                All
+              </a>
+              {this.CategoryList()}
+            </div>
+          </li>
+        </ul>
 
-    // map to list category
-    CategoryList() {
-        return this.state.categories.map(currentCategory => {
-            return <Category category={currentCategory} key={currentCategory._id} />
-        })
-    }
+        <div className="my-5 row">{this.ItemList()}</div>
 
-    render() {
-        return (
-                <div className="container margin-top">
-                    <ul className="nav justify-content-end">
-                        <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle ThemeText" data-toggle="dropdown" href="#"
-                               role="button" aria-haspopup="true" aria-expanded="false">filter by category</a>
-                            <div className="dropdown-menu dropdown-menu-right">
-                                <Link class="dropdown-item" to="/items">All</Link>
-                                {this.CategoryList()}
-                            </div>
-                        </li>
-                    </ul>
-
-                    <div className="my-5 row">
-                        {this.ItemList()}
-                    </div>
-
-
-                    <nav>
-                        <ul className="pagination justify-content-center">
-                            <li className="page-item"><Link class="page-link ThemeText" href="#">First</Link></li>
-                            <li className="page-item"><Link class="page-link ThemeText" href="#">Previous</Link></li>
-                            <li className="page-item"><Link class="page-link ThemeText" href="#">Next</Link></li>
-                            <li className="page-item"><Link class="page-link ThemeText" href="#">Last</Link></li>
-                        </ul>
-                    </nav>
-
-                </div>
-        )
-    }
+        <nav>
+          <ul className="pagination justify-content-center">
+            <li className="page-item">
+              <Link class="page-link ThemeText" href="#">
+                First
+              </Link>
+            </li>
+            <li className="page-item">
+              <Link class="page-link ThemeText" href="#">
+                Previous
+              </Link>
+            </li>
+            <li className="page-item">
+              <Link class="page-link ThemeText" href="#">
+                Next
+              </Link>
+            </li>
+            <li className="page-item">
+              <Link class="page-link ThemeText" href="#">
+                Last
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    );
+  }
 }
