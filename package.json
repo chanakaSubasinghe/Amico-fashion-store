@@ -20,7 +20,7 @@
     "react-star-ratings": "^2.3.0"
   },
   "scripts": {
-    "start": "node backend/index.js",
+    "start": "cd backend/ && node index.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build",
     "build": "react-scripts build",
     "test": "react-scripts test",
