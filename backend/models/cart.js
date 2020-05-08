@@ -6,18 +6,32 @@ const Schema = mongoose.Schema;
 
 //declaring cart schema
 const cartSchema = new Schema({
-    subTotal: {
-        type: Number,
-        required: true
+    owner:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
-
-    quantity: {
+    subTotal:{
         type: Number,
-        required: true
-    }
-
-}, {
-    timestamps: true
+        default: 0
+    },
+    items:[
+        {
+            quantity:{
+                type: Number,
+                default: 1
+            },
+            item:{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Item'
+            },
+            price:{
+                type: Number,
+                default: 0
+            }
+        }
+    ]
+},{
+    timestamps: true,
 });
 
 const Cart = mongoose.model('Cart', cartSchema)

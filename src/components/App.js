@@ -40,6 +40,9 @@ import StoreManagerRoute from '../auth/storeManagerRoute'
 import UserRoute from '../auth/userRoute'
 import PrivateRoute from '../auth/privateRoute'
 
+//cart
+import CartItemList from './cart/cart-item-list'
+
 
 class App extends Component {
 
@@ -65,7 +68,9 @@ class App extends Component {
 						<StoreManagerRoute exact path="/storeManagerPanel" component={StoreManagerPanel} />
 						<StoreManagerRoute exact path="/items/edit/:id" component={EditItem} />
 
-						<Route exact path="*" component={PageNotFound} />
+						<Route exact path="/cartList" component={CartItemList} />
+
+						<Route exact path="*" component={PageNotFound} />					
 					</Switch>
 				<Footer />
 			</div>

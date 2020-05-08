@@ -5,7 +5,7 @@ import axios from 'axios';
 
 // item - functional component
 const Item = props => (
-   
+
     <div class="card-deck col-md-4 my-3">
         <div class="card h-100">
         <img class="card-img-top" src={`/items/${props.item._id}/itemPhoto`} alt="" />
@@ -96,6 +96,8 @@ export default class Shop extends Component {
             return <Category category={currentCategory} key={currentCategory._id} />
         })
     }
+
+
 
     render() {
         return (

@@ -44,7 +44,6 @@ export default class CreateItem extends Component {
             [e.target.name]: e.target.value
         })
     }
-
     itemPhoto(e) {
 
         this.setState({
