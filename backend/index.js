@@ -49,6 +49,8 @@ const itemCategoryRoute = require('./routes/itemCategory')
 const itemRoute = require('./routes/item')
 const cartRoute = require('./routes/cart')
 const wishListRoute = require('./routes/wishList')
+const rateRoute = require('./routes/rate')
+
 
 
 // invoking routes
@@ -57,6 +59,8 @@ app.use(itemCategoryRoute)
 app.use(itemRoute)
 app.use(cartRoute)
 app.use(wishListRoute)
+app.use(rateRoute)
+
 
 
 

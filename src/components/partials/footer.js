@@ -25,7 +25,7 @@ export default class Footer extends Component {
                             <h3>Hello there !</h3>
                             <ul>
                                 <li><Link to="/">My account</Link></li>
-                                <li><Link to="/items">My orders</Link></li>
+                                <li><Link to="/boughtItems">My orders</Link></li>
 
                             </ul>
                         </div>

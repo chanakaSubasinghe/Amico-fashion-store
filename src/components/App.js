@@ -21,6 +21,7 @@ import Footer from './partials/footer';
 import IndexBody from './partials/indexBody'
 import Shop from "./partials/shop";
 import PageNotFound from './partials/404'
+import PreviewItem from './partials/preview-item'
 
 // admin
 import AdminPanel from './admin/adminPanel'
@@ -42,6 +43,9 @@ import PrivateRoute from '../auth/privateRoute'
 
 //cart
 import CartItemList from './cart/cart-item-list'
+//feedback
+import Comment from './feedbacks/comment';
+import BoughtItems from './feedbacks/boughtItemList';
 
 
 class App extends Component {
@@ -58,7 +62,8 @@ class App extends Component {
 				<NavBar />
 					<Switch>
 						<Route exact path="/" component={IndexBody} />
-						<Route path="/items" component={Shop} />			
+						<Route exact path="/items" component={Shop} />
+						<Route exact path="/items/:id" component={PreviewItem} />
 						<Route exact path="/login" render={() => <LoginForm />} />
 						<Route exact path="/register" render={() => <RegisterForm />} />
 						<PrivateRoute exact path="/users/me/" component={() => <UserProfile />} />
@@ -71,6 +76,10 @@ class App extends Component {
 						<Route exact path="/cartList" component={CartItemList} />
 
 						<Route exact path="*" component={PageNotFound} />					
+						<Route exact path="/comments/:id" component={Comment}/>
+						<Route exact path="/boughtItems" component={BoughtItems}/>
+
+						<Route exact path="*" component={PageNotFound} />
 					</Switch>
 				<Footer />
 			</div>

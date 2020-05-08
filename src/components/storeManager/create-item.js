@@ -10,14 +10,17 @@ export default class CreateItem extends Component {
         // binding functions
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.itemPhoto = this.itemPhoto.bind(this)
 
         // declaring this state
         this.state = {
-            itemPhoto:'',
+            itemPhoto: null,
             itemName : '',
             category: '',
             discount : '',
             totalPrice : '',
+            success: '',
+            error: '',
             categories: []
         }
     }
@@ -44,34 +47,61 @@ export default class CreateItem extends Component {
             [e.target.name]: e.target.value
         })
     }
-    itemPhoto(e) {
 
+    itemPhoto(e) {        
+        console.log(e.target.files[0])
         this.setState({
-            [e.target.name]: e.target.files[0]
+            itemPhoto: e.target.files[0]
         })
     }
 
 
    //button submit
    onSubmit(e){
+       console.log(this.state.itemPhoto)
+       
        e.preventDefault();
 
-       // create item object
-       const item = {
-            itemPhoto:this.state.itemPhoto,
-            itemName:this.state.itemName,
-            category: this.state.category,
-            discount : this.state.discount,
-            totalPrice : this.state.totalPrice          
-         }
-       
-       // request to server to create an item 
-       axios.post('/items/', item)
-            .then(res => console.log(res.data))
-            .catch(err => console.log(err))
+       const {itemPhoto,itemName,category,discount,totalPrice} = this.state
 
-        // redirect
-        window.location = '/storeManagerPanel'
+       const formData = new FormData();
+
+       formData.append('itemPhoto', itemPhoto)
+       formData.append('itemName', itemName)
+       formData.append('category', category)
+       formData.append('discount', discount)
+       formData.append('totalPrice', totalPrice)
+
+       // request to server to create an item 
+       axios.post('/items/',formData)
+            .then(res => {
+                if (res.status === 201) {
+
+                    this.setState({
+                        success: 'Item uploaded successfully!',
+                        itemPhoto: null,
+                        itemName : '',
+                        category: '',
+                        discount : '',
+                        totalPrice : '',
+                        error: '',
+                    })
+                }
+
+                window.location = '/storeManagerPanel'
+            })
+            .catch(err => {
+                if (err.response.data) {
+                    this.setState({
+                        error: err.response.data.error,
+                        itemPhoto: null,
+                        itemName : '',
+                        discount : '',
+                        totalPrice : '',
+                        success: ''
+                    })
+                }
+            })
     }
 
 
@@ -81,10 +111,23 @@ export default class CreateItem extends Component {
 
         return(
             <div>
-                <div class="alert alert-warning" role="alert">
-                    <h4 class="alert-heading">Note!</h4>
-                    <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
-                </div>
+                    {this.state.success &&
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <p>{this.state.success}</p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+
+                    {this.state.error &&
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <p>{this.state.error}</p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
 
                 <form onSubmit={this.onSubmit}>
 
@@ -93,7 +136,7 @@ export default class CreateItem extends Component {
                     <label>Item Photo</label>
 
                     <div class="custom-file">                    
-                        <input type="file" class="custom-file-input" name="itemPhoto" onChange={this.handleChange} required />
+                        <input type="file" class="custom-file-input" name="itemPhoto" onChange={this.itemPhoto} required />
                         <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
                         <br/>
                         <br/>
@@ -129,7 +172,7 @@ export default class CreateItem extends Component {
 
                     <div class="form-group">
                         <label>Price Rs.</label>
-                        <input type="text" class="form-control" name="totalPrice" value={this.state.price} onChange={this.handleChange}  required />
+                        <input type="text" class="form-control" name="totalPrice" value={this.state.totalPrice} onChange={this.handleChange}  required />
                     </div>
 
                      <div class="text-center">
