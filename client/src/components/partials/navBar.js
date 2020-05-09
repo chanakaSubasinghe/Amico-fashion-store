@@ -66,7 +66,7 @@ export default class NavBar extends Component {
             >
               <ul class="navbar-nav">
                 <li class="nav-item">
-                  <Link class="nav-link active" to="/items">
+                  <Link class="nav-link active" to="/shop">
                     Shop our products
                   </Link>
                 </li>

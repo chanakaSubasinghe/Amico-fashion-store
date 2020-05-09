@@ -148,7 +148,7 @@ export default class Shop extends Component {
               filter by category
             </a>
             <div className="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="/items">
+              <a class="dropdown-item" href="/shop">
                 All
               </a>
               {this.CategoryList()}

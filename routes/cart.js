@@ -1,26 +1,27 @@
 //dependancy
-const express = require('express')
+const router = require('express').Router();
 
 //import the model
 const Cart = require('../models/cart');
 
-//configuration
-const router = express.Router();
 
 //create a new cart
 router.post('/cart', async(req,res) => {
     try{
 
         //create a new cart
-        const cart = new Cart(req.body);
+        const cart = new Cart({
+            subTotal: req.body.subTotal,
+            quantity: req.body.quantity
+        })
 
         //save to DB
         await cart.save()
 
         //send response
         res.status(201).send(cart)
-    }catch(e) {
-
+    }
+    catch(e) {
         res.status(400).send(e.message)
     }
 })
@@ -28,7 +29,6 @@ router.post('/cart', async(req,res) => {
 
 //read cart
 router.get('/cart/:id', async(req,res) => {
-    
     try{
         //assign id
         const _id = req.params.id
@@ -60,8 +60,8 @@ router.get('/cart', async (req,res) => {
 //updatind the cart
 router.patch('/cart/:id', async (req,res) =>{
 
-    //assigning provided id
-    const _id = req.params.id
+    //assignin provided id
+    const _id = req.params._id
 
     //declaring variables
     const updates = Object.keys(req.body)
