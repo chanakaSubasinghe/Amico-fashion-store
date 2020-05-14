@@ -26,7 +26,7 @@ const Item = (props) => (
           <div class="float-right">
             <del class="card-text text-dark">Rs.{props.item.totalPrice}.00</del>
             <h5 class="card-text text-primary">
-              Rs.{props.item.discountedPrice}.00
+              Rs.{props.item.discountedPrice}
             </h5>
           </div>
         )) || (
