@@ -30,13 +30,13 @@ const Item = (props) => (
             </h5>
           </div>
         )) || (
-          <div class="float-right">
-            <br />
-            <h5 class="card-text text-primary">
-              Rs.{props.item.discountedPrice}.00
+            <div class="float-right">
+              <br />
+              <h5 class="card-text text-primary">
+                Rs.{props.item.discountedPrice}.00
             </h5>
-          </div>
-        )}
+            </div>
+          )}
       </div>
       <div class="card-footer">
         <div class="inline">
@@ -70,17 +70,25 @@ export default class Shop extends Component {
     this.state = {
       items: [],
       categories: [],
+      loading: false
     };
   }
 
   //list all categories
   componentDidMount() {
+
+    // set state
+    this.setState({
+      loading: true,
+    });
+
     // get items from server
     axios
       .get("/items/")
       .then((response) => {
         this.setState({
           items: response.data,
+          loading: false
         });
       })
       .catch((error) => {
@@ -114,6 +122,11 @@ export default class Shop extends Component {
           key={currentCategory._id}
           category={currentCategory}
           sort={() => {
+            // set state
+            this.setState({
+              loading: true,
+            });
+
             // send request to server and get items back
             axios.get("/items/").then((response) => {
               // modifying set state
@@ -124,6 +137,7 @@ export default class Shop extends Component {
                     currentCategory.categoryName === item.category.categoryName
                   );
                 }),
+                loading: false
               });
             });
           }}
@@ -132,57 +146,75 @@ export default class Shop extends Component {
     });
   }
 
-  render() {
+  loading() {
     return (
-      <div className="container margin-top">
-        <ul className="nav justify-content-end">
-          <li className="nav-item dropdown">
-            <a
-              className="nav-link dropdown-toggle ThemeText"
-              data-toggle="dropdown"
-              href="#"
-              role="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              filter by category
+      <div class="text-center my-5">
+        <div class="spinner-border" role="status" style={{ width: "3rem", height: "3rem" }}>
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+
+    if (this.state.loading) {
+      return (
+        this.loading()
+      )
+    } else {
+
+      return (
+        <div className="container margin-top">
+          <ul className="nav justify-content-end">
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle ThemeText"
+                data-toggle="dropdown"
+                href="#"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                filter by category
             </a>
-            <div className="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="/shop">
-                All
+              <div className="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="/shop">
+                  All
               </a>
-              {this.CategoryList()}
-            </div>
-          </li>
-        </ul>
-
-        <div className="my-5 row">{this.ItemList()}</div>
-
-        <nav>
-          <ul className="pagination justify-content-center">
-            <li className="page-item">
-              <Link class="page-link ThemeText" href="#">
-                First
-              </Link>
-            </li>
-            <li className="page-item">
-              <Link class="page-link ThemeText" href="#">
-                Previous
-              </Link>
-            </li>
-            <li className="page-item">
-              <Link class="page-link ThemeText" href="#">
-                Next
-              </Link>
-            </li>
-            <li className="page-item">
-              <Link class="page-link ThemeText" href="#">
-                Last
-              </Link>
+                {this.CategoryList()}
+              </div>
             </li>
           </ul>
-        </nav>
-      </div>
-    );
+
+          <div className="my-5 row">{this.ItemList()}</div>
+
+          <nav>
+            <ul className="pagination justify-content-center">
+              <li className="page-item">
+                <Link class="page-link ThemeText" href="#">
+                  First
+              </Link>
+              </li>
+              <li className="page-item">
+                <Link class="page-link ThemeText" href="#">
+                  Previous
+              </Link>
+              </li>
+              <li className="page-item">
+                <Link class="page-link ThemeText" href="#">
+                  Next
+              </Link>
+              </li>
+              <li className="page-item">
+                <Link class="page-link ThemeText" href="#">
+                  Last
+              </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      );
+    }
   }
 }
