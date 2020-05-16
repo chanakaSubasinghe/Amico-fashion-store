@@ -92,7 +92,7 @@ router.get('/items' , async(req,res) => {
 
 //update items
 router.patch('/items/:id',upload.single('itemPhoto'), async(req,res) => {
-        console.log(req.body)
+ 
         //assign id
         const _id = req.params.id
 

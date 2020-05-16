@@ -12,6 +12,7 @@ export default class PreviewItem extends Component {
             id: '',
             itemPhoto: '',
             itemName: '',
+            category: '',
             discountedPrice: '',
             totalPrice: '',
             averageRate: ''
@@ -28,6 +29,7 @@ export default class PreviewItem extends Component {
                     id: res.data._id,
                     itemPhoto: res.data.itemPhoto,
                     itemName: res.data.itemName,
+                    category: res.data.category.categoryName,
                     discountedPrice: res.data.discountedPrice,
                     totalPrice: res.data.totalPrice,
                     averageRate: res.data.averageRate
@@ -41,12 +43,13 @@ export default class PreviewItem extends Component {
         return (
             <div class="container">
             <div class="card-deck col-lg-12" style={{marginTop: "10%"}}>
-                <div class="card">
+                <div class="card" style={{margin:"0px 200px"}}>
                     <img class="card-img-top" src={`/items/${this.state.id}/itemPhoto`} alt="" />
                         <div class="card-body">
                             <div class="text-center">
                             </div>
                             <h5 class="card-title">{this.state.itemName}</h5>
+                            <p className="float-right" >category - <span style={{color: "green"}}>{this.state.category}</span></p>
                             <p><i class="fa fa-star"></i>{this.state.averageRate}</p>            
                             {this.state.discountedPrice < this.state.totalPrice 
                             &&
