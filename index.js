@@ -49,6 +49,7 @@ const itemCategoryRoute = require("./routes/itemCategory");
 const itemRoute = require("./routes/item");
 const cartRoute = require("./routes/cart");
 const rateRoute = require("./routes/rate");
+const commentRoute = require('./routes/comment')
 
 // invoking routes
 app.use(userRoute);
@@ -56,6 +57,7 @@ app.use(itemCategoryRoute);
 app.use(itemRoute);
 app.use(cartRoute);
 app.use(rateRoute);
+app.use(commentRoute)
 
 // if (process.env.NODE_ENV.trim() === "production") {
 //   app.use(express.static("client/build"));

@@ -11,8 +11,7 @@ router.post('/rate', async(req,res) => {
 
         //create a new rate
         const rate = new Rate({
-            rate: req.body.rate,
-            comment: req.body.comment
+            rate: req.body.rate
         })
 
         //save to DB
@@ -57,7 +56,7 @@ router.get('/rate', async (req,res) => {
      }
 })
 
-//updatind the rate
+//updating the rate
 router.patch('/rate/:id', async (req,res) =>{
 
     //assignin provided id
@@ -65,7 +64,7 @@ router.patch('/rate/:id', async (req,res) =>{
 
     //declaring variables
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['rate','comment']
+    const allowedUpdates = ['rate']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     //conditions
@@ -80,7 +79,6 @@ router.patch('/rate/:id', async (req,res) =>{
 
         //updating fields
         rate.rate = req.body.rate
-        rate.comment = req.body.comment
 
         //save back to DB
         await rate.save()

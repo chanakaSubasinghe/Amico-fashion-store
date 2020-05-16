@@ -60,3 +60,32 @@
 .img-fluid {
   max-width: 30%;
 }
+
+.rating-box {
+  display: inline-block;
+}   
+.rating-container {
+    direction: rtl !important;
+}
+.star {
+      display: inline-block;
+      margin: 15px 0;
+      color: #d4d4d4;
+      cursor: pointer;
+      font-size: 50px;
+      transition: color 0.2s;
+}
+.inputstar {
+      display: none;
+    }
+    
+.star:hover, .star:hover ~ .star, input:checked ~ .star  {
+      color: gold;
+    }
+
+.rateLable{
+  display: inline-block;
+      margin: 15px 0;
+      font-size: 40px;
+      transition: color 0.2s;
+}

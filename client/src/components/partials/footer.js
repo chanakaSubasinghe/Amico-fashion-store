@@ -4,7 +4,18 @@ import {Link} from 'react-router-dom'
 // importing custom css and javascript
 import '../../public/css/footer.css'
 
+import {isAuthenticated, logout} from '../../auth/index'
+
 export default class Footer extends Component {
+
+    // constructor 
+    constructor(props) {
+        super(props)
+        
+        this.state ={
+            userObj: isAuthenticated()
+        }
+    }
 
     render() {
         return (
@@ -23,11 +34,17 @@ export default class Footer extends Component {
                         </div>
                         <div class="col-lg-4 col-md-3 item">
                             <h3>Hello there !</h3>
-                            <ul>
-                                <li><Link to="/">My account</Link></li>
-                                <li><Link to="/boughtItems">My orders</Link></li>
-
-                            </ul>
+                            {this.state.userObj ? (
+                                <ul>
+                                    <li><Link to="/">My account</Link></li>
+                                    <li><Link to="/boughtItems">My orders</Link></li>
+                                </ul>
+                            ):(
+                                <ul>
+                                    <Link to="/login" class="hideWithCollapse" style={{color: "white", textDecoration: "none"}}>Login | Join</Link>
+                                </ul>
+            
+                            )}
                         </div>
 
                         <div class="col-lg-4 col-md-3 item">
