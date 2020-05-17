@@ -12,10 +12,10 @@ const User = require('../models/user')
 const router = new express.Router();
 
 // importing email function
-const {sendWelcomeEmail,sendGoodByeEmail} = require('../email/account')
+const { sendWelcomeEmail, sendGoodByeEmail } = require('../email/account')
 
 // create user
-router.post('/users', async(req, res) => {
+router.post('/users', async (req, res) => {
     try {
 
         // create new user
@@ -25,7 +25,7 @@ router.post('/users', async(req, res) => {
         await user.save()
 
         // if new user is a storeManger or an admin send only user as response 
-        if (user.role === 'storeManager' || user.role === 'admin') {
+        if (user.role === 'storeManager') {
 
             // send welcome email
             sendWelcomeEmail(user.email)
@@ -36,28 +36,28 @@ router.post('/users', async(req, res) => {
         const token = await user.generateAuthToken()
 
         // send response with token and user
-        res.status(201).send({user, token})
+        res.status(201).send({ user, token })
 
     } catch (e) {
-        res.status(400).send({error: e.message})
+        res.status(400).send({ error: e.message })
     }
 })
 
 // login user
 router.post('/users/login', async (req, res) => {
     try {
- 
+
         // find user according to provided details
-        const user = await User.findByCredentials(req.body.email,req.body.password)
+        const user = await User.findByCredentials(req.body.email, req.body.password)
 
         // generate a token
         const token = await user.generateAuthToken()
 
         // send response
-        res.status(200).send({user, token})
+        res.status(200).send({ user, token })
 
     } catch (e) {
-        res.status(400).send({error: e.message})
+        res.status(400).send({ error: e.message })
     }
 })
 
@@ -78,7 +78,7 @@ router.post('/users/logout', auth, async (req, res) => {
         await user.save()
 
         // send response
-        res.send('loggedOut')    
+        res.send('loggedOut')
     } catch (e) {
         res.status(400).send(e.message)
     }
@@ -88,7 +88,7 @@ router.post('/users/logout', auth, async (req, res) => {
 router.post('/users/logoutAll', auth, async (req, res) => {
 
     try {
-        
+
         // save loggedIn user to a variable
         const user = req.user
 
@@ -101,7 +101,7 @@ router.post('/users/logoutAll', auth, async (req, res) => {
         // send response
         res.status(200).send('done')
     } catch (e) {
-        res.status(400).send(e.message)        
+        res.status(400).send(e.message)
     }
 })
 
@@ -112,10 +112,6 @@ router.get('/users/me', auth, async (req, res) => {
         // find specific user
         const user = req.user
 
-        // condition
-        if (!user) {
-            throw new Error('User not found!')
-        }
         // send response
         res.status(200).send(user)
 
@@ -127,10 +123,10 @@ router.get('/users/me', auth, async (req, res) => {
 
 // read all users
 router.get('/users', async (req, res) => {
-    
+
     try {
         // assigning all users
-        const users = await User.find({role: 'storeManager'})
+        const users = await User.find({ role: 'storeManager' })
 
         // send response
         res.status(200).send(users)
@@ -144,16 +140,12 @@ router.patch('/users/me', auth, async (req, res) => {
 
     // declaring variables to more secure 
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['firstName','lastName', 'password']
+    const allowedUpdates = ['firstName', 'lastName', 'password']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     // conditions
     if (!isValidOperation) {
-        return  res.status(400).send('Invalid updates')
-    }
-
-    if (req.body.newPassword !== req.body.confirmPassword) {
-        return res.status(400).send('Your new password does not match confirmation!')
+        return res.status(400).send('Invalid updates')
     }
 
     try {
@@ -172,7 +164,7 @@ router.patch('/users/me', auth, async (req, res) => {
         await user.save()
 
         // send response
-        res.status(200).send({user, token})
+        res.status(200).send({ user, token })
 
     } catch (e) {
         res.status(400).send(e.message)
@@ -187,7 +179,7 @@ router.delete('/users/:id', async (req, res) => {
         const _id = req.params.id
 
         // delete specific user
-        const user = await User.findOneAndDelete({_id})
+        const user = await User.findOneAndDelete({ _id })
 
         // send email to deleted user
         sendGoodByeEmail(user.email)
