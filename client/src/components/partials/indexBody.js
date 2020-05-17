@@ -76,9 +76,7 @@ export default class IndexBody extends Component {
               <div class="col-md-4 justify-content-center align-self-center ">
                 <h2 class="text-center text-muted"> Formal</h2>
                 <div class="text-center">
-                  <button class="btn ThemeBackground" type="submit">
-                    Shop now
-                  </button>
+                <Link class="btn ThemeBackground" role="button" to="/shop" >Shop now</Link>
                 </div>
               </div>
             </div>
@@ -89,10 +87,8 @@ export default class IndexBody extends Component {
               <div class="col-sm-4 justify-content-center align-self-center order-3">
                 <h2 class="text-center text-muted"> Casual</h2>
                 <div class="text-center">
-                  <button class="btn ThemeBackground" type="submit">
-                    Shop now
-                  </button>
-                </div>
+                  <Link class="btn ThemeBackground" role="button" to="/shop" >Shop now</Link>
+                 </div>
               </div>
 
               <div class="col-md-8 order-2 order-md-12 slideanim">
@@ -114,9 +110,7 @@ export default class IndexBody extends Component {
               <div class="col-sm-4 justify-content-center align-self-center ">
                 <h2 class="text-center text-muted"> Jeans</h2>
                 <div class="text-center">
-                  <button class="btn ThemeBackground" type="submit">
-                    Shop now
-                  </button>
+                <Link class="btn ThemeBackground" role="button" to="/shop" >Shop now</Link>
                 </div>
               </div>
             </div>

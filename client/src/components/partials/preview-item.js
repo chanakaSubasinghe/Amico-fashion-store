@@ -43,7 +43,7 @@ export default class PreviewItem extends Component {
         return (
             <div class="container">
             <div class="card-deck col-lg-12" style={{marginTop: "10%"}}>
-                <div class="card" style={{margin:"0px 200px"}}>
+                <div class="card" style={{margin:"0% 20%"}}>
                     <img class="card-img-top" src={`/items/${this.state.id}/itemPhoto`} alt="" />
                         <div class="card-body">
                             <div class="text-center">
