@@ -70,6 +70,9 @@ export default class Shop extends Component {
     this.state = {
       items: [],
       categories: [],
+      itemPhoto: null,
+      itemName: '',
+      totalPrice : '',
       loading: false
     };
   }

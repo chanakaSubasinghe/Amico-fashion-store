@@ -4,17 +4,29 @@ const router = require('express').Router();
 //import the model
 const Cart = require('../models/cart');
 
+//import Item model and User model
+const User = require('../models/user')
+const Item = require('../models/item');
 
 //create a new cart
 router.post('/cart', async(req,res) => {
+
+    const {quantity, itemID} = req.body;
+
     try{
 
-        //create a new cart
-        const cart = new Cart({
-            subTotal: req.body.subTotal,
-            quantity: req.body.quantity
-        })
-
+        const productExists = cart.items.some(doc => ObjectId(itemID).equals(doc.item));
+        
+        if (productExists) {
+            await Cart.findOneAndUpdate({
+              _id: cart._id,
+              "items.item": itemID
+            }, {$inc: {"items.$.quantity": quantity}});
+        } else {
+            //  else add new product with given quantity
+            const newProduct = {quantity, item: itemID};
+            await Cart.findOneAndUpdate({_id: cart._id}, {$addToSet: {items: newProduct}});
+          }
         //save to DB
         await cart.save()
 
@@ -26,15 +38,14 @@ router.post('/cart', async(req,res) => {
     }
 })
 
-
-//read cart
+//read a cart
 router.get('/cart/:id', async(req,res) => {
     try{
         //assign id
-        const _id = req.params.id
+        const owner = req.params.id
 
         //find the specific cart
-        const cart = await Cart.findOne({_id})
+        const cart = await Cart.findOne({owner})
 
         //send the response
         res.status(200).send(cart)
@@ -46,16 +57,17 @@ router.get('/cart/:id', async(req,res) => {
 
 //read the cart
 router.get('/cart', async (req,res) => {
-     try{
-         //assign all carts
-         const cart = await Cart.find({})
+    try{
+        //assign all carts
+        const cart = await Cart.find({})
 
-         //send response
-         res.status(200).send(cart)
-     }catch (e) {
-         res.status(400).send(e.message)
-     }
+        //send response
+        res.status(200).send(cart)
+    }catch (e) {
+        res.status(400).send(e.message)
+    }
 })
+
 
 //updatind the cart
 router.patch('/cart/:id', async (req,res) =>{

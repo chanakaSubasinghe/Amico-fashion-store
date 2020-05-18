@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
+import AddToCart from '../cart/addToCart';
 
 
 const Comment = props => (
@@ -25,8 +26,9 @@ export default class PreviewItem extends Component {
             discountedPrice: '',
             totalPrice: '',
             averageRate: '',
-            comments:[]
-        }
+            comments:[],
+            user:''
+          }
     }
 
     //list all categories
@@ -73,11 +75,12 @@ export default class PreviewItem extends Component {
         })
     }
 
+ 
     render() {
         return (
             <div class="container">
             <div class="card-deck col-lg-12" style={{marginTop: "10%"}}>
-                <div class="card" style={{margin:"0px 200px"}}>
+                <div class="card" style={{margin:"0% 20%"}}>
                     <img class="card-img-top" src={`/items/${this.state.id}/itemPhoto`} alt="" />
                         <div class="card-body">
                             <div class="text-center">
@@ -109,6 +112,9 @@ export default class PreviewItem extends Component {
                                     </div>
                             </div>
                         </div>
+                        <div>
+                            <AddToCart user={this.user} itemID={this.id}/>
+                    </div>
                 </div>
             </div> 
             </div>
