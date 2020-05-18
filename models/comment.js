@@ -7,7 +7,11 @@ const Schema = mongoose.Schema;
 //declaring comment schema
 const commentSchema = new Schema({
     comment: {
-        type: String
+        type: String,
+        default: null
+    },
+    rate:{
+        type:Number
     },
     itemid:
     {

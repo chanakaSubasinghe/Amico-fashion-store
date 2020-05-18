@@ -2,6 +2,15 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom';
 import axios from 'axios'
 
+
+const Comment = props => (
+<span> <p>{props.comments.comment}</p><a class="float-right date"><small>Date : {props.comments.createdAt}</small></a>
+   <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
+   
+        <hr/>
+    </span>
+)
+
 export default class PreviewItem extends Component {
 
     //constructor
@@ -15,7 +24,8 @@ export default class PreviewItem extends Component {
             category: '',
             discountedPrice: '',
             totalPrice: '',
-            averageRate: ''
+            averageRate: '',
+            comments:[]
         }
     }
 
@@ -36,7 +46,31 @@ export default class PreviewItem extends Component {
                 })
                 console.log(this.state)
             });
+
+            axios.get('/comment/'+ this.props.match.params.id)
+            .then(response => {
+               this.setState({
+                   comments: response.data
+               })
+            })
+            // .this.state.comments.forEach((rate)=>{
+            //     FindItem(rate.id)
+            //     .then(response=>{
+            //         this.setState({
+
+            //         })
+
+            //     })
+            // })
+            .catch((error) => {
+                console.log(error);
+            })
             
+    }
+    CommentList() {
+        return this.state.comments.map(currentComment => {
+            return <Comment comments={currentComment} key={currentComment.id} />
+        })
     }
 
     render() {
@@ -66,7 +100,13 @@ export default class PreviewItem extends Component {
                         </div>     
                         <div class="card-footer">
                             <div class="inline">
-                                // comments goes here..
+                            <a class ="commenta" href="#comments">Show Comments</a>
+                                    <div id="comments">
+                                    <a class ="commenta float-right" href="#">Hide</a> 
+                                        <h3>Comments</h3>
+                                        <hr/>
+                                             {this.CommentList()}
+                                    </div>
                             </div>
                         </div>
                 </div>

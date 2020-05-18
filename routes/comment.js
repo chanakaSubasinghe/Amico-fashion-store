@@ -10,13 +10,14 @@ router.post('/comment',(req,res) => {
 
 
     const comment = req.body.comment;
+    const rate = req.body.rate;
     const itemid =  req.body.itemid;
 
         //create a new comment
         const newcomment = new Comment({
             comment,
+            rate,
             itemid
-           
         })
 
         //save to DB
@@ -29,38 +30,26 @@ router.post('/comment',(req,res) => {
 
 
 //read comment
-router.get('/comment/:id', async(req,res) => {
-    try{
-        //assign id
-        const _id = req.params.id
-
-        //find the specific comment
-        const comment = await Comment.findOne({_id})
-
-        //send the response
-        res.status(200).send(comment)
-
-        await comment.populate('item').execPopulate()
-    }
-    catch (e) {
-        res.status(400).send(e.message)
-    }
-})
+router.route('/comment/:id').get((req, res) => {
+    Comment.find({"itemid":req.params.id})
+        .then(comments => res.json(comments))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
 
 //read the comment
-router.get('/comment/id', async (req,res) => {
+// router.get('/comment/id', async (req,res) => {
 
-    Comment.find({itemid:"99999999"})
-     try{
-         //assign all comments
-         const comment = await Comment.find({})
+//     Comment.find({itemid:"99999999"})
+//      try{
+//          //assign all comments
+//          const comment = await Comment.find({})
 
-         //send response
-         res.status(200).send(comment)
-     }catch (e) {
-         res.status(400).send(e.message)
-     }
-})
+//          //send response
+//          res.status(200).send(comment)
+//      }catch (e) {
+//          res.status(400).send(e.message)
+//      }
+// })
 
 //updating the comment
 router.patch('/comment/:id', async (req,res) =>{
