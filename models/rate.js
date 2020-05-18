@@ -9,12 +9,7 @@ const rateSchema = new Schema({
     rate: {
         type: Number,
         required: true,
-    },
-
-    comment: {
-        type: String,
     }
-
 }, {
     timestamps: true
 });

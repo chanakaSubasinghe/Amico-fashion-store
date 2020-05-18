@@ -111,6 +111,12 @@ export default class CreateItem extends Component {
 
         return(
             <div>
+                 <div class="alert alert-warning" role="alert">
+                       <ul>
+                            <li>maximum size of an item photo is 1 MB</li>
+                        </ul>
+                    </div>
+
                     {this.state.success &&
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <p>{this.state.success}</p>

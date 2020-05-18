@@ -61,7 +61,7 @@ export default class IndexBody extends Component {
         <div class="container">
           <div class="newDivider text-center">
             <h1 class="ThemeText">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            “ Dress impeccably for every occasion ! ”
             </h1>
           </div>
 
@@ -74,11 +74,9 @@ export default class IndexBody extends Component {
               </div>
 
               <div class="col-md-4 justify-content-center align-self-center ">
-                <h2 class="text-center text-muted">Lorem ipsum dolor sit</h2>
+                <h2 class="text-center text-muted"> Formal</h2>
                 <div class="text-center">
-                  <button class="btn ThemeBackground" type="submit">
-                    Shop now
-                  </button>
+                <Link class="btn ThemeBackground" role="button" to="/shop" >Shop now</Link>
                 </div>
               </div>
             </div>
@@ -87,12 +85,10 @@ export default class IndexBody extends Component {
           <div class="newDivider">
             <div class="row">
               <div class="col-sm-4 justify-content-center align-self-center order-3">
-                <h2 class="text-center text-muted">Lorem ipsum dolor sit</h2>
+                <h2 class="text-center text-muted"> Casual</h2>
                 <div class="text-center">
-                  <button class="btn ThemeBackground" type="submit">
-                    Shop now
-                  </button>
-                </div>
+                  <Link class="btn ThemeBackground" role="button" to="/shop" >Shop now</Link>
+                 </div>
               </div>
 
               <div class="col-md-8 order-2 order-md-12 slideanim">
@@ -112,11 +108,9 @@ export default class IndexBody extends Component {
               </div>
 
               <div class="col-sm-4 justify-content-center align-self-center ">
-                <h2 class="text-center text-muted">Lorem ipsum dolor sit</h2>
+                <h2 class="text-center text-muted"> Jeans</h2>
                 <div class="text-center">
-                  <button class="btn ThemeBackground" type="submit">
-                    Shop now
-                  </button>
+                <Link class="btn ThemeBackground" role="button" to="/shop" >Shop now</Link>
                 </div>
               </div>
             </div>
@@ -138,25 +132,15 @@ export default class IndexBody extends Component {
 
           <div class="newDivider text-muted slideanim">
             <h5>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Pretium nibh ipsum consequat nisl vel pretium lectus. Nunc id
-              cursus metus aliquam eleifend. Ullamcorper a lacus vestibulum sed
-              arcu. Auctor eu augue ut lectus arcu bibendum at varius vel. Orci
-              nulla pellentesque dignissim enim. Sit amet tellus cras
-              adipiscing. Non odio euismod lacinia at. Amet nulla facilisi morbi
-              tempus. Ut consequat semper viverra nam libero. Neque sodales ut
-              etiam sit. Odio morbi quis commodo odio aenean. Cras fermentum
-              odio eu feugiat pretium Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Pretium nibh ipsum consequat nisl vel pretium
-              lectus. Nunc id cursus metus aliquam eleifend. Ullamcorper a lacus
-              vestibulum sed arcu. Auctor eu augue ut lectus arcu bibendum at
-              varius vel. Orci nulla pellentesque dignissim enim. Sit amet
-              tellus cras adipiscing. Non odio euismod lacinia at. Amet nulla
-              facilisi morbi tempus. Ut consequat semper viverra nam libero.
-              Neque sodales ut etiam sit. Odio morbi quis commodo odio aenean.
-              Cras fermentum odio eu feugiat pretium
+              Welcome to amico fashion store , your number one source for all things in women
+              clothing. We are dedicated to giving you the very best clothes with a focus on
+              uniqueness , customer service and fine materials. Now we serve customers all over 
+              the Sri Lanka and Italy . We are thrilled to be a part of fair trade wing of Sri Lankan 
+              fashion industry.
+              <br></br>
+              We hope you enjoy our products as much as we enjoy offering them to you.If you have any 
+              questions or comments please don't hesitate to contact us.
+
             </h5>
           </div>
         </div>

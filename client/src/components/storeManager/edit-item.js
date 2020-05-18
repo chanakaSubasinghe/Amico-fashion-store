@@ -110,7 +110,10 @@ export default class EditItem extends Component {
                 <div class="container margin-top">
                     <div class="alert alert-warning" role="alert">
                         <h4 class="alert-heading">Note!</h4>
-                        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+                        <ul>
+                            <li>maximum size of an item photo is 1 MB</li>
+                            <li>Discount is optional</li>
+                        </ul>
                     </div>
     
                     <form onSubmit={this.onSubmit}>
