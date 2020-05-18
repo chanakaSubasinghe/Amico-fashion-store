@@ -41,6 +41,11 @@ import StoreManagerRoute from "../auth/storeManagerRoute";
 import UserRoute from "../auth/userRoute";
 import PrivateRoute from "../auth/privateRoute";
 
+//cart
+import CartItemList from './cart/cart-item-list'
+import CartCheckout from './cart/cart-checkout'
+import CartPayment from './cart/cart-payment'
+
 //feedback
 import Comment from "./feedbacks/comment";
 import BoughtItems from "./feedbacks/boughtItemList";
@@ -79,6 +84,9 @@ class App extends Component {
             path="/items/edit/:id"
             component={EditItem}
           />
+
+<Route exact path="/cartList" component={CartItemList} />
+						<Route exact path="/cartCheckout" component={CartCheckout} />
 
           <Route exact path="/comments/:id" component={Comment} />
           <Route exact path="/boughtItems" component={BoughtItems} />

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
+import AddToCart from '../cart/addToCart';
 
 export default class PreviewItem extends Component {
 
@@ -14,8 +15,9 @@ export default class PreviewItem extends Component {
             itemName: '',
             discountedPrice: '',
             totalPrice: '',
-            averageRate: ''
-        }
+            averageRate: '',
+            user:''
+          }
     }
 
     //list all categories
@@ -36,7 +38,7 @@ export default class PreviewItem extends Component {
             });
             
     }
-
+ 
     render() {
         return (
             <div class="container">
@@ -66,6 +68,9 @@ export default class PreviewItem extends Component {
                                 // comments goes here..
                             </div>
                         </div>
+                        <div>
+                            <AddToCart user={this.user} itemID={this.id}/>
+                    </div>
                 </div>
             </div> 
             </div>

@@ -82,10 +82,12 @@ export default class NavBar extends Component {
                         <small>10</small>
                       </span>
                     </Link>
-                    <Link>
+                    <Link
+                      to={`/cartList`}
+                    >
                       <i class="fa fa-shopping-cart NavBar-shopping-cart-Icon"></i>
                       <span class="badge badge-light">
-                        <small>10</small>
+                        <small></small>
                       </span>
                     </Link>
                   </div>
