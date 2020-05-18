@@ -20,9 +20,18 @@ export default class NavBar extends Component {
 
     this.state = {
       userObj: isAuthenticated(),
+      date: new Date().toLocaleTimeString()
     };
     // binding functions
     this.logout = this.logout.bind(this);
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+      this.setState({
+        date: new Date().toLocaleTimeString()
+      })
+    }, 1000)
   }
 
   // logout function
@@ -39,18 +48,13 @@ export default class NavBar extends Component {
       <div>
         <nav class="navbar navbar-dark bg-dark">
           <div class=" container row">
+            <h5 class="ml-2 text-white">{this.state.date}</h5>
             <small class="text-white">
               <img src={phone} class="nav-icons" /> +94112345678
             </small>
             <small class="text-white">
               <img src={shoppingVan} class="nav-icons" /> free delivery on
               island wide
-            </small>
-            <small class="text-white">
-              <Link to="http://www.instagram.com">
-                <img src={instagram} class="nav-icons" />
-              </Link>{" "}
-              follow us
             </small>
           </div>
         </nav>
@@ -60,6 +64,7 @@ export default class NavBar extends Component {
             <Link class="navbar-brand" to="/">
               <img class="mx-auto d-block" id="amico-brand" src={amico} />
             </Link>
+
             <div
               class="collapse navbar-collapse justify-content-center"
               id="navbarSupportedContent"
@@ -130,16 +135,16 @@ export default class NavBar extends Component {
                 </div>
               </div>
             ) : (
-              <div class="d-inline">
-                <Link
-                  to="/login"
-                  class="hideWithCollapse"
-                  style={{ color: "white", textDecoration: "none" }}
-                >
-                  Login | Join
+                <div class="d-inline">
+                  <Link
+                    to="/login"
+                    class="hideWithCollapse"
+                    style={{ color: "white", textDecoration: "none" }}
+                  >
+                    Login | Join
                 </Link>
-              </div>
-            )}
+                </div>
+              )}
 
             <button
               className="navbar-toggler"
