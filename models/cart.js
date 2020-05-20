@@ -21,7 +21,7 @@ const cartSchema = new Schema({
     },
     itemID:{
         type:String
-    },
+    }
 },{
     timestamps: true,
 });

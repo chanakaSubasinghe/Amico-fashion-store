@@ -54,7 +54,6 @@ const commentRoute = require('./routes/comment')
 app.use(userRoute);
 app.use(itemCategoryRoute);
 app.use(itemRoute);
-
 app.use(cartRoute);
 
 app.use(commentRoute)

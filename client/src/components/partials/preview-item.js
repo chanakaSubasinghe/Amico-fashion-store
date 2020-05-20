@@ -34,6 +34,8 @@ export default class PreviewItem extends Component {
             quantity:'',
             totalRate:0,
             userCount:0,
+            userID:'',
+            quantity:'',
             alreadyItemCount:0,
             cartid:''
           }
@@ -80,11 +82,15 @@ export default class PreviewItem extends Component {
             })
             
     }
-    CommentList() {
-        return this.state.comments.map(currentComment => {
-            return <Comment comments={currentComment} key={currentComment.id} />
+    handleChange(e) {
+
+        this.setState({
+            [e.target.name]: e.target.value
         })
     }
+    onSubmit(e){
+        axios.get('/cartDetails/'+JSON.parse(localStorage.getItem("jwt")).user._id+'/'+this.props.match.params.id)
+        .then(res => {
 
     handleChange(e) {
 
@@ -162,8 +168,6 @@ export default class PreviewItem extends Component {
                                  discountedPrice: '',
                              })
                             }
-
-                            window.location ='/cartList'
                      })
                      .catch(err => {
                          if (err.response.data) {
@@ -184,7 +188,6 @@ export default class PreviewItem extends Component {
         )
        
      }
-
  
     render() {
         return (
@@ -209,8 +212,8 @@ export default class PreviewItem extends Component {
                                     <br />
                                     <h5 class="card-text text-primary">Rs.{this.state.discountedPrice}.00</h5>
                                 </div> 
-                            } 
-                            <form className="container" onSubmit={this.onSubmit}>
+                            }                                                    
+                        <form className="container" onSubmit={this.onSubmit}>
                                 <div className="form-group">
                                 <input type="Number" class="form-control" name="quantity" onChange={this.handleChange} />
                                 <input type="submit" value="ADD TO CART" className="btn btn-primary" />

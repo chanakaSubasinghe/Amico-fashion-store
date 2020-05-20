@@ -14,9 +14,10 @@ const Cart = props => (
                 { <img src={`/items/${props.cart.itemID}/itemPhoto`} class="img-fluid img-thumbnail" alt=""/> }
             </td>
             <td>{props.cart.itemName}</td>
-            <td>{props.cart.quantity}</td>
+            <td><input type="Number" className= "text-center" value={props.cart.quantity}/></td>
             <td>Rs.{props.cart.discountedPrice}.00</td>
             <td>Rs.{props.cart.discountedPrice*props.cart.quantity}.00</td>
+            <td><button class="btn btn-danger">Remove</button></td>
         </tr>
     </tbody>
 )
@@ -69,8 +70,9 @@ export default class CartItemList extends Component{
                         <th scope="col">Product</th>
                         <th scope="col">Product Name</th>
                         <th scope="col">quantity</th>
-                        <th scope="col">Price of th item</th>
+                        <th scope="col">Price of the item</th>
                         <th scope="col">Total Price</th>
+                        <th scope="col">Remove from Cart</th>
                         </tr> 
                     </thead>
 

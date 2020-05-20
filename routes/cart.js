@@ -10,33 +10,32 @@ const Item = require('../models/item');
 
 //create a new cart
 router.post('/cart',(req,res) => {
-            // const userID = req.body.userID;
-    const quantity = req.body.quantity
-    const itemID =  req.body.itemID
-    const itemName = req.body.itemName
-    const discountedPrice =req.body.discountedPrice
-    const userID = req.body.userID
-    const InCart = req.body.alreadyInCart
+const quantity = req.body.quantity
+const itemID =  req.body.itemID
+const itemName = req.body.itemName
+const discountedPrice =req.body.discountedPrice
+const userID = req.body.userID
+const InCart = req.body.alreadyInCart
 
-    if(InCart){
-         console.log(req.body.cartid);
-           Cart.findOneAndUpdate(
-                { _id: req.body.cartid},
-                { $inc: { "quantity": quantity } },
-                { new: true },
-                () => {
-                    res.status(200).json({success: true})
-                }
-            )
-    }
-    else{
- //create a new cart
- const newcart = new Cart({
-    userID,
-    quantity,
-    itemName,
-    discountedPrice,
-    itemID
+if(InCart){
+ console.log(req.body.cartid);
+   Cart.findOneAndUpdate(
+        { _id: req.body.cartid},
+        { $inc: { "quantity": quantity } },
+        { new: true },
+        () => {
+            res.status(200).json({success: true})
+        }
+    )
+}
+else{
+//create a new cart
+const newcart = new Cart({
+userID,
+quantity,
+itemName,
+discountedPrice,
+itemID
 })
 console.log(newcart)
 
@@ -45,29 +44,29 @@ newcart.save()
 .then(() => res.json({status: 201,_id: newcart._id,}))
 .catch(err => res.status(400).json('Error : ' + err));
 }
-    }
+}
 
-       
 
-   
-    
+
+
+
 )
 
 //read a cart
 router.route('/cart/:id').get((req, res) => {
 
-    Cart.find({"userID":req.params.id})
-        .then(cart => res.json(cart))
-        .catch(err => res.status(400).json('Error: ' + err));
+Cart.find({"userID":req.params.id})
+.then(cart => res.json(cart))
+.catch(err => res.status(400).json('Error: ' + err));
 });
 
 //read a cart for specific items 
 router.route('/cartDetails/:id/:itemid').get((req, res) => {
 
-    console.log(req.params.id ,req.params.itemid);
-    Cart.find({$and:[{"userID":req.params.id},{"itemID":req.params.itemid}]})
-        .then(cart => res.json(cart))
-        .catch(err => res.status(400).json('Error: ' + err));
+console.log(req.params.id ,req.params.itemid);
+Cart.find({$and:[{"userID":req.params.id},{"itemID":req.params.itemid}]})
+.then(cart => res.json(cart))
+.catch(err => res.status(400).json('Error: ' + err));
 });
 
 //read the cart
