@@ -16,7 +16,8 @@ export default class Comment extends Component{
             itemName : '',
             comment :'',
             rate :'',
-            itemid:''
+            itemid:'',
+            userid:''
         }
     }
 
@@ -62,8 +63,7 @@ export default class Comment extends Component{
 
                  })
              }
-
-              window.location = '/boughtItems'
+             window.location ='/boughtItems'
          })
          .catch(err => {
              if (err.response.data) {

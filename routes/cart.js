@@ -9,51 +9,66 @@ const User = require('../models/user')
 const Item = require('../models/item');
 
 //create a new cart
-router.post('/cart', async(req,res) => {
+router.post('/cart',(req,res) => {
+            // const userID = req.body.userID;
+    const quantity = req.body.quantity
+    const itemID =  req.body.itemID
+    const itemName = req.body.itemName
+    const discountedPrice =req.body.discountedPrice
+    const userID = req.body.userID
+    const InCart = req.body.alreadyInCart
 
-    const {quantity, itemID} = req.body;
-
-    try{
-
-        const productExists = cart.items.some(doc => ObjectId(itemID).equals(doc.item));
-        
-        if (productExists) {
-            await Cart.findOneAndUpdate({
-              _id: cart._id,
-              "items.item": itemID
-            }, {$inc: {"items.$.quantity": quantity}});
-        } else {
-            //  else add new product with given quantity
-            const newProduct = {quantity, item: itemID};
-            await Cart.findOneAndUpdate({_id: cart._id}, {$addToSet: {items: newProduct}});
-          }
-        //save to DB
-        await cart.save()
-
-        //send response
-        res.status(201).send(cart)
+    if(InCart){
+         console.log(req.body.cartid);
+           Cart.findOneAndUpdate(
+                { _id: req.body.cartid},
+                { $inc: { "quantity": quantity } },
+                { new: true },
+                () => {
+                    res.status(200).json({success: true})
+                }
+            )
     }
-    catch(e) {
-        res.status(400).send(e.message)
-    }
+    else{
+ //create a new cart
+ const newcart = new Cart({
+    userID,
+    quantity,
+    itemName,
+    discountedPrice,
+    itemID
 })
+console.log(newcart)
+
+//save to DB
+newcart.save()
+.then(() => res.json({status: 201,_id: newcart._id,}))
+.catch(err => res.status(400).json('Error : ' + err));
+}
+    }
+
+       
+
+   
+    
+)
 
 //read a cart
-router.get('/cart/:id', async(req,res) => {
-    try{
-        //assign id
-        const owner = req.params.id
+router.route('/cart/:id').get((req, res) => {
 
-        //find the specific cart
-        const cart = await Cart.findOne({owner})
+    Cart.find({"userID":req.params.id})
+        .then(cart => res.json(cart))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
 
-        //send the response
-        res.status(200).send(cart)
-    }
-    catch (e) {
-        res.status(400).send(e.message)
-    }
-})
+//read a cart for specific items 
+router.route('/cartDetails/:id/:itemid').get((req, res) => {
+
+    console.log(req.params.id ,req.params.itemid);
+    Cart.find({$and:[{"userID":req.params.id},{"itemID":req.params.itemid}]})
+        .then(cart => res.json(cart))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
 
 //read the cart
 router.get('/cart', async (req,res) => {

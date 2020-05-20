@@ -5,15 +5,18 @@ import axios from 'axios';
 import CartCheckout from './cart-checkout';
 
 import '../../public/css/style.css'
+import { isAuthenticated, authenticate } from "../../auth/index";
 
-const Item = props => (
+const Cart = props => (
     <tbody>
         <tr>
             <td class="w-25">
-                <img src={`/items/${props.item._id}/itemPhoto`} class="img-fluid img-thumbnail" alt=""/>
+                { <img src={`/items/${props.cart.itemID}/itemPhoto`} class="img-fluid img-thumbnail" alt=""/> }
             </td>
-            <td>{props.item.itemName}</td>
-            <td>Rs.{props.item.discountedPrice}.00</td>
+            <td>{props.cart.itemName}</td>
+            <td>{props.cart.quantity}</td>
+            <td>Rs.{props.cart.discountedPrice}.00</td>
+            <td>Rs.{props.cart.discountedPrice*props.cart.quantity}.00</td>
         </tr>
     </tbody>
 )
@@ -23,13 +26,19 @@ export default class CartItemList extends Component{
         super(props);
 
         this.state = {
-            items: []
+            cart: [],
         };
     }
 
     componentDidMount(){
 
-        axios.get()
+        axios.get('/cart/'+ JSON.parse(localStorage.getItem("jwt")).user._id)
+            .then(response => {
+                this.setState({
+                    cart: response.data
+                })
+            })
+        axios.get('/items/')
             .then(response => {
                 this.setState({
                     items: response.data
@@ -40,9 +49,9 @@ export default class CartItemList extends Component{
             })
     }
 
-    ItemList() {
-        return this.state.items.map(currentItem => {
-            return <Item item={currentItem} key={currentItem.id} />
+    CartList() {
+        return this.state.cart.map(currentCart => {
+            return <Cart cart={currentCart} key={currentCart.id} />
         })
     }
 
@@ -56,15 +65,16 @@ export default class CartItemList extends Component{
                 <div class="col-12 container">
                     <table class="table table-image text-center">
                     <thead class="thead-dark">
-                        <tr>
+                         <tr>
                         <th scope="col">Product</th>
                         <th scope="col">Product Name</th>
                         <th scope="col">quantity</th>
-                        <th scope="col">Price</th>
-                        </tr>
+                        <th scope="col">Price of th item</th>
+                        <th scope="col">Total Price</th>
+                        </tr> 
                     </thead>
 
-                        {this.ItemList()}
+                        {this.CartList()}
 
                     </table>
                     <div>

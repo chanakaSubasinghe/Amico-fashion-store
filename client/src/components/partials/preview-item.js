@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import AddToCart from '../cart/addToCart';
 
-
+import { isAuthenticated, authenticate } from "../../auth/index";
 const Comment = props => (
 <span> <p>{props.comments.comment}</p><a class="float-right date"><small>Date : {props.comments.createdAt}</small></a>
    <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
@@ -18,6 +18,9 @@ export default class PreviewItem extends Component {
     constructor(props) {
         super(props);
 
+        this.handleChange = this.handleChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+
         this.state = {
             id: '',
             itemPhoto: '',
@@ -27,7 +30,12 @@ export default class PreviewItem extends Component {
             totalPrice: '',
             averageRate: '',
             comments:[],
-            user:''
+            userID:'',
+            quantity:'',
+            totalRate:0,
+            userCount:0,
+            alreadyItemCount:0,
+            cartid:''
           }
     }
 
@@ -52,18 +60,21 @@ export default class PreviewItem extends Component {
             axios.get('/comment/'+ this.props.match.params.id)
             .then(response => {
                this.setState({
-                   comments: response.data
+                   comments:  response.data.filter((comment) => {
+                    return comment.comment !== ""
+                    
+                })
                })
+               this.state.comments.forEach((comment)=>{
+                this.setState({
+                    totalRate : this.state.totalRate + comment.rate ,
+                    userCount: this.state.userCount +1
+                 })
+                
+                
             })
-            // .this.state.comments.forEach((rate)=>{
-            //     FindItem(rate.id)
-            //     .then(response=>{
-            //         this.setState({
-
-            //         })
-
-            //     })
-            // })
+            })
+           
             .catch((error) => {
                 console.log(error);
             })
@@ -74,6 +85,105 @@ export default class PreviewItem extends Component {
             return <Comment comments={currentComment} key={currentComment.id} />
         })
     }
+
+    handleChange(e) {
+
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+    onSubmit(e){
+        axios.get('/cartDetails/'+JSON.parse(localStorage.getItem("jwt")).user._id+'/'+this.props.match.params.id)
+        .then(res => {
+
+            res.data.forEach((cartItem) =>{
+                this.setState({
+                    alreadyItemCount:this.state.alreadyItemCount+1,
+                    cartid :cartItem._id   
+                })
+            }
+
+           
+            )
+
+            if(this.state.alreadyItemCount > 0){
+                const formData = {
+                    quantity: this.state.quantity,
+                    itemName:this.state.itemName,
+                    discountedPrice:this.state.discountedPrice,
+                    userID:JSON.parse(localStorage.getItem("jwt")).user._id,
+                    itemID:this.props.match.params.id,
+                    alreadyInCart:true,
+                    cartid:this.state.cartid
+                }
+                
+                // request to server to create an comment
+                axios.post('/cart/',formData)
+                     .then(res => {
+                         if (res.status === 201) {
+            
+                             this.setState({
+                                 quantity: '',
+                                 itemName: '',
+                                 discountedPrice: '',
+                             })
+                            }
+                            // window.location ='/cartList'
+                     })
+                     .catch(err => {
+                         if (err.response.data) {
+                             this.setState({
+                                 quantity:'',
+                                 itemName: '',
+                                 discountedPrice: ''
+                             })
+                         }
+                     })
+    
+            }
+            else{
+                const formData = {
+                    quantity: this.state.quantity,
+                    itemName:this.state.itemName,
+                    discountedPrice:this.state.discountedPrice,
+                    userID:JSON.parse(localStorage.getItem("jwt")).user._id,
+                    itemID:this.props.match.params.id,
+                    cartid:this.state.cartid
+                }
+                
+                // request to server to create an comment
+                axios.post('/cart/',formData)
+                     .then(res => {
+                         if (res.status === 201) {
+            
+                             this.setState({
+                                 quantity: '',
+                                 itemName: '',
+                                 discountedPrice: '',
+                             })
+                            }
+
+                            window.location ='/cartList'
+                     })
+                     .catch(err => {
+                         if (err.response.data) {
+                             this.setState({
+                                 quantity:'',
+                                 itemName: '',
+                                 discountedPrice: ''
+                             })
+                         }
+                     })
+
+                     console.log(this.state.alreadyItemCount);
+    
+            }
+           
+        }
+
+        )
+       
+     }
 
  
     render() {
@@ -87,7 +197,7 @@ export default class PreviewItem extends Component {
                             </div>
                             <h5 class="card-title">{this.state.itemName}</h5>
                             <p className="float-right" >category - <span style={{color: "green"}}>{this.state.category}</span></p>
-                            <p><i class="fa fa-star"></i>{this.state.averageRate}</p>            
+                            {this.state.userCount == 0 ? <p><i class="fa fa-star"></i>No Ratings</p> : <p><i class="fa fa-star"></i>{this.state.totalRate/this.state.userCount.toFixed(2)}</p>}            
                             {this.state.discountedPrice < this.state.totalPrice 
                             &&
                                 <div class="float-right">
@@ -95,12 +205,19 @@ export default class PreviewItem extends Component {
                                     <h5 class="card-text text-primary">Rs.{this.state.discountedPrice}.00</h5>
                                 </div>    
                             || 
-                                <div class="float-right">     
-                                    <br />            
+                                <div class="float-right">
+                                    <br />
                                     <h5 class="card-text text-primary">Rs.{this.state.discountedPrice}.00</h5>
                                 </div> 
-                            }                                                
-                        </div>     
+                            } 
+                            <form className="container" onSubmit={this.onSubmit}>
+                                <div className="form-group">
+                                <input type="Number" class="form-control" name="quantity" onChange={this.handleChange} />
+                                <input type="submit" value="ADD TO CART" className="btn btn-primary" />
+                                </div>
+                            </form>
+
+                        </div>
                         <div class="card-footer">
                             <div class="inline">
                             <a class ="commenta" href="#comments">Show Comments</a>
@@ -112,9 +229,6 @@ export default class PreviewItem extends Component {
                                     </div>
                             </div>
                         </div>
-                        <div>
-                            <AddToCart user={this.user} itemID={this.id}/>
-                    </div>
                 </div>
             </div> 
             </div>
