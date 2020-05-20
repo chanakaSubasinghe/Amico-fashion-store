@@ -47,7 +47,6 @@ app.use(
 const userRoute = require("./routes/user");
 const itemCategoryRoute = require("./routes/itemCategory");
 const itemRoute = require("./routes/item");
-const rateRoute = require("./routes/rate");
 const cartRoute = require("./routes/cart");
 const commentRoute = require('./routes/comment')
 
@@ -55,7 +54,6 @@ const commentRoute = require('./routes/comment')
 app.use(userRoute);
 app.use(itemCategoryRoute);
 app.use(itemRoute);
-app.use(rateRoute);
 app.use(cartRoute);
 
 app.use(commentRoute)
