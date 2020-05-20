@@ -15,8 +15,7 @@ export default class Comment extends Component{
         this.state = {
             itemName : '',
             comment :'',
-            success: '',
-            error: '',
+            rate :'',
             itemid:''
         }
     }
@@ -39,7 +38,7 @@ export default class Comment extends Component{
     handleChange(e) {
 
         this.setState({
-            comment: e.target.value
+            [e.target.name]: e.target.value
         })
     }
     //button submit
@@ -47,6 +46,7 @@ export default class Comment extends Component{
 
     const formData = {
         comment: this.state.comment,
+        rate:this.state.rate,
         itemid:this.props.match.params.id,
     }
 
@@ -57,22 +57,19 @@ export default class Comment extends Component{
              if (res.status === 201) {
 
                  this.setState({
-                     success:'commented Succesfully',
-                     comment: ' ',
-                     error:''
-                     
+                     comment: '',
+                     rate:'',
+
                  })
              }
-            
+
               window.location = '/boughtItems'
          })
          .catch(err => {
              if (err.response.data) {
                  this.setState({
-                     error: err.response.data.error,
                      comment:'',
-                     item:'',
-                     success:''
+                     rate:''
                  })
              }
          })
@@ -82,38 +79,20 @@ export default class Comment extends Component{
         return(
             <div className = " jumbotron">
                  <h3 className = "container">Give us your Feedback On {this.state.itemName}</h3>
-                    {this.state.success &&
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <p>{this.state.success}</p>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    }
-
-                    {this.state.error &&
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <p>{this.state.error}</p>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-
-                    }
                 <form className="container" onSubmit={this.onSubmit}>
                     <div className="form-group ">
                        <lable class = "rateLable">Rate: </lable>
                         <div className="rating-box">
                             <div class="rating-container"> 
-                            <input class = "inputstar" type="radio" name="rating" value="5" id="star-5"/> <label class = " star"for="star-5">&#9733;</label>
+                            <input class = "inputstar" type="radio" name="rate" value='5' onChange={this.handleChange} id="star-5"/> <label class = " star"for="star-5">&#9733;</label>
                             
-                            <input class = "inputstar" type="radio" name="rating" value="4" id="star-4"/> <label class = " star" for="star-4">&#9733;</label>
+                            <input class = "inputstar" type="radio" name="rate" value='4' onChange={this.handleChange} id="star-4"/> <label class = " star" for="star-4">&#9733;</label>
                             
-                            <input class = "inputstar" type="radio" name="rating" value="3" id="star-3"/> <label class = " star" for="star-3">&#9733;</label>
+                            <input class = "inputstar" type="radio" name="rate" value='3' onChange={this.handleChange} id="star-3"/> <label class = " star" for="star-3">&#9733;</label>
                             
-                            <input class = "inputstar" type="radio" name="rating" value="2" id="star-2"/> <label class = " star" for="star-2">&#9733;</label>
+                            <input class = "inputstar" type="radio" name="rate" value='2' onChange={this.handleChange} id="star-2"/> <label class = " star" for="star-2">&#9733;</label>
                             
-                            <input class = "inputstar" type="radio" name="rating" value="1" id="star-1"/> <label class = " star" for="star-1">&#9733;</label>
+                            <input class = "inputstar" type="radio" name="rate" value='1' onChange={this.handleChange} id="star-1"/> <label class = " star" for="star-1">&#9733;</label>
                             </div>
                     </div>
 
