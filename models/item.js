@@ -51,6 +51,7 @@ itemSchema.statics.findDiscountedPrice = async (totalPrice, discount) => {
 };
 
 
+
 const Item = mongoose.model('Item',itemSchema);
 
 module.exports = Item 

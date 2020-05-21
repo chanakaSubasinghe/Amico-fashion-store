@@ -18,10 +18,6 @@ const Item = (props) => (
           </Link>
         </div>
         <h5 class="card-title">{props.item.itemName}</h5>
-        <p>
-          <i class="fa fa-star"></i>
-          {props.item.averageRate}
-        </p>
         {(props.item.discountedPrice < props.item.totalPrice && (
           <div class="float-right">
             <del class="card-text text-dark">Rs.{props.item.totalPrice}.00</del>

@@ -9,17 +9,21 @@ const Comment = require('../models/comment');
 router.post('/comment',(req,res) => {
 
 
-    const comment = req.body.comment;
-    const rate = req.body.rate;
-    const itemid =  req.body.itemid;
+    const comment = req.body.comment
+    const rate = req.body.rate
+    const itemid =  req.body.itemid
+    const userid = req.body.userid
+    const userName = req.body.userName
 
         //create a new comment
         const newcomment = new Comment({
             comment,
             rate,
-            itemid
+            itemid,
+            userid,
+            userName
         })
-
+console.log(newcomment)
         //save to DB
         newcomment.save()
         .then(() => res.json({status: 201,_id: newcomment._id,}))

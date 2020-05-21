@@ -14,10 +14,10 @@ const cartSchema = new Schema({
         
     },
     itemName:{
-        type: String,
+        type: String
     },
     discountedPrice: {
-        type: Number,
+        type: Number
     },
     itemID:{
         type:String

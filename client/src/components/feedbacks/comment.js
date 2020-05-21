@@ -17,7 +17,8 @@ export default class Comment extends Component{
             comment :'',
             rate :'',
             itemid:'',
-            userid:''
+            userid:'',
+            userName:''
         }
     }
 
@@ -49,6 +50,8 @@ export default class Comment extends Component{
         comment: this.state.comment,
         rate:this.state.rate,
         itemid:this.props.match.params.id,
+        userid:JSON.parse(localStorage.getItem("jwt")).user._id,
+        userName:JSON.parse(localStorage.getItem("jwt")).user.firstName + ' ' + JSON.parse(localStorage.getItem("jwt")).user.lastName
     }
 
 
@@ -59,8 +62,7 @@ export default class Comment extends Component{
 
                  this.setState({
                      comment: '',
-                     rate:'',
-
+                     rate:''
                  })
              }
              window.location ='/boughtItems'
