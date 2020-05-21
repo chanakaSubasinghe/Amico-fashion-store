@@ -4,10 +4,6 @@ const mongoose = require('mongoose');
 //define mongoose schema
 const Schema = mongoose.Schema;
 
-//importing user model and item
-const User = require('./user');
-const Item = require('./item');
-
 //declaring cart schema
 const cartSchema = new Schema({
     userID:{

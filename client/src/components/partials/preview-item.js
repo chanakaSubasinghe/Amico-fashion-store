@@ -2,6 +2,15 @@ import React, {Component} from 'react'
 import {Link, Redirect} from 'react-router-dom';
 import axios from 'axios';
 
+import { isAuthenticated, authenticate } from "../../auth/index";
+const Comment = props => (
+<span> <p>{props.comments.comment}</p><a class="float-right date"><small>Date : {props.comments.createdAt}</small></a>
+   <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
+   
+        <hr/>
+    </span>
+)
+
 export default class PreviewItem extends Component {
 
     //constructor
@@ -19,6 +28,12 @@ export default class PreviewItem extends Component {
             category: '',
             discountedPrice: '',
             totalPrice: '',
+            averageRate: '',
+            comments:[],
+            userID:'',
+            quantity:'',
+            totalRate:0,
+            userCount:0,
             userID:'',
             quantity:'',
             alreadyItemCount:0,
@@ -44,6 +59,28 @@ export default class PreviewItem extends Component {
                 })
                 console.log(this.state)
             });
+
+            axios.get('/comment/'+ this.props.match.params.id)
+            .then(response => {
+               this.setState({
+                   comments:  response.data.filter((comment) => {
+                    return comment.comment !== ""
+                    
+                })
+               })
+               this.state.comments.forEach((comment)=>{
+                this.setState({
+                    totalRate : this.state.totalRate + comment.rate ,
+                    userCount: this.state.userCount +1
+                 })
+                
+                
+            })
+            })
+           
+            .catch((error) => {
+                console.log(error);
+            })
             
     }
     handleChange(e) {
@@ -54,6 +91,16 @@ export default class PreviewItem extends Component {
     }
 
     //sending cart details to the cart DB
+    onSubmit(e){
+        axios.get('/cartDetails/'+JSON.parse(localStorage.getItem("jwt")).user._id+'/'+this.props.match.params.id)
+        .then(res => {
+
+    handleChange(e) {
+
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
     onSubmit(e){
         axios.get('/cartDetails/'+JSON.parse(localStorage.getItem("jwt")).user._id+'/'+this.props.match.params.id)
         .then(res => {
@@ -240,7 +287,7 @@ export default class PreviewItem extends Component {
                             </div>
                             <h5 class="card-title">{this.state.itemName}</h5>
                             <p className="float-right" >category - <span style={{color: "green"}}>{this.state.category}</span></p>
-                            <p><i class="fa fa-star"></i>{this.state.averageRate}</p>            
+                            {this.state.userCount == 0 ? <p><i class="fa fa-star"></i>No Ratings</p> : <p><i class="fa fa-star"></i>{this.state.totalRate/this.state.userCount.toFixed(2)}</p>}            
                             {this.state.discountedPrice < this.state.totalPrice 
                             &&
                                 <div class="float-right">
@@ -248,8 +295,8 @@ export default class PreviewItem extends Component {
                                     <h5 class="card-text text-primary">Rs.{this.state.discountedPrice}.00</h5>
                                 </div>    
                             || 
-                                <div class="float-right">     
-                                    <br />            
+                                <div class="float-right">
+                                    <br />
                                     <h5 class="card-text text-primary">Rs.{this.state.discountedPrice}.00</h5>
                                 </div> 
                             }
@@ -269,6 +316,19 @@ export default class PreviewItem extends Component {
                             </div>
                             </div>
                         </div>     
+
+                        </div>
+                        <div class="card-footer">
+                            <div class="inline">
+                            <a class ="commenta" href="#comments">Show Comments</a>
+                                    <div id="comments">
+                                    <a class ="commenta float-right" href="#">Hide</a> 
+                                        <h3>Comments</h3>
+                                        <hr/>
+                                             {this.CommentList()}
+                                    </div>
+                            </div>
+                        </div>
                 </div>
         
         )
