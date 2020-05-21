@@ -4,10 +4,6 @@ const router = require('express').Router();
 //import the model
 const Cart = require('../models/cart');
 
-//import Item model and User model
-const User = require('../models/user')
-const Item = require('../models/item');
-
 //create a new cart
 router.post('/cart',(req,res) => {
 const quantity = req.body.quantity
@@ -45,11 +41,6 @@ newcart.save()
 .catch(err => res.status(400).json('Error : ' + err));
 }
 }
-
-
-
-
-
 )
 
 //read a cart
@@ -104,10 +95,6 @@ router.patch('/cart/:id', async (req,res) =>{
         //assigning cart
         const cart = await Cart.findOne({_id})
 
-        //updating fields
-        cart.subTotal = req.body.subTotal
-        cart.quantity = req.body.quantity
-
         //save back to DB
         await cart.save()
 
@@ -119,21 +106,21 @@ router.patch('/cart/:id', async (req,res) =>{
     }
 })
 
-//deleting a cart
-router.delete('/cart/:id',async(req,res) => {
-
+//deleting a cart item
+router.delete('/cart/:id' , async(req,res) => {
+    
     try{
-
-        //assigning provided id
+        //assign id
         const _id = req.params.id
+        console.log(_id);
 
-        //deleting the specific cart
-        const cart = await Cart.findByIdAndDelete({_id})
+        //delete specific item
+        const cart = await Cart.findOneAndDelete({_id})        
 
         //send response
         res.status(200).send(cart)
-
-    } catch (e) {
+    }
+    catch (e){
         res.status(400).send(e)
     }
 })

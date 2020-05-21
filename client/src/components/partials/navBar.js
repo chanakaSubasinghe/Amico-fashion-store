@@ -76,10 +76,9 @@ export default class NavBar extends Component {
               <div class="row hideWithCollapse">
                 {this.state.userObj.user.role === "user" && (
                   <div class="d-inline m-2">
-                    <Link class="m-2">
+                    <Link class="m-2" to={`/wishlist`}>
                       <i class="fa fa-heart NavBar-heart-Icon"></i>
                       <span class="badge badge-light">
-                        <small>10</small>
                       </span>
                     </Link>
                     <Link
@@ -87,7 +86,6 @@ export default class NavBar extends Component {
                     >
                       <i class="fa fa-shopping-cart NavBar-shopping-cart-Icon"></i>
                       <span class="badge badge-light">
-                        <small></small>
                       </span>
                     </Link>
                   </div>

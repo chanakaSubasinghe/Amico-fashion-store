@@ -2,11 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
-import CartCheckout from './cart-checkout';
-
-import '../../public/css/style.css'
-import { isAuthenticated, authenticate } from "../../auth/index";
-
+//inputs for the table
 const Cart = props => (
     <tbody>
         <tr>
@@ -17,18 +13,26 @@ const Cart = props => (
             <td><input type="Number" className= "text-center" value={props.cart.quantity}/></td>
             <td>Rs.{props.cart.discountedPrice}.00</td>
             <td>Rs.{props.cart.discountedPrice*props.cart.quantity}.00</td>
-            <td><button class="btn btn-danger">Remove</button></td>
+            <td><button onClick={() => {props.deleteCartItem(props.cart._id)}} class="btn btn-danger">Remove</button></td>
         </tr>
     </tbody>
 )
 
+
 export default class CartItemList extends Component{
+
     constructor(props){
         super(props);
 
+        //binding the functions
+        this.deleteCartItem = this.deleteCartItem.bind(this);
+
         this.state = {
             cart: [],
-        };
+            totalValue : 0,
+            quantity:0,
+            discountedPrice:0
+        }
     }
 
     componentDidMount(){
@@ -37,6 +41,12 @@ export default class CartItemList extends Component{
             .then(response => {
                 this.setState({
                     cart: response.data
+                })
+                //cart total
+                this.state.cart.forEach((carts)=>{
+                    this.setState({
+                        totalValue : this.state.totalValue +(carts.quantity * carts.discountedPrice) 
+                    })
                 })
             })
         axios.get('/items/')
@@ -52,10 +62,20 @@ export default class CartItemList extends Component{
 
     CartList() {
         return this.state.cart.map(currentCart => {
-            return <Cart cart={currentCart} key={currentCart.id} />
+            return <Cart cart={currentCart} deleteCartItem={this.deleteCartItem} key={currentCart.id} />
         })
     }
 
+    //deleting an item in the cart
+    deleteCartItem(id) {
+        axios.delete('/cart/'+ id)
+            .then(res => console.log(res.data));
+
+        this.setState({
+            cart: this.state.cart.filter(el => el._id != id)
+        })
+    }
+    
     render(){
         return(
             <div>
@@ -79,7 +99,11 @@ export default class CartItemList extends Component{
                         {this.CartList()}
 
                     </table>
-                    <div>
+                    <div class="text-center">
+                        <span></span>
+                            <label>Total = {this.state.totalValue}</label>
+                    </div>  
+                    <div class="text-center">
                         <Link to={`/cartCheckout`}>
                             <button class="btn btn-primary active">CHECKOUT</button>
                         </Link>
