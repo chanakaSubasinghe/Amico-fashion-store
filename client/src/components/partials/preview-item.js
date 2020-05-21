@@ -24,6 +24,7 @@ export default class PreviewItem extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.addToWishList = this.addToWishList.bind(this);
 
         this.state = {
             id: '',
@@ -38,7 +39,8 @@ export default class PreviewItem extends Component {
             userID:'',
             quantity:'',
             alreadyItemCount:0,
-            cartid:''
+            cartid:'',
+            wishListid:''
           }
     }
 
@@ -79,6 +81,12 @@ export default class PreviewItem extends Component {
             })
 
     }
+    CommentList() {
+        return this.state.comments.map((currentComment) => {
+          return <Comment comments={currentComment} key={currentComment.id} />
+        })
+    }
+
     handleChange(e) {
 
         this.setState({
@@ -110,7 +118,8 @@ export default class PreviewItem extends Component {
                     cartid:this.state.cartid
                 }
 
-                // request to server to create an comment
+                
+                // request to server to create a cart
                 axios.post('/cart/',formData)
                      .then(res => {
                          if (res.status === 201) {
@@ -144,7 +153,8 @@ export default class PreviewItem extends Component {
                     cartid:this.state.cartid
                 }
 
-                // request to server to create an comment
+                // request to server to create an cart
+                
                 axios.post('/cart/',formData)
                      .then(res => {
                          if (res.status === 201) {
@@ -171,13 +181,93 @@ export default class PreviewItem extends Component {
                      console.log(this.state.alreadyItemCount);
             }
         })
-     }
-     CommentList() {
-        return this.state.comments.map((currentComment) => {
-          return <Comment comments={currentComment} key={currentComment.id} />
-        })
     }
+    
+     //sending wishlist details to the cart DB
+     addToWishList(e) {
+        axios.get('/wishlistDetails/'+JSON.parse(localStorage.getItem("jwt")).user._id+'/'+this.props.match.params.id)
+        .then(res => {
 
+            res.data.forEach((wishlistItem) =>{
+                this.setState({
+                    alreadyItemCount:this.state.alreadyItemCount+1,
+                    wishListid :wishlistItem._id   
+                })
+            }
+
+           
+            )
+
+            if(this.state.alreadyItemCount > 0){
+                const formData = {
+                    itemName:this.state.itemName,
+                    discountedPrice:this.state.discountedPrice,
+                    userID:JSON.parse(localStorage.getItem("jwt")).user._id,
+                    itemID:this.props.match.params.id,
+                    alreadyInWishList:true,
+                    wishListid:this.state.wishListid
+                }
+                
+                // request to server to create a wishlist
+                axios.post('/wishlist/',formData)
+                     .then(res => {
+                         if (res.status === 201) {
+            
+                             this.setState({
+                                 itemName: '',
+                                 discountedPrice: '',
+                             })
+                            }
+                            
+                     })
+                     .catch(err => {
+                         if (err.response.data) {
+                             this.setState({
+                                 itemName: '',
+                                 discountedPrice: ''
+                             })
+                         }
+                     })
+    
+            }
+            else{
+                const formData = {
+                    itemName:this.state.itemName,
+                    discountedPrice:this.state.discountedPrice,
+                    userID:JSON.parse(localStorage.getItem("jwt")).user._id,
+                    itemID:this.props.match.params.id,
+                    wishListid:this.state.wishListid
+                }
+                
+                axios.post('/wishlist/',formData)
+                     .then(res => {
+                         if (res.status === 201) {
+            
+                             this.setState({
+                                 itemName: '',
+                                 discountedPrice: '',
+                             })
+                            }
+                     })
+                     .catch(err => {
+                         if (err.response.data) {
+                             this.setState({
+                                 itemName: '',
+                                 discountedPrice: ''
+                             })
+                         }
+                     })
+
+                     console.log(this.state.alreadyItemCount);
+    
+            }
+           
+        }
+
+        )
+       
+     }
+ 
     render() {
         return (
             <div class="container">
@@ -202,15 +292,21 @@ export default class PreviewItem extends Component {
                                     <h5 class="card-text text-primary">Rs.{this.state.discountedPrice}.00</h5>
                                 </div>
                             }
-                        <form className="container" onSubmit={this.onSubmit}>
-                                <div className="form-group">
-                                <input type="Number" class="form-control" name="quantity" onChange={this.handleChange} />
-                                <input type="submit" value="ADD TO CART" className="btn btn-primary" />
+                        </div>
+                        <div>
+                            <form className="container" onSubmit={this.onSubmit}>
+                                <div className="form-group text-center">
+                                    <input style={{width:'40%'}} type="Number" class="form-control" name="quantity" onChange={this.handleChange}/>
+                                    <input type="submit" value="ADD TO CART" class="btn btn-primary"/>
                                 </div>
                             </form>
-
-                        </div>
-                        <div class="card-footer">
+                            <form className="container" onSubmit={this.addToWishList}>
+                                <div className="form-group text-center">
+                                    <input type="submit" value="ADD TO WISHLIST" class="btn btn-primary"/>
+                                </div>
+                            </form>
+                            </div>
+                            <div class="card-footer">
                             <div class="inline">
                             <a class ="commenta" href="#comments">Show Comments</a>
                                     <div id="comments">
@@ -221,9 +317,11 @@ export default class PreviewItem extends Component {
                                     </div>
                             </div>
                         </div>
+                            </div>
+                        </div>
+
                 </div>
-            </div> 
-            </div>
+        
         )
     }
 }
