@@ -153,8 +153,7 @@ export default class AddWishListToCart extends Component{
                                 <div class="text-center">
                                 </div>
                                 <h5 class="card-title">{this.state.itemName}</h5>
-                                <p className="float-right" >category - <span style={{color: "green"}}>{this.state.category}</span></p>
-                                <p><i class="fa fa-star"></i>{this.state.averageRate}</p>            
+                                <p className="float-right" >category - <span style={{color: "green"}}>{this.state.category}</span></p>       
                                 {this.state.discountedPrice < this.state.totalPrice 
                                 &&
                                     <div class="float-right">

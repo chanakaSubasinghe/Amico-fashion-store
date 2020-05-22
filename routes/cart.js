@@ -6,42 +6,40 @@ const Cart = require('../models/cart');
 
 //create a new cart
 router.post('/cart',(req,res) => {
-const quantity = req.body.quantity
-const itemID =  req.body.itemID
-const itemName = req.body.itemName
-const discountedPrice =req.body.discountedPrice
-const userID = req.body.userID
-const InCart = req.body.alreadyInCart
+    const quantity = req.body.quantity
+    const itemID =  req.body.itemID
+    const itemName = req.body.itemName
+    const discountedPrice = req.body.discountedPrice
+    const userID = req.body.userID
+    const InCart = req.body.alreadyInCart
 
-if(InCart){
- console.log(req.body.cartid);
-   Cart.findOneAndUpdate(
-        { _id: req.body.cartid},
-        { $inc: { "quantity": quantity } },
-        { new: true },
-        () => {
-            res.status(200).json({success: true})
-        }
-    )
-}
-else{
-//create a new cart
-const newcart = new Cart({
-userID,
-quantity,
-itemName,
-discountedPrice,
-itemID
+    if(InCart){
+    console.log(req.body.cartid);
+    Cart.findOneAndUpdate(
+            { _id: req.body.cartid},
+            { $inc: { "quantity": quantity } },
+            { new: true },
+            () => {
+                res.status(200).json({success: true})
+            }
+        )
+    }
+    else{
+    //create a new cart
+        const newcart = new Cart({
+            userID,
+            quantity,
+            itemName,
+            discountedPrice,
+            itemID
+        })
+
+    //save to DB
+        newcart.save()
+            .then(() => res.json({status: 201,_id: newcart._id,}))
+            .catch(err => res.status(400).json('Error : ' + err));
+    }
 })
-console.log(newcart)
-
-//save to DB
-newcart.save()
-.then(() => res.json({status: 201,_id: newcart._id,}))
-.catch(err => res.status(400).json('Error : ' + err));
-}
-}
-)
 
 //read a cart
 router.route('/cart/:id').get((req, res) => {
