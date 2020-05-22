@@ -7,12 +7,22 @@ const Schema = mongoose.Schema;
 //declaring comment schema
 const commentSchema = new Schema({
     comment: {
-        type: String
+        type: String,
+        default: null
+    },
+    rate:{
+        type:Number
     },
     itemid:
     {
         type: String
     },
+    userid:{
+        type:String
+    },
+    userName:{
+        type:String
+    }
 
 }, {
     timestamps: true

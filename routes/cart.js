@@ -4,58 +4,73 @@ const router = require('express').Router();
 //import the model
 const Cart = require('../models/cart');
 
-
 //create a new cart
-router.post('/cart', async(req,res) => {
-    try{
+router.post('/cart',(req,res) => {
+    const quantity = req.body.quantity
+    const itemID =  req.body.itemID
+    const itemName = req.body.itemName
+    const discountedPrice = req.body.discountedPrice
+    const userID = req.body.userID
+    const InCart = req.body.alreadyInCart
 
-        //create a new cart
-        const cart = new Cart({
-            subTotal: req.body.subTotal,
-            quantity: req.body.quantity
+    if(InCart){
+    console.log(req.body.cartid);
+    Cart.findOneAndUpdate(
+            { _id: req.body.cartid},
+            { $inc: { "quantity": quantity } },
+            { new: true },
+            () => {
+                res.status(200).json({success: true})
+            }
+        )
+    }
+    else{
+    //create a new cart
+        const newcart = new Cart({
+            userID,
+            quantity,
+            itemName,
+            discountedPrice,
+            itemID
         })
 
-        //save to DB
-        await cart.save()
-
-        //send response
-        res.status(201).send(cart)
-    }
-    catch(e) {
-        res.status(400).send(e.message)
+    //save to DB
+        newcart.save()
+            .then(() => res.json({status: 201,_id: newcart._id,}))
+            .catch(err => res.status(400).json('Error : ' + err));
     }
 })
 
+//read a cart
+router.route('/cart/:id').get((req, res) => {
 
-//read cart
-router.get('/cart/:id', async(req,res) => {
-    try{
-        //assign id
-        const _id = req.params.id
+Cart.find({"userID":req.params.id})
+.then(cart => res.json(cart))
+.catch(err => res.status(400).json('Error: ' + err));
+});
 
-        //find the specific cart
-        const cart = await Cart.findOne({_id})
+//read a cart for specific items 
+router.route('/cartDetails/:id/:itemid').get((req, res) => {
 
-        //send the response
-        res.status(200).send(cart)
-    }
-    catch (e) {
-        res.status(400).send(e.message)
-    }
-})
+console.log(req.params.id ,req.params.itemid);
+Cart.find({$and:[{"userID":req.params.id},{"itemID":req.params.itemid}]})
+.then(cart => res.json(cart))
+.catch(err => res.status(400).json('Error: ' + err));
+});
 
 //read the cart
 router.get('/cart', async (req,res) => {
-     try{
-         //assign all carts
-         const cart = await Cart.find({})
+    try{
+        //assign all carts
+        const cart = await Cart.find({})
 
-         //send response
-         res.status(200).send(cart)
-     }catch (e) {
-         res.status(400).send(e.message)
-     }
+        //send response
+        res.status(200).send(cart)
+    }catch (e) {
+        res.status(400).send(e.message)
+    }
 })
+
 
 //updatind the cart
 router.patch('/cart/:id', async (req,res) =>{
@@ -78,10 +93,6 @@ router.patch('/cart/:id', async (req,res) =>{
         //assigning cart
         const cart = await Cart.findOne({_id})
 
-        //updating fields
-        cart.subTotal = req.body.subTotal
-        cart.quantity = req.body.quantity
-
         //save back to DB
         await cart.save()
 
@@ -93,21 +104,21 @@ router.patch('/cart/:id', async (req,res) =>{
     }
 })
 
-//deleting a cart
-router.delete('/cart/:id',async(req,res) => {
-
+//deleting a cart item
+router.delete('/cart/:id' , async(req,res) => {
+    
     try{
-
-        //assigning provided id
+        //assign id
         const _id = req.params.id
+        console.log(_id);
 
-        //deleting the specific cart
-        const cart = await Cart.findByIdAndDelete({_id})
+        //delete specific item
+        const cart = await Cart.findOneAndDelete({_id})        
 
         //send response
         res.status(200).send(cart)
-
-    } catch (e) {
+    }
+    catch (e){
         res.status(400).send(e)
     }
 })

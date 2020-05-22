@@ -48,15 +48,16 @@ const userRoute = require("./routes/user");
 const itemCategoryRoute = require("./routes/itemCategory");
 const itemRoute = require("./routes/item");
 const cartRoute = require("./routes/cart");
-const rateRoute = require("./routes/rate");
-const commentRoute = require('./routes/comment')
+const commentRoute = require('./routes/comment');
+const wishListRoute = require('./routes/wishList');
 
 // invoking routes
 app.use(userRoute);
 app.use(itemCategoryRoute);
 app.use(itemRoute);
 app.use(cartRoute);
-app.use(rateRoute);
+app.use(wishListRoute);
+
 app.use(commentRoute)
 
 // if (process.env.NODE_ENV.trim() === "production") {

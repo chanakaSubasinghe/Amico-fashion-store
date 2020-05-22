@@ -9,16 +9,20 @@ const Comment = require('../models/comment');
 router.post('/comment',(req,res) => {
 
 
-    const comment = req.body.comment;
-    const itemid =  req.body.itemid;
+    const comment = req.body.comment
+    const rate = req.body.rate
+    const itemid =  req.body.itemid
+    const userid = req.body.userid
+    const userName = req.body.userName
 
         //create a new comment
         const newcomment = new Comment({
             comment,
-            itemid
-           
+            rate,
+            itemid,
+            userid,
+            userName
         })
-
         //save to DB
         newcomment.save()
         .then(() => res.json({status: 201,_id: newcomment._id,}))
@@ -29,48 +33,20 @@ router.post('/comment',(req,res) => {
 
 
 //read comment
-router.get('/comment/:id', async(req,res) => {
-    try{
-        //assign id
-        const _id = req.params.id
-
-        //find the specific comment
-        const comment = await Comment.findOne({_id})
-
-        //send the response
-        res.status(200).send(comment)
-
-        await comment.populate('item').execPopulate()
-    }
-    catch (e) {
-        res.status(400).send(e.message)
-    }
-})
-
-//read the comment
-router.get('/comment/id', async (req,res) => {
-
-    Comment.find({itemid:"99999999"})
-     try{
-         //assign all comments
-         const comment = await Comment.find({})
-
-         //send response
-         res.status(200).send(comment)
-     }catch (e) {
-         res.status(400).send(e.message)
-     }
-})
+router.route('/comment/:id').get((req, res) => {
+    Comment.find({"itemid":req.params.id})
+        .then(comments => res.json(comments))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
 
 //updating the comment
-router.patch('/comment/:id', async (req,res) =>{
+router.patch('/comment/:_id', async (req,res) =>{
 
     //assigning provided id
-    const _id = req.params._id
-
+    const id = req.params._id
     //declaring variables
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['comment']
+    const allowedUpdates = ['comment','rate']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     //conditions
@@ -81,11 +57,12 @@ router.patch('/comment/:id', async (req,res) =>{
     try{
 
         //assigning comment
-        const comment = await Comment.findOne({_id})
+        const comment = await Comment.findOne({"_id":id})
 
         //updating fields
         comment.comment = req.body.comment
-
+        comment.rate = req.body.rate
+        
         //save back to DB
         await comment.save()
 
@@ -104,6 +81,7 @@ router.delete('/comment/:id',async(req,res) => {
 
         //assigning provided id
         const _id = req.params.id
+        console.log(_id);
 
         //deleting the specific comment
         const comment = await Comment.findByIdAndDelete({_id})

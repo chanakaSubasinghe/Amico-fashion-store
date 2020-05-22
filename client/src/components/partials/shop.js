@@ -18,10 +18,6 @@ const Item = (props) => (
           </Link>
         </div>
         <h5 class="card-title">{props.item.itemName}</h5>
-        <p>
-          <i class="fa fa-star"></i>
-          {props.item.averageRate}
-        </p>
         {(props.item.discountedPrice < props.item.totalPrice && (
           <div class="float-right">
             <del class="card-text text-dark">Rs.{props.item.totalPrice}.00</del>
@@ -40,14 +36,10 @@ const Item = (props) => (
       </div>
       <div class="card-footer">
         <div class="inline">
-          <Link>
-            <i class="fa fa-heart heart-Icon"></i>
-          </Link>
-          <Link>
-            <i class="fa fa-shopping-cart shopping-cart-Icon ml-3"></i>
-          </Link>
           <div class="float-right">
-            <button class="btn ThemeBackground">Buy Now</button>
+            <Link to={`/cartCheckout`}>
+                <button class="btn ThemeBackground">Buy Now</button>
+            </Link>
           </div>
         </div>
       </div>
@@ -61,6 +53,7 @@ const Category = (props) => (
   </button>
 );
 
+
 export default class Shop extends Component {
   //constructor
   constructor(props) {
@@ -70,6 +63,9 @@ export default class Shop extends Component {
     this.state = {
       items: [],
       categories: [],
+      itemPhoto: null,
+      itemName: '',
+      totalPrice : '',
       loading: false
     };
   }
