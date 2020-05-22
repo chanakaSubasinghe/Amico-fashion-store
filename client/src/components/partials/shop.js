@@ -188,31 +188,6 @@ export default class Shop extends Component {
           </ul>
 
           <div className="my-5 row">{this.ItemList()}</div>
-
-          <nav>
-            <ul className="pagination justify-content-center">
-              <li className="page-item">
-                <Link class="page-link ThemeText" href="#">
-                  First
-              </Link>
-              </li>
-              <li className="page-item">
-                <Link class="page-link ThemeText" href="#">
-                  Previous
-              </Link>
-              </li>
-              <li className="page-item">
-                <Link class="page-link ThemeText" href="#">
-                  Next
-              </Link>
-              </li>
-              <li className="page-item">
-                <Link class="page-link ThemeText" href="#">
-                  Last
-              </Link>
-              </li>
-            </ul>
-          </nav>
         </div>
       );
     }
