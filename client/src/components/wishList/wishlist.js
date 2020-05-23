@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 //inputs for the table
@@ -7,7 +7,7 @@ const WishList = props => (
     <tbody>
         <tr>
             <td class="w-25">
-                { <img src={`/items/${props.wishlist.itemID}/itemPhoto`} class="img-fluid img-thumbnail" alt=""/> }
+                {<img src={`/items/${props.wishlist.itemID}/itemPhoto`} class="img-fluid img-thumbnail" alt="" />}
             </td>
             <td>{props.wishlist.itemName}</td>
             <td>Rs.{props.wishlist.discountedPrice}.00</td>
@@ -16,14 +16,14 @@ const WishList = props => (
                     <button class="btn btn-danger">ADD TO CART</button>
                 </Link>
             </td>
-            <td><button onClick={() => {props.deleteWishlistItem(props.wishlist._id)}} class="btn btn-danger">REMOVE</button></td>
+            <td><button onClick={() => { props.deleteWishlistItem(props.wishlist._id) }} class="btn btn-danger">REMOVE</button></td>
         </tr>
     </tbody>
 )
 
-export default class WishListItems extends Component{
+export default class WishListItems extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         //binding the functions
@@ -34,9 +34,9 @@ export default class WishListItems extends Component{
         };
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
-        axios.get('/wishlist/'+ JSON.parse(localStorage.getItem("jwt")).user._id)
+        axios.get('/wishlist/' + JSON.parse(localStorage.getItem("jwt")).user._id)
             .then(response => {
                 this.setState({
                     wishlist: response.data
@@ -57,7 +57,7 @@ export default class WishListItems extends Component{
 
     //delete an item in the wishlist
     deleteWishlistItem(id) {
-        axios.delete('/wishlist/'+ id)
+        axios.delete('/wishlist/' + id)
             .then(res => console.log(res.data));
 
         this.setState({
@@ -72,31 +72,35 @@ export default class WishListItems extends Component{
         })
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div>
                 <div class="container margin-top text-center">
-                        <h2>WISH LIST</h2>
+                    <h2>WISH LIST</h2>
                 </div>
                 <div class="margin-top">
-                <div class="col-12 container">
-                    <table class="table table-image text-center">
-                    <thead class="thead-dark">
-                         <tr>
-                        <th scope="col">Product</th>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Price of the item</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        </tr> 
-                    </thead>
+                    <div class="col-12 container">
+                        {this.state.wishlist.length === 0 ? <h3 class="text-center text-danger">Hello throw your fav items to cart :)</h3> :
+                            <>
+                                <table class="table table-image text-center">
+                                    <thead class="ThemeBackground">
+                                        <tr>
+                                            <th scope="col">Product</th>
+                                            <th scope="col">Product Name</th>
+                                            <th scope="col">Price of the item</th>
+                                            <th scope="col"></th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
 
-                        {this.wishLists()}
+                                    {this.wishLists()}
 
-                    </table>      
-                        </div>
-                    </div>                    
+                                </table>
+                            </>
+                        }
+                    </div>
                 </div>
+            </div>
         )
     }
 

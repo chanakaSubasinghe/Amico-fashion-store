@@ -1,4 +1,4 @@
-//declaring dependancies
+//declaring dependencies
 const mongoose = require('mongoose');
 
 //define mongoose schema
@@ -6,23 +6,23 @@ const Schema = mongoose.Schema;
 
 //declaring cart schema
 const cartSchema = new Schema({
-    userID:{
+    userID: {
         type: String,
     },
-    quantity:{
+    quantity: {
         type: Number,
-        
+
     },
-    itemName:{
+    itemName: {
         type: String
     },
     discountedPrice: {
         type: Number
     },
-    itemID:{
-        type:String
+    itemID: {
+        type: String
     }
-},{
+}, {
     timestamps: true,
 });
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-
+import axios from 'axios'
 // importing custom css and javascript
 import "../../public/css/navbar.css";
 import collapseFunction from "../../public/js/navbar.js";
@@ -20,7 +20,9 @@ export default class NavBar extends Component {
 
     this.state = {
       userObj: isAuthenticated(),
-      date: new Date().toLocaleTimeString()
+      date: new Date().toLocaleTimeString(),
+      cartCount: 0,
+      wishlistCount: 0
     };
     // binding functions
     this.logout = this.logout.bind(this);
@@ -32,8 +34,28 @@ export default class NavBar extends Component {
         date: new Date().toLocaleTimeString()
       })
     }, 1000)
-  }
 
+    setInterval(() => {
+
+      if (JSON.parse(localStorage.getItem("jwt"))) {
+        axios.get('/wishlist/' + JSON.parse(localStorage.getItem("jwt")).user._id)
+          .then(response => {
+            this.setState({
+              wishlistCount: response.data.length
+            })
+          })
+
+        axios.get('/cart/' + JSON.parse(localStorage.getItem("jwt")).user._id)
+          .then(response => {
+            this.setState({
+              cartCount: response.data.length
+            })
+          });
+      }
+
+    }, 1500)
+
+  }
   // logout function
   logout(e) {
     e.preventDefault();
@@ -83,14 +105,14 @@ export default class NavBar extends Component {
                   <div class="d-inline m-2">
                     <Link class="m-2" to={`/wishlist`}>
                       <i class="fa fa-heart NavBar-heart-Icon"></i>
-                      <span class="badge badge-light">
+                      <span class="badge badge-light">{this.state.wishlistCount}
                       </span>
                     </Link>
                     <Link
                       to={`/cartList`}
                     >
                       <i class="fa fa-shopping-cart NavBar-shopping-cart-Icon"></i>
-                      <span class="badge badge-light">
+                      <span class="badge badge-light">{this.state.cartCount}
                       </span>
                     </Link>
                   </div>

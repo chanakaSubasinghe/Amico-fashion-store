@@ -33,8 +33,10 @@ export default class Footer extends Component {
                             <h3>Hello there !</h3>
                             {this.state.userObj ? (
                                 <ul>
-                                    <li><Link to="/">My account</Link></li>
-                                    <li><Link to="/boughtItems">My orders</Link></li>
+                                    <li><Link to="/users/me">My account</Link></li>
+                                    {this.state.userObj.user.role === "user" &&
+                                        <li><Link to="/boughtItems">My orders</Link></li>
+                                    }
                                 </ul>
                             ) : (
                                     <ul>

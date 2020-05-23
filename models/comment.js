@@ -10,23 +10,24 @@ const commentSchema = new Schema({
         type: String,
         default: null
     },
-    rate:{
-        type:Number
+    rate: {
+        type: Number
     },
-    itemid:
-    {
+    itemid: {
         type: String
     },
-    userid:{
-        type:String
+    userid: {
+        type: String
     },
-    userName:{
-        type:String
+    userName: {
+        type: String
     }
 
-}, {
-    timestamps: true
-});
+},
+    {
+        timestamps: true
+    }
+);
 
 const Comment = mongoose.model('comment', commentSchema)
 
