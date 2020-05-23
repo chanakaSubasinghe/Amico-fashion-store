@@ -54,12 +54,13 @@ export default class AddWishListToCart extends Component{
 
         //sending wishlist items to add to the cart
         onSubmit(e){
+            e.preventDefault();
             axios.get('/cartDetails/'+JSON.parse(localStorage.getItem("jwt")).user._id+'/'+this.props.match.params.id)
             .then(res => {
     
                 res.data.forEach((cartItem) =>{
                     this.setState({
-                        alreadyItemCount:this.state.alreadyItemCount+1,
+                        alreadyItemCount:(this.state.alreadyItemCount + 1),
                         cartid :cartItem._id   
                     })
                 }
@@ -171,7 +172,7 @@ export default class AddWishListToCart extends Component{
                             <div>                                              
                                 <form className="container" onSubmit={this.onSubmit}>
                                     <div className="form-group text-center">
-                                        <input style={{width:'40%'}} type="Number" class="form-control" name="quantity" onChange={this.handleChange}/><input style={{width:'20%'}} type="submit" value="ADD TO CART" class="btn btn-primary"/> 
+                                        <input type="Number" class="form-control" name="quantity" onChange={this.handleChange}/><input type="submit" value="ADD TO CART" class="btn btn-primary"/> 
                                     </div>
                                 </form>
                                 </div>

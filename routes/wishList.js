@@ -13,7 +13,7 @@ const userID = req.body.userID
 const InWishList = req.body.alreadyInWishList
 
 if(InWishList){
- console.log(req.body.wishListid);
+
  WishList.findOneAndUpdate(
         { _id: req.body.wishListid},
         { new: true },
@@ -31,7 +31,7 @@ itemName,
 discountedPrice,
 itemID
 })
-console.log(newWishList)
+
 
 //save to DB
 newWishList.save()
@@ -52,7 +52,7 @@ WishList.find({"userID":req.params.id})
 //read wishlist for specific items 
 router.route('/wishlistDetails/:id/:itemid').get((req, res) => {
 
-console.log(req.params.id ,req.params.itemid);
+
 WishList.find({$and:[{"userID":req.params.id},{"itemID":req.params.itemid}]})
 .then(wishlist => res.json(wishlist))
 .catch(err => res.status(400).json('Error: ' + err));
@@ -64,7 +64,6 @@ router.delete('/wishlist/:id' , async(req,res) => {
     try{
         //assign id
         const _id = req.params.id
-        console.log(_id);
 
         //delete specific item
         const wishlist = await WishList.findOneAndDelete({_id})        

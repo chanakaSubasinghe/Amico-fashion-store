@@ -13,7 +13,7 @@ const WishList = props => (
             <td>Rs.{props.wishlist.discountedPrice}.00</td>
             <td>
                 <Link to={`/wishlistItems/${props.wishlist.itemID}`}>
-                    <button class="btn btn-danger">ADD TO CART</button>
+                    <button onClick={() => {props.deleteWishlistItem(props.wishlist._id)}} class="btn btn-danger" >ADD TO CART</button>
                 </Link>
             </td>
             <td><button onClick={() => {props.deleteWishlistItem(props.wishlist._id)}} class="btn btn-danger">REMOVE</button></td>

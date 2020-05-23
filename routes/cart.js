@@ -13,6 +13,7 @@ router.post('/cart',(req,res) => {
     const userID = req.body.userID
     const InCart = req.body.alreadyInCart
 
+
     if(InCart){
     console.log(req.body.cartid);
     Cart.findOneAndUpdate(
@@ -23,6 +24,7 @@ router.post('/cart',(req,res) => {
                 res.status(200).json({success: true})
             }
         )
+
     }
     else{
     //create a new cart
@@ -52,7 +54,6 @@ Cart.find({"userID":req.params.id})
 //read a cart for specific items 
 router.route('/cartDetails/:id/:itemid').get((req, res) => {
 
-console.log(req.params.id ,req.params.itemid);
 Cart.find({$and:[{"userID":req.params.id},{"itemID":req.params.itemid}]})
 .then(cart => res.json(cart))
 .catch(err => res.status(400).json('Error: ' + err));
@@ -71,46 +72,12 @@ router.get('/cart', async (req,res) => {
     }
 })
 
-
-//updatind the cart
-router.patch('/cart/:id', async (req,res) =>{
-
-    //assignin provided id
-    const _id = req.params._id
-
-    //declaring variables
-    const updates = Object.keys(req.body)
-    const allowedUpdates = ['subTotal','quantity']
-    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
-
-    //conditions
-    if(!isValidOperation) {
-        return res.status(400).send('Invalid update')
-    }
-
-    try{
-
-        //assigning cart
-        const cart = await Cart.findOne({_id})
-
-        //save back to DB
-        await cart.save()
-
-        //send response
-        res.status(200).send(cart)
-
-    } catch (e) {
-        res.status(400).send(e)
-    }
-})
-
 //deleting a cart item
 router.delete('/cart/:id' , async(req,res) => {
     
     try{
         //assign id
         const _id = req.params.id
-        console.log(_id);
 
         //delete specific item
         const cart = await Cart.findOneAndDelete({_id})        
@@ -123,5 +90,30 @@ router.delete('/cart/:id' , async(req,res) => {
     }
 })
 
+//Increment Cart Quantity
+
+router.post('/incrementCartQty/:id',(req,res) => {
+    Cart.findOneAndUpdate(
+        { _id: req.params.id},
+        { $inc: { "quantity": 1 } },
+        { new: true },
+        () => {
+            res.status(200).json({success: true})
+        }
+    )
+})
+
+//Decrement Cart Quantity
+
+router.post('/decrementCartQty/:id',(req,res) => {
+    Cart.findOneAndUpdate(
+        { _id: req.params.id},
+        { $inc: { "quantity": -1 } },
+        { new: true },
+        () => {
+            res.status(200).json({success: true})
+        }
+    )
+})
 module.exports = router
 
