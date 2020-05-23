@@ -6,17 +6,15 @@ import axios from "axios";
 const Item = (props) => (
   <div class="card-deck col-md-4 my-3">
     <div class="card h-100">
-      <img
-        class="card-img-top"
-        src={`/items/${props.item._id}/itemPhoto`}
-        alt=""
-      />
+      <Link to={`/items/${props.item._id}`} class="text-decoration-none">
+        <img
+          class="card-img-top"
+          src={`/items/${props.item._id}/itemPhoto`}
+          alt=""
+        />
+      </Link>
+
       <div class="card-body">
-        <div class="text-center">
-          <Link to={`/items/${props.item._id}`} class="text-decoration-none">
-            view item
-          </Link>
-        </div>
         <h5 class="card-title">{props.item.itemName}</h5>
         {(props.item.discountedPrice < props.item.totalPrice && (
           <div class="float-right">
@@ -65,7 +63,7 @@ export default class Shop extends Component {
       categories: [],
       itemPhoto: null,
       itemName: '',
-      totalPrice : '',
+      totalPrice: '',
       loading: false
     };
   }
@@ -184,31 +182,6 @@ export default class Shop extends Component {
           </ul>
 
           <div className="my-5 row">{this.ItemList()}</div>
-
-          <nav>
-            <ul className="pagination justify-content-center">
-              <li className="page-item">
-                <Link class="page-link ThemeText" href="#">
-                  First
-              </Link>
-              </li>
-              <li className="page-item">
-                <Link class="page-link ThemeText" href="#">
-                  Previous
-              </Link>
-              </li>
-              <li className="page-item">
-                <Link class="page-link ThemeText" href="#">
-                  Next
-              </Link>
-              </li>
-              <li className="page-item">
-                <Link class="page-link ThemeText" href="#">
-                  Last
-              </Link>
-              </li>
-            </ul>
-          </nav>
         </div>
       );
     }

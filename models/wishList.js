@@ -6,21 +6,23 @@ const Schema = mongoose.Schema;
 
 //declaring wishlist schema
 const wishListSchema = new Schema({
-    userID:{
+    userID: {
         type: String,
     },
-    itemName:{
+    itemName: {
         type: String,
     },
     discountedPrice: {
         type: Number,
     },
-    itemID:{
-        type:String
+    itemID: {
+        type: String
     }
-},{
-    timestamps: true,
-});
+},
+    {
+        timestamps: true,
+    }
+);
 
 const WishList = mongoose.model('WishList', wishListSchema)
 

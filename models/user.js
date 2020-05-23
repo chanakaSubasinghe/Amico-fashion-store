@@ -9,10 +9,10 @@ const Schema = mongoose.Schema
 
 // declaring user Schema
 const userSchema = new Schema({
-    firstName : {
+    firstName: {
         type: String,
         required: true,
-        lowercase:true,
+        lowercase: true,
         trim: true,
         minlength: 2,
         maxlength: 10,
@@ -33,7 +33,7 @@ const userSchema = new Schema({
         trim: true,
         minlength: 2,
         validate(value) {
-            if(!validator.isEmail(value)){
+            if (!validator.isEmail(value)) {
                 throw new Error('Email is invalid!')
             }
         }
@@ -53,7 +53,7 @@ const userSchema = new Schema({
         type: String,
         required: true,
         default: 'user',
-        enum: ['user','admin','storeManager']
+        enum: ['user', 'admin', 'storeManager']
     },
     tokens: [{
         token: {
@@ -66,28 +66,28 @@ const userSchema = new Schema({
 })
 
 // to hide unnecessary details
-userSchema.methods.toJSON = function() {
-	const user = this;
+userSchema.methods.toJSON = function () {
+    const user = this;
 
-	const userObject = user.toObject();
+    const userObject = user.toObject();
 
-	delete userObject.password;
+    delete userObject.password;
     delete userObject.tokens;
     delete userObject.createdAt;
     delete userObject.updatedAt;
     delete userObject.__v;
 
-	return userObject;
+    return userObject;
 };
 
 // function for generate auth token 
-userSchema.methods.generateAuthToken = async function() {
+userSchema.methods.generateAuthToken = async function () {
 
     const user = this;
 
-    const token = jwt.sign({ _id: user._id.toString()}, process.env.JWT_SECRET)
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET)
 
-    user.tokens = user.tokens.concat({token})
+    user.tokens = user.tokens.concat({ token })
 
     await user.save()
 
@@ -96,8 +96,8 @@ userSchema.methods.generateAuthToken = async function() {
 
 // find user credentials
 userSchema.statics.findByCredentials = async (email, password) => {
- 
-    const user = await User.findOne({email})
+
+    const user = await User.findOne({ email })
 
     if (!user) {
         throw new Error(`The email address that you've entered is invalid!`)
@@ -114,7 +114,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
 
 // before save the user check whether password is modified ot not
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
 
     const user = this;
 
