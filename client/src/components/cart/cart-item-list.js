@@ -10,10 +10,14 @@ const Cart = props => (
                 { <img src={`/items/${props.cart.itemID}/itemPhoto`} class="img-fluid img-thumbnail" alt=""/> }
             </td>
             <td>{props.cart.itemName}</td>
-            <td><input type="Number" className= "text-center" value={props.cart.quantity}/></td>
+            <td> 
+                <button className =  'btn-sm' style={{margin:"0% 10%"}}><i class="fa fa-caret-square-o-up" onClick={() => {props.increaseCartQty(props.cart._id,props.cart.discountedPrice)}} /></button>
+                {props.cart.quantity}
+                <button className =  'btn-sm' style={{margin:"0% 10%"}}><i class="fa fa-caret-square-o-down" onClick={() => {props.decreaseCartQty(props.cart._id,props.cart.quantity,props.cart.discountedPrice)}} /></button>
+            </td>
             <td>Rs.{props.cart.discountedPrice}.00</td>
             <td>Rs.{props.cart.discountedPrice*props.cart.quantity}.00</td>
-            <td><button onClick={() => {props.deleteCartItem(props.cart._id)}} class="btn btn-danger">Remove</button></td>
+            <td><button onClick={() => {props.deleteCartItem(props.cart._id,props.cart.discountedPrice,props.cart.quantity)}} class="btn btn-danger">Remove</button></td>
         </tr>
     </tbody>
 )
@@ -25,7 +29,9 @@ export default class CartItemList extends Component{
         super(props);
 
         //binding the functions
-        this.deleteCartItem = this.deleteCartItem.bind(this);
+        this.deleteCartItem = this.deleteCartItem.bind(this)
+        this.increaseCartQty = this.increaseCartQty.bind(this)
+        this.decreaseCartQty = this.decreaseCartQty.bind(this)
 
         this.state = {
             cart: [],
@@ -62,18 +68,72 @@ export default class CartItemList extends Component{
 
     CartList() {
         return this.state.cart.map(currentCart => {
-            return <Cart cart={currentCart} deleteCartItem={this.deleteCartItem} key={currentCart.id} />
+            return <Cart cart={currentCart} deleteCartItem={this.deleteCartItem} key={currentCart.id} increaseCartQty={this.increaseCartQty} decreaseCartQty = {this.decreaseCartQty} />
         })
     }
 
     //deleting an item in the cart
-    deleteCartItem(id) {
+    deleteCartItem(id,discountedPrice,quantity) {
         axios.delete('/cart/'+ id)
-            .then(res => console.log(res.data));
+            .then( 
+                axios.get('/cart/'+ JSON.parse(localStorage.getItem("jwt")).user._id)
+                .then(response => {
+                    this.setState({
+                        cart: response.data,
+                        totalValue : this.state.totalValue - (quantity * discountedPrice),
+                        cart: this.state.cart.filter(el => el._id != id),
+                })
+            }))
 
-        this.setState({
-            cart: this.state.cart.filter(el => el._id != id)
-        })
+    }
+
+    increaseCartQty(cartId,discountedPrice){
+
+        axios.post('/incrementCartQty/'+cartId)
+        .then(
+            axios.get('/cart/'+ JSON.parse(localStorage.getItem("jwt")).user._id)
+            .then(response => {
+                this.setState({
+                    cart: response.data,
+                    totalValue : this.state.totalValue +(1 * discountedPrice)
+                })
+                
+                
+            })
+        )
+    }
+
+    decreaseCartQty(cartId,qty,discountedPrice){
+        if(qty == 1){
+            axios.delete('/cart/'+ cartId)
+            .then(
+                axios.get('/cart/'+ JSON.parse(localStorage.getItem("jwt")).user._id)
+                .then(response => {
+                    this.setState({
+                        cart: response.data,
+                        totalValue : this.state.totalValue -(1 * discountedPrice)
+                    })
+                })
+            )
+
+            this.setState({
+                cart: this.state.cart.filter(el => el._id != cartId)
+            })
+        }
+
+        else{
+            axios.post('/decrementCartQty/'+cartId)
+            .then(
+                axios.get('/cart/'+ JSON.parse(localStorage.getItem("jwt")).user._id)
+                .then(response => {
+                    this.setState({
+                        cart: response.data,
+                        totalValue : this.state.totalValue -(1 * discountedPrice)
+                    })
+                })
+            )
+        }
+      
     }
     
     render(){
@@ -104,7 +164,7 @@ export default class CartItemList extends Component{
                             <label>Total = {this.state.totalValue}</label>
                     </div>  
                     <div class="text-center">
-                        <Link to={`/cartCheckout`}>
+                        <Link to={`../BuyNow/checkout`}>
                             <button class="btn btn-primary active">CHECKOUT</button>
                         </Link>
                     </div>                

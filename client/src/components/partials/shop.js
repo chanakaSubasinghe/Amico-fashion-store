@@ -37,7 +37,7 @@ const Item = (props) => (
       <div class="card-footer">
         <div class="inline">
           <div class="float-right">
-            <Link to={`/cartCheckout`}>
+            <Link to={`checkout`}>
                 <button class="btn ThemeBackground">Buy Now</button>
             </Link>
           </div>

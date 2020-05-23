@@ -142,7 +142,6 @@ export default class PreviewItem extends Component {
                                  discountedPrice: '',
                              })
                             }
-                            // window.location ='/cartList'
                      })
                      .catch(err => {
                          if (err.response.data) {
@@ -177,8 +176,6 @@ export default class PreviewItem extends Component {
                                  discountedPrice: '',
                              })
                             }
-
-                            window.location ='/cartList'
                      })
                      .catch(err => {
                          if (err.response.data) {
@@ -303,7 +300,7 @@ export default class PreviewItem extends Component {
                                 <form className="container" onSubmit={this.onSubmit}>
                                     <div className="form-group text-center">
                                         <input style={{width:'40%'}} type="Number" class="form-control" name="quantity" onChange={this.handleChange}/>
-                                        <input type="submit" value="ADD TO CART" class="btn btn-primary"/>
+                                        <input type="submit"  value="ADD TO CART" class="btn btn-primary"/>
                                     </div>
                                 </form>
                                 <form className="container" onSubmit={this.addToWishList}>

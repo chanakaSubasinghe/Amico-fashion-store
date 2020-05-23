@@ -72,15 +72,16 @@ router.get('/cart', async (req,res) => {
 })
 
 
-//updatind the cart
+//updating the cart
 router.patch('/cart/:id', async (req,res) =>{
 
     //assignin provided id
     const _id = req.params._id
+    console.log(_id)
 
     //declaring variables
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['subTotal','quantity']
+    const allowedUpdates = ['quantity']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     //conditions
@@ -123,5 +124,30 @@ router.delete('/cart/:id' , async(req,res) => {
     }
 })
 
+//Increment Cart Quantity
+
+router.post('/incrementCartQty/:id',(req,res) => {
+    Cart.findOneAndUpdate(
+        { _id: req.params.id},
+        { $inc: { "quantity": 1 } },
+        { new: true },
+        () => {
+            res.status(200).json({success: true})
+        }
+    )
+})
+
+//Decrement Cart Quantity
+
+router.post('/decrementCartQty/:id',(req,res) => {
+    Cart.findOneAndUpdate(
+        { _id: req.params.id},
+        { $inc: { "quantity": -1 } },
+        { new: true },
+        () => {
+            res.status(200).json({success: true})
+        }
+    )
+})
 module.exports = router
 

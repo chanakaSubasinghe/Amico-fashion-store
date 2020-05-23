@@ -109,6 +109,7 @@ export default class Comment extends Component{
         // request to server to create an comment
         axios.patch('/comment/'+ this.state.commentID, editData)
              .then(res => console.log(res.data));
+             window.location ='/boughtItems'
     }
     
 
