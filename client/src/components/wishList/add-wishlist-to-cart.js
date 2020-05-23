@@ -89,8 +89,8 @@ export default class AddWishListToCart extends Component{
                                      discountedPrice: '',
                                  })
                                 }
+                                // window.location ='/cartList'
                          })
-                         window.location ='/shop/'
                          .catch(err => {
                              if (err.response.data) {
                                  this.setState({
@@ -123,7 +123,6 @@ export default class AddWishListToCart extends Component{
                                  })
                                 }
                          })
-                         window.location ='/shop/'
                          .catch(err => {
                              if (err.response.data) {
                                  this.setState({

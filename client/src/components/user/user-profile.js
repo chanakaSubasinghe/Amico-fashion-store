@@ -55,7 +55,7 @@ export default class UserProfile extends Component {
         headers: {
           Authorization: `Bearer ${
             JSON.parse(localStorage.getItem("jwt")).token
-            }`,
+          }`,
         },
       })
       .then((res) => {

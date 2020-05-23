@@ -51,9 +51,7 @@ export default class CreateItem extends Component {
     itemPhoto(e) {        
         console.log(e.target.files[0])
         this.setState({
-            itemPhoto: e.target.files[0],
-            image: URL.createObjectURL(e.target.files[0])
-        
+            itemPhoto: e.target.files[0]
         })
     }
 
@@ -114,14 +112,10 @@ export default class CreateItem extends Component {
         return(
             <div>
                  <div class="alert alert-warning" role="alert">
-                     <h4 class="alert-heading">Note!</h4>
-                        <ul>
+                       <ul>
                             <li>maximum size of an item photo is 1 MB</li>
-                            <li>Discount is optional</li>
                         </ul>
                     </div>
-                    <img id="target" src={this.state.image} style={{width:"15%", marginLeft:"38%"}}/>
-                    
 
                     {this.state.success &&
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -144,19 +138,15 @@ export default class CreateItem extends Component {
                 <form onSubmit={this.onSubmit}>
 
                
-                      
+
                     <label>Item Photo</label>
 
-                    <div class="custom-file">   
-                                      
+                    <div class="custom-file">                    
                         <input type="file" class="custom-file-input" name="itemPhoto" onChange={this.itemPhoto} required />
                         <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-                        
                         <br/>
                         <br/>
                     </div>
-
-                    
 
 
                     <div class="form-group">

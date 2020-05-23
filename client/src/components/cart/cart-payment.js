@@ -1,11 +1,21 @@
 import React, {} from 'react';
+import Modal from 'react-bootstrap/Modal';
 import { Button } from '@material-ui/core';
 
 import COD from '../../public/images/payment/COD.png';
 import visa from '../../public/images/payment/visa.png';
 
-function CartPayment() {
+function CartPayment(props) {
     return(
+        <Modal
+            {...props}
+            size="lg"
+            centered
+        >
+            <Modal.Header closeButton>
+                    <h5 style={{textTransform:'uppercase'}}>review your order</h5>
+            </Modal.Header>
+            <Modal.Body>
                 <div class='container'>
                     <form>
                         <div class="form-group"style={{width:'100%'}}>
@@ -33,11 +43,12 @@ function CartPayment() {
                             </form>
                         </div>
                         <div>
-                            <Button class="btn btn-danger"style={{width:'100%', textTransform:'uppercase'}}>proceed</Button> 
+                            <Button onClick={props.onHide} class="btn btn-danger"style={{width:'100%', textTransform:'uppercase'}}>proceed</Button>
                         </div>
                     </form>
                 </div>
-
+            </Modal.Body>
+        </Modal>
     );
 }
 export default CartPayment;
