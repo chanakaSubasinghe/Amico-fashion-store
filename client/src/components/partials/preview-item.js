@@ -111,7 +111,7 @@ export default class PreviewItem extends Component {
     }
     onSubmit(e) {
 
-       e.preventDefault();
+        e.preventDefault();
         axios.get('/cartDetails/' + JSON.parse(localStorage.getItem("jwt")).user._id + '/' + this.props.match.params.id)
             .then(res => {
 
@@ -124,7 +124,7 @@ export default class PreviewItem extends Component {
 
                 if (this.state.alreadyItemCount > 0) {
 
-                   
+
                     const formData = {
                         quantity: this.state.quantity,
                         itemName: this.state.itemName,
@@ -145,16 +145,16 @@ export default class PreviewItem extends Component {
                                     discountedPrice: '',
                                 })
                             }
-                     })
-                     .catch(err => {
-                         if (err.response.data) {
-                             this.setState({
-                                 quantity:'',
-                                 itemName: '',
-                                 discountedPrice: ''
-                             })
-                         }
-                     })
+                        })
+                        .catch(err => {
+                            if (err.response.data) {
+                                this.setState({
+                                    quantity: '',
+                                    itemName: '',
+                                    discountedPrice: ''
+                                })
+                            }
+                        })
 
                 }
                 else {
@@ -180,18 +180,18 @@ export default class PreviewItem extends Component {
                                     discountedPrice: '',
                                 })
                             }
-                     })
-                     .catch(err => {
-                         if (err.response.data) {
-                             this.setState({
-                                 quantity:'',
-                                 itemName: '',
-                                 discountedPrice: ''
-                             })
-                         }
-                     })
-            }
-        })
+                        })
+                        .catch(err => {
+                            if (err.response.data) {
+                                this.setState({
+                                    quantity: '',
+                                    itemName: '',
+                                    discountedPrice: ''
+                                })
+                            }
+                        })
+                }
+            })
     }
 
     //sending wishlist details to the cart DB
@@ -303,22 +303,13 @@ export default class PreviewItem extends Component {
                         </div>
                         {isAuthenticated().user.role === "user" &&
                             <div>
-                                <form className="container" onSubmit={this.onSubmit}>
-                                    <div className="form-group text-center">
-                                        <input style={{width:'40%'}} type="Number" class="form-control" name="quantity" onChange={this.handleChange}/>
-                                        <input type="submit"  value="ADD TO CART" class="btn btn-primary"/>
+                                <form className="container">
+                                    <div className="form-group text-center row">
+                                        <input style={{ width: '40%' }} type="Number" class="form-control ml-3" name="quantity" onChange={this.handleChange} />
+                                        <input type="submit" value="ADD TO CART" class="btn ThemeBackground ml-3" onClick={this.onSubmit} />
+                                        <input type="submit" value="ADD TO WISHLIST" class="btn ThemeBackground ml-3" onClick={this.addToWishList} />
                                     </div>
                                 </form>
-                                <form className="container" onSubmit={this.addToWishList}>
-                                    <div className="form-group text-center">
-                                        <input type="submit" value="ADD TO WISHLIST" class="btn btn-primary"/>
-                                    </div>
-                                </form>
-                                {/* <form className="container" onSubmit={this.addToWishList}>
-                                <div className="form-group text-center">
-                                    <input type="submit" value="ADD TO WISHLIST" class="btn btn-primary" />
-                                </div>
-                            </form> */}
                             </div>
                         }
                         <div class="card-footer">

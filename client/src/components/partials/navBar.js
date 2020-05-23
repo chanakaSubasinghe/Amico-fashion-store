@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-
+import axios from 'axios'
 // importing custom css and javascript
 import "../../public/css/navbar.css";
 import collapseFunction from "../../public/js/navbar.js";
@@ -20,9 +20,29 @@ export default class NavBar extends Component {
 
     this.state = {
       userObj: isAuthenticated(),
+      cardCount: 0,
+      wishlistCount: 0
     };
     // binding functions
     this.logout = this.logout.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.state.userObj.user.role === 'user') {
+      setInterval(async () => {
+        const cartResponse = await axios.get('/cart/' + JSON.parse(localStorage.getItem("jwt")).user._id)
+        this.setState({
+          cardCount: cartResponse.data.length
+        })
+
+        const wishListResponse = await axios.get('/wishlist/' + JSON.parse(localStorage.getItem("jwt")).user._id)
+
+        this.setState({
+          wishlistCount: wishListResponse.data.length
+        })
+      }, 1000)
+
+    }
   }
 
   // logout function
@@ -79,6 +99,7 @@ export default class NavBar extends Component {
                     <Link class="m-2" to={`/wishlist`}>
                       <i class="fa fa-heart NavBar-heart-Icon"></i>
                       <span class="badge badge-light">
+                        {this.state.wishlistCount}
                       </span>
                     </Link>
                     <Link
@@ -86,6 +107,7 @@ export default class NavBar extends Component {
                     >
                       <i class="fa fa-shopping-cart NavBar-shopping-cart-Icon"></i>
                       <span class="badge badge-light">
+                        {this.state.cardCount}
                       </span>
                     </Link>
                   </div>
@@ -130,16 +152,16 @@ export default class NavBar extends Component {
                 </div>
               </div>
             ) : (
-              <div class="d-inline">
-                <Link
-                  to="/login"
-                  class="hideWithCollapse"
-                  style={{ color: "white", textDecoration: "none" }}
-                >
-                  Login | Join
+                <div class="d-inline">
+                  <Link
+                    to="/login"
+                    class="hideWithCollapse"
+                    style={{ color: "white", textDecoration: "none" }}
+                  >
+                    Login | Join
                 </Link>
-              </div>
-            )}
+                </div>
+              )}
 
             <button
               className="navbar-toggler"
