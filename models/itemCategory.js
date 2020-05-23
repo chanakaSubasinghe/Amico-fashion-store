@@ -4,25 +4,24 @@ const mongoose = require('mongoose')
 //importing item model
 const Item = require('./item')
 
+
 //define mongoose schema
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema 
 
 //declaring item category schema
-const itemCategorySchema = new Schema({
-    categoryName: {
-        type: String,
-        unique: true,
-        required: true,
-        lowercase: true,
-        trim: true,
-        minlength: 2,
-        maxlength: 20,
+const itemCategorySchema = new Schema ({
+    categoryName :{
+        type : String,
+        unique:true,
+        required : true,
+        lowercase : true,
+        trim : true,
+        minlength : 2,
+        maxlength : 20,
     },
-},
-    {
-        timestamps: true
-    }
-)
+},{
+    timestamps : true
+})
 
 // set relationship
 itemCategorySchema.virtual('items', {
@@ -32,15 +31,15 @@ itemCategorySchema.virtual('items', {
 })
 
 // remove all items matching with category
-itemCategorySchema.pre('findOneAndDelete', async function (next) {
-    const category = this;
+itemCategorySchema.pre('findOneAndDelete', async function(next) {
+	const category = this;
+    
+    await Item.deleteMany({category: category._conditions._id})
 
-    await Item.deleteMany({ category: category._conditions._id })
-
-    next();
+	next();
 });
 
-const ItemCategory = mongoose.model('ItemCategory', itemCategorySchema)
+const ItemCategory = mongoose.model('ItemCategory',itemCategorySchema)
 
 // exporting item category schema
 module.exports = ItemCategory 

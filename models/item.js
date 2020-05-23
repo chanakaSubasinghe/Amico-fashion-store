@@ -1,31 +1,32 @@
 //declaring dependencies
+
 const mongoose = require('mongoose')
 
 //define mongoose schema
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema 
 
 //declaring item schema
 const itemSchema = new Schema({
 
-    itemPhoto: {
-        type: Buffer,
+    itemPhoto:{
+        type:Buffer,
         required: true
-
+        
     },
-    itemName: {
+    itemName:{
         type: String,
         required: true,
-        trim: true,
+        trim : true,
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ItemCategory',
-        required: true,
+        required:true,
     },
-    discount: {
+    discount:{
         type: Number
     },
-    totalPrice: {
+    totalPrice:{
         type: Number,
         required: true,
     },
@@ -33,11 +34,11 @@ const itemSchema = new Schema({
         type: Number,
         required: true
     },
-    averageRate: {
+    averageRate:{
         type: Number,
         default: 1.0
     }
-}, {
+},{
     timestamps: true,
 });
 
@@ -46,11 +47,11 @@ itemSchema.statics.findDiscountedPrice = async (totalPrice, discount) => {
 
     const discountedPrice = totalPrice - (totalPrice * (discount / 100))
 
-    return discountedPrice;
+	return discountedPrice;
 };
 
 
 
-const Item = mongoose.model('Item', itemSchema);
+const Item = mongoose.model('Item',itemSchema);
 
 module.exports = Item 
