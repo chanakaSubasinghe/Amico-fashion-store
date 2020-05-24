@@ -28,7 +28,7 @@ export default class NavBar extends Component {
   }
 
   componentDidMount() {
-    if (this.state.userObj.user.role === 'user') {
+    if (JSON.parse(localStorage.getItem("jwt")) && this.state.userObj.user.role === 'user') {
       setInterval(async () => {
         const cartResponse = await axios.get('/cart/' + JSON.parse(localStorage.getItem("jwt")).user._id)
         this.setState({
