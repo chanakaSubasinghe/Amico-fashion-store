@@ -104,8 +104,6 @@ export default class PreviewItem extends Component {
         axios.delete('/comment/' + id)
             .then(res => {
                 console.log(res.data)
-
-                window.location = '/items/' + this.props.match.params.id
             });
 
         this.setState({
@@ -306,7 +304,7 @@ export default class PreviewItem extends Component {
                                 <div class="text-center">
                                 </div>
                                 <h5 class="card-title">{this.state.itemName}</h5>
-                                <p className="float-right" >category - <span style={{ color: "green" }}>{this.state.category}</span></p>
+                                <p>category - <span style={{ color: "green" }}>{this.state.category}</span></p>
                                 {this.state.userCount == 0 ? <p><i class="fa fa-star"></i>No Ratings</p> : <p><i class="fa fa-star"></i>{(this.state.totalRate / this.state.userCount).toFixed(1)}</p>}
                                 {this.state.discountedPrice < this.state.totalPrice
                                     &&
