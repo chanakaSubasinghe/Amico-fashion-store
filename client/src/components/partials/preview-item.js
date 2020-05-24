@@ -51,17 +51,23 @@ export default class PreviewItem extends Component {
             quantity: '',
             alreadyItemCount: 0,
             cartid: '',
-            wishListid: ''
+            wishListid: '',
+            loading: false
         }
     }
 
     //list all categories
     componentDidMount() {
 
+        this.setState({
+            loading: true
+        })
+
         // request to server to get item details
         axios.get('/items/' + this.props.match.params.id)
             .then(res => {
                 this.setState({
+                    loading: false,
                     id: res.data._id,
                     itemPhoto: res.data.itemPhoto,
                     itemName: res.data.itemName,
@@ -280,56 +286,68 @@ export default class PreviewItem extends Component {
     }
 
     render() {
-        return (
-            <div class="container">
-                <div class="card-deck col-lg-12" style={{ marginTop: "10%" }}>
-                    <div class="card" style={{ margin: "0% 20%" }}>
-                        <img class="card-img-top" src={`/items/${this.state.id}/itemPhoto`} alt="" />
-                        <div class="card-body">
-                            <div class="text-center">
-                            </div>
-                            <h5 class="card-title">{this.state.itemName}</h5>
-                            <p className="float-right" >category - <span style={{ color: "green" }}>{this.state.category}</span></p>
-                            {this.state.userCount == 0 ? <p><i class="fa fa-star"></i>No Ratings</p> : <p><i class="fa fa-star"></i>{(this.state.totalRate / this.state.userCount).toFixed(1)}</p>}
-                            {this.state.discountedPrice < this.state.totalPrice
-                                &&
-                                <div class="float-right">
-                                    <del class="card-text text-dark">Rs.{this.state.totalPrice}.00</del>
-                                    <h5 class="card-text text-primary">Rs.{this.state.discountedPrice}.00</h5>
+
+        if (this.state.loading) {
+            return (
+                <div class="text-center my-5">
+                    <div class="spinner-border" role="status" style={{ width: "3rem", height: "3rem" }}>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            )
+        } else {
+
+            return (
+                <div class="container">
+                    <div class="card-deck col-lg-12" style={{ marginTop: "10%" }}>
+                        <div class="card" style={{ margin: "0% 20%" }}>
+                            <img class="card-img-top" src={`/items/${this.state.id}/itemPhoto`} alt="" />
+                            <div class="card-body">
+                                <div class="text-center">
                                 </div>
-                                ||
-                                <div class="float-right">
-                                    <br />
-                                    <h5 class="card-text text-primary">Rs.{this.state.discountedPrice}.00</h5>
+                                <h5 class="card-title">{this.state.itemName}</h5>
+                                <p className="float-right" >category - <span style={{ color: "green" }}>{this.state.category}</span></p>
+                                {this.state.userCount == 0 ? <p><i class="fa fa-star"></i>No Ratings</p> : <p><i class="fa fa-star"></i>{(this.state.totalRate / this.state.userCount).toFixed(1)}</p>}
+                                {this.state.discountedPrice < this.state.totalPrice
+                                    &&
+                                    <div class="float-right">
+                                        <del class="card-text text-dark">Rs.{this.state.totalPrice}.00</del>
+                                        <h5 class="card-text text-primary">Rs.{this.state.discountedPrice}.00</h5>
+                                    </div>
+                                    ||
+                                    <div class="float-right">
+                                        <br />
+                                        <h5 class="card-text text-primary">Rs.{this.state.discountedPrice}.00</h5>
+                                    </div>
+                                }
+                            </div>
+                            {isAuthenticated() && isAuthenticated().user.role === "user" &&
+                                <div>
+                                    <form className="container">
+                                        <div className="form-group text-center row">
+                                            <input style={{ width: '20%' }} type="Number" class="form-control ml-3" name="quantity" onChange={this.handleChange} />
+                                            <button class="btn btn-sm ThemeBackground ml-2" onClick={this.onSubmit}>Add to cart</button>
+                                            <button class="btn btn-sm ThemeBackground ml-2" onClick={this.addToWishList}>Add to WishList</button>
+                                        </div>
+                                    </form>
                                 </div>
                             }
-                        </div>
-                        {isAuthenticated() && isAuthenticated().user.role === "user" &&
-                            <div>
-                                <form className="container">
-                                    <div className="form-group text-center row">
-                                        <input style={{ width: '20%' }} type="Number" class="form-control ml-3" name="quantity" onChange={this.handleChange} />
-                                        <button class="btn btn-sm ThemeBackground ml-2" onClick={this.onSubmit}>Add to cart</button>
-                                        <button class="btn btn-sm ThemeBackground ml-2" onClick={this.addToWishList}>Add to WishList</button>
+                            <div class="card-footer">
+                                <div class="inline">
+                                    <a class="comment" href="#comments">Show Comments</a>
+                                    <div id="comments">
+                                        <a class="commenta float-right" href="#">Hide</a>
+                                        <h3>Comments</h3>
+                                        <hr />
+                                        {this.CommentList()}
                                     </div>
-                                </form>
-                            </div>
-                        }
-                        <div class="card-footer">
-                            <div class="inline">
-                                <a class="comment" href="#comments">Show Comments</a>
-                                <div id="comments">
-                                    <a class="commenta float-right" href="#">Hide</a>
-                                    <h3>Comments</h3>
-                                    <hr />
-                                    {this.CommentList()}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        )
+            )
+        }
     }
 }
