@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { isAuthenticated, logout } from "../../auth/index";
 
 // item - functional component
 const Item = (props) => (
@@ -38,7 +39,9 @@ const Item = (props) => (
         <div class="inline">
           <div class="float-right">
             <Link to={`/cartCheckout`}>
-              <button class="btn ThemeBackground">Buy Now</button>
+              {isAuthenticated() && isAuthenticated().user.role === 'user' &&
+                <button class="btn ThemeBackground">Buy Now</button>
+              }
             </Link>
           </div>
         </div>

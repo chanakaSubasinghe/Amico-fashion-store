@@ -10,11 +10,13 @@ function CartCheckout() {
 
     const [modalShow, setModalShow] = useState(false);
 
-    const showModal = () => {
+    const showModal = (e) => {
+        e.preventDefault()
         setModalShow(true);
     };
 
-    const hideModal = () => {
+    const hideModal = (e) => {
+        e.preventDefault()
         setModalShow(false);
     };
 
@@ -32,27 +34,27 @@ function CartCheckout() {
                     </div>
 
                     <div class="col-6">
-                        <form>
+                        <form onSubmit={showModal}>
                             <div>
                                 <h5 style={{ textTransform: 'uppercase' }}>billing details</h5>
                             </div>
                             <div class="form-group" style={{ width: '150%' }}>
-                                <input class="form-control" placeholder='First Name'></input>
+                                <input class="form-control" placeholder='First Name' required></input>
                             </div>
                             <div class="form-group" style={{ width: '150%' }}>
-                                <input class="form-control" placeholder='Last Name'></input>
+                                <input class="form-control" placeholder='Last Name' required></input>
                             </div>
                             <div class="form-group" style={{ width: '150%' }}>
-                                <input class="form-control" placeholder='Street Address'></input>
+                                <input class="form-control" placeholder='Street Address' required></input>
                             </div>
                             <div class="form-group" style={{ width: '150%' }}>
-                                <input class="form-control" placeholder='City'></input>
+                                <input class="form-control" placeholder='City' required></input>
                             </div>
                             <div>
                                 <h5 style={{ textTransform: 'uppercase' }}>delivery details</h5>
                             </div>
                             <div class="form-group" style={{ width: '150%' }}>
-                                <select class="form-control" placeholder='City'>
+                                <select class="form-control" placeholder='City' required>
                                     <option>Colombo</option>
                                     <option>Kandy</option>
                                     <option>Gampaha</option>
@@ -62,19 +64,19 @@ function CartCheckout() {
                                 </select>
                             </div>
                             <div class="form-group" style={{ width: '150%' }}>
-                                <input class="form-control" placeholder='Postal Code'></input>
+                                <input class="form-control" placeholder='Postal Code' required></input>
                             </div>
                             <div class="form-group" style={{ width: '150%' }}>
-                                <input class="form-control" placeholder='Phone Number'></input>
+                                <input class="form-control" placeholder='Phone Number' required></input>
                             </div>
                             <div class="form-group" style={{ width: '150%' }}>
-                                <input class="form-control" placeholder='email'></input>
+                                <input class="form-control" placeholder='email' required></input>
                             </div>
                             <div class="form-group" style={{ width: '150%' }}>
-                                <textarea class="form-control" placeholder='Other Notes'></textarea>
+                                <textarea class="form-control" placeholder='Other Notes' required></textarea>
                             </div>
                             <div class="form-group">
-                                <Button onClick={showModal} style={{ width: '150%' }} class="btn btn-block ThemeBackground">PLACE ORDER</Button>
+                                <Button type="submit" style={{ width: '150%' }} class="btn btn-block ThemeBackground">PLACE ORDER</Button>
                                 <CartPayment
                                     show={modalShow}
                                     onHide={hideModal}
