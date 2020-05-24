@@ -173,8 +173,8 @@ export default class AddWishListToCart extends Component {
                             <form className="container" onSubmit={this.onSubmit}>
                                 <div className="form-group text-center row">
                                     <br />
-                                    <input type="Number" class="form-control ml-3" name="quantity" onChange={this.handleChange} style={{ width: "50%" }} />
-                                    <input type="submit" value="ADD TO CART" class="btn ThemeBackground ml-3" />
+                                    <input type="Number" class="form-control ml-3" name="quantity" min="1" max="10" defaultValue="1" onChange={this.handleChange} style={{ width: "50%" }} />
+                                    <input type="submit" value="ADD TO CART" class="btn ThemeBackground ml-2" />
                                 </div>
                             </form>
                         </div>

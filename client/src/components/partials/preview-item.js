@@ -324,10 +324,10 @@ export default class PreviewItem extends Component {
                             {isAuthenticated() && isAuthenticated().user.role === "user" &&
                                 <div>
                                     <form className="container">
-                                        <div className="form-group text-center row">
-                                            <input style={{ width: '20%' }} type="Number" class="form-control ml-3" name="quantity" onChange={this.handleChange} />
+                                        <div className="form-group row">
+                                            <input style={{ width: '20%' }} type="Number" min="1" max="10" defaultValue="1" class="form-control ml-3" name="quantity" onChange={this.handleChange} />
                                             <button class="btn btn-sm ThemeBackground ml-2" onClick={this.onSubmit}>Add to cart</button>
-                                            <button class="btn btn-sm ThemeBackground ml-2" onClick={this.addToWishList}>Add to WishList</button>
+                                            <button class="btn btn-sm ml-2" onClick={this.addToWishList}><i class="fa fa-heart heart-Icon"></i></button>
                                         </div>
                                     </form>
                                 </div>
