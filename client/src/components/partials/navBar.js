@@ -20,8 +20,7 @@ export default class NavBar extends Component {
 
     this.state = {
       userObj: isAuthenticated(),
-      date: new Date().toLocaleTimeString(),
-      cartCount: 0,
+      cardCount: 0,
       wishlistCount: 0
     };
     // binding functions
@@ -29,33 +28,23 @@ export default class NavBar extends Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
-      this.setState({
-        date: new Date().toLocaleTimeString()
-      })
-    }, 1000)
+    if (JSON.parse(localStorage.getItem("jwt")) && this.state.userObj.user.role === 'user') {
+      setInterval(async () => {
+        const cartResponse = await axios.get('/cart/' + JSON.parse(localStorage.getItem("jwt")).user._id)
+        this.setState({
+          cardCount: cartResponse.data.length
+        })
 
-    setInterval(() => {
+        const wishListResponse = await axios.get('/wishlist/' + JSON.parse(localStorage.getItem("jwt")).user._id)
 
-      if (JSON.parse(localStorage.getItem("jwt"))) {
-        axios.get('/wishlist/' + JSON.parse(localStorage.getItem("jwt")).user._id)
-          .then(response => {
-            this.setState({
-              wishlistCount: response.data.length
-            })
-          })
+        this.setState({
+          wishlistCount: wishListResponse.data.length
+        })
+      }, 1000)
 
-        axios.get('/cart/' + JSON.parse(localStorage.getItem("jwt")).user._id)
-          .then(response => {
-            this.setState({
-              cartCount: response.data.length
-            })
-          });
-      }
-
-    }, 1500)
-
+    }
   }
+
   // logout function
   logout(e) {
     e.preventDefault();
@@ -70,13 +59,18 @@ export default class NavBar extends Component {
       <div>
         <nav class="navbar navbar-dark bg-dark">
           <div class=" container row">
-            <h5 class="ml-2 text-white">{this.state.date}</h5>
             <small class="text-white">
               <img src={phone} class="nav-icons" /> +94112345678
             </small>
             <small class="text-white">
               <img src={shoppingVan} class="nav-icons" /> free delivery on
               island wide
+            </small>
+            <small class="text-white">
+              <Link to="http://www.instagram.com">
+                <img src={instagram} class="nav-icons" />
+              </Link>{" "}
+              follow us
             </small>
           </div>
         </nav>
@@ -86,7 +80,6 @@ export default class NavBar extends Component {
             <Link class="navbar-brand" to="/">
               <img class="mx-auto d-block" id="amico-brand" src={amico} />
             </Link>
-
             <div
               class="collapse navbar-collapse justify-content-center"
               id="navbarSupportedContent"
@@ -105,14 +98,16 @@ export default class NavBar extends Component {
                   <div class="d-inline m-2">
                     <Link class="m-2" to={`/wishlist`}>
                       <i class="fa fa-heart NavBar-heart-Icon"></i>
-                      <span class="badge badge-light">{this.state.wishlistCount}
+                      <span class="badge badge-light">
+                        {this.state.wishlistCount}
                       </span>
                     </Link>
                     <Link
                       to={`/cartList`}
                     >
                       <i class="fa fa-shopping-cart NavBar-shopping-cart-Icon"></i>
-                      <span class="badge badge-light">{this.state.cartCount}
+                      <span class="badge badge-light">
+                        {this.state.cardCount}
                       </span>
                     </Link>
                   </div>

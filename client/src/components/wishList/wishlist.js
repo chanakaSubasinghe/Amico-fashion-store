@@ -13,10 +13,10 @@ const WishList = props => (
             <td>Rs.{props.wishlist.discountedPrice}.00</td>
             <td>
                 <Link to={`/wishlistItems/${props.wishlist.itemID}`}>
-                    <button class="btn btn-danger">ADD TO CART</button>
+                    <button onClick={() => { props.deleteWishlistItem(props.wishlist._id) }} class="btn btn-sm ThemeBackground" >ADD TO CART</button>
                 </Link>
             </td>
-            <td><button onClick={() => { props.deleteWishlistItem(props.wishlist._id) }} class="btn btn-danger">REMOVE</button></td>
+            <td><button onClick={() => { props.deleteWishlistItem(props.wishlist._id) }} class="btn btn-sm btn-danger">REMOVE</button></td>
         </tr>
     </tbody>
 )
@@ -74,32 +74,33 @@ export default class WishListItems extends Component {
 
     render() {
         return (
+
             <div>
-                <div class="container margin-top text-center">
-                    <h2>WISH LIST</h2>
-                </div>
-                <div class="margin-top">
-                    <div class="col-12 container">
-                        {this.state.wishlist.length === 0 ? <h3 class="text-center text-danger">Hello throw your fav items to cart :)</h3> :
-                            <>
+                {this.state.wishlist.length === 0 ? <h2 class="text-danger margin-top text-center">Empty WishList</h2> :
+                    <div>
+                        <div class="container margin-top text-center">
+                            <h2>WISH LIST</h2>
+                        </div>
+                        <div class="margin-top">
+                            <div class="col-12 container">
                                 <table class="table table-image text-center">
                                     <thead class="ThemeBackground">
                                         <tr>
                                             <th scope="col">Product</th>
                                             <th scope="col">Product Name</th>
                                             <th scope="col">Price of the item</th>
-                                            <th scope="col"></th>
-                                            <th scope="col"></th>
+                                            <th scope="col">Action</th>
+                                            <th scope="col">Delete</th>
                                         </tr>
                                     </thead>
 
                                     {this.wishLists()}
 
                                 </table>
-                            </>
-                        }
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         )
     }

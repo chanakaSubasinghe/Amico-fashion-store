@@ -110,6 +110,8 @@ export default class PreviewItem extends Component {
         })
     }
     onSubmit(e) {
+
+        e.preventDefault();
         axios.get('/cartDetails/' + JSON.parse(localStorage.getItem("jwt")).user._id + '/' + this.props.match.params.id)
             .then(res => {
 
@@ -121,6 +123,8 @@ export default class PreviewItem extends Component {
                 })
 
                 if (this.state.alreadyItemCount > 0) {
+
+
                     const formData = {
                         quantity: this.state.quantity,
                         itemName: this.state.itemName,
@@ -141,7 +145,6 @@ export default class PreviewItem extends Component {
                                     discountedPrice: '',
                                 })
                             }
-                            // window.location ='/cartList'
                         })
                         .catch(err => {
                             if (err.response.data) {
@@ -155,6 +158,7 @@ export default class PreviewItem extends Component {
 
                 }
                 else {
+
                     const formData = {
                         quantity: this.state.quantity,
                         itemName: this.state.itemName,
@@ -176,8 +180,6 @@ export default class PreviewItem extends Component {
                                     discountedPrice: '',
                                 })
                             }
-
-                            window.location = '/cartList'
                         })
                         .catch(err => {
                             if (err.response.data) {
@@ -194,6 +196,7 @@ export default class PreviewItem extends Component {
 
     //sending wishlist details to the cart DB
     addToWishList(e) {
+        e.preventDefault();
         axios.get('/wishlistDetails/' + JSON.parse(localStorage.getItem("jwt")).user._id + '/' + this.props.match.params.id)
             .then(res => {
                 res.data.forEach((wishlistItem) => {
@@ -300,18 +303,13 @@ export default class PreviewItem extends Component {
                         </div>
                         {isAuthenticated().user.role === "user" &&
                             <div>
-                                <form className="container" onSubmit={this.onSubmit}>
-                                    <div className="form-group row text-center">
-                                        <input style={{ width: '20%' }} type="Number" class="form-control ml-3" name="quantity" onChange={this.handleChange} />
-                                        <input type="submit" value="ADD TO CART" class="btn btn-primary ml-3" />
-                                        <input type="button" value="ADD TO WISHLIST" class="btn btn-primary ml-3" onClick={this.addToWishList} />
+                                <form className="container">
+                                    <div className="form-group text-center row">
+                                        <input style={{ width: '40%' }} type="Number" class="form-control ml-3" name="quantity" onChange={this.handleChange} />
+                                        <input type="submit" value="ADD TO CART" class="btn ThemeBackground ml-3" onClick={this.onSubmit} />
+                                        <input type="submit" value="ADD TO WISHLIST" class="btn ThemeBackground ml-3" onClick={this.addToWishList} />
                                     </div>
                                 </form>
-                                {/* <form className="container" onSubmit={this.addToWishList}>
-                                <div className="form-group text-center">
-                                    <input type="submit" value="ADD TO WISHLIST" class="btn btn-primary" />
-                                </div>
-                            </form> */}
                             </div>
                         }
                         <div class="card-footer">

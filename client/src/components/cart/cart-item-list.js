@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -10,10 +11,14 @@ const Cart = props => (
                 {<img src={`/items/${props.cart.itemID}/itemPhoto`} class="img-fluid img-thumbnail" alt="" />}
             </td>
             <td>{props.cart.itemName}</td>
-            <td><input type="Number" className="text-center" value={props.cart.quantity} /></td>
+            <td>
+                <button className='btn-sm' style={{ margin: "0% 10%" }} onClick={() => { props.increaseCartQty(props.cart._id, props.cart.discountedPrice) }}>+</button>
+                {props.cart.quantity}
+                <button className='btn-sm' style={{ margin: "0% 10%" }} onClick={() => { props.decreaseCartQty(props.cart._id, props.cart.quantity, props.cart.discountedPrice) }}>-</button>
+            </td>
             <td>Rs.{props.cart.discountedPrice}.00</td>
             <td>Rs.{props.cart.discountedPrice * props.cart.quantity}.00</td>
-            <td><button onClick={() => { props.deleteCartItem(props.cart._id) }} class="btn btn-danger">Remove</button></td>
+            <td><button onClick={() => { props.deleteCartItem(props.cart._id, props.cart.discountedPrice, props.cart.quantity) }} class="btn btn-sm btn-danger">Remove</button></td>
         </tr>
     </tbody>
 )
@@ -25,7 +30,9 @@ export default class CartItemList extends Component {
         super(props);
 
         //binding the functions
-        this.deleteCartItem = this.deleteCartItem.bind(this);
+        this.deleteCartItem = this.deleteCartItem.bind(this)
+        this.increaseCartQty = this.increaseCartQty.bind(this)
+        this.decreaseCartQty = this.decreaseCartQty.bind(this)
 
         this.state = {
             cart: [],
@@ -62,31 +69,78 @@ export default class CartItemList extends Component {
 
     CartList() {
         return this.state.cart.map(currentCart => {
-            return <Cart cart={currentCart} deleteCartItem={this.deleteCartItem} key={currentCart.id} />
+            return <Cart cart={currentCart} deleteCartItem={this.deleteCartItem} key={currentCart.id} increaseCartQty={this.increaseCartQty} decreaseCartQty={this.decreaseCartQty} />
         })
     }
 
     //deleting an item in the cart
-    deleteCartItem(id) {
+    deleteCartItem(id, discountedPrice, quantity) {
         axios.delete('/cart/' + id)
-            .then(res => console.log(res.data));
+            .then(
+                axios.get('/cart/' + JSON.parse(localStorage.getItem("jwt")).user._id)
+                    .then(response => {
+                        this.setState({
+                            cart: response.data,
+                            totalValue: this.state.totalValue - (quantity * discountedPrice),
+                            cart: this.state.cart.filter(el => el._id != id),
+                        })
+                    }))
+
+    }
+
+    async increaseCartQty(cartId, discountedPrice) {
+
+        await axios.post('/incrementCartQty/' + cartId)
+        const response = await axios.get('/cart/' + JSON.parse(localStorage.getItem("jwt")).user._id)
 
         this.setState({
-            cart: this.state.cart.filter(el => el._id != id)
+            cart: response.data,
+            totalValue: this.state.totalValue + (1 * discountedPrice)
         })
+
+    }
+
+    async decreaseCartQty(cartId, qty, discountedPrice) {
+        if (qty == 1) {
+            await axios.delete('/cart/' + cartId)
+
+            const response = await axios.get('/cart/' + JSON.parse(localStorage.getItem("jwt")).user._id)
+
+            this.setState({
+                cart: response.data,
+                totalValue: this.state.totalValue - (1 * discountedPrice)
+            })
+
+            this.setState({
+                cart: this.state.cart.filter(el => el._id != cartId)
+            })
+        }
+
+        else {
+            axios.post('/decrementCartQty/' + cartId)
+                .then(
+                    axios.get('/cart/' + JSON.parse(localStorage.getItem("jwt")).user._id)
+                        .then(response => {
+                            this.setState({
+                                cart: response.data,
+                                totalValue: this.state.totalValue - (1 * discountedPrice)
+                            })
+                        })
+                )
+        }
+
     }
 
     render() {
         return (
-            <div>
-                <div class="container margin-top text-center">
-                    <h2>SHOPPING CART</h2>
-                    <h2>{`Total - ${this.state.totalValue}`}</h2>
-                </div>
-                <div class="margin-top">
-                    <div class="col-12 container">
-                        {this.state.cart.length === 0 ? <h3 class="text-center text-danger">Please add your favorites items to cart in order to checkout</h3> :
-                            <>
+            <>
+                {this.state.cart.length === 0 ? <h2 class="text-danger margin-top text-center">Empty Cart</h2> :
+                    <div>
+                        <div class="container margin-top text-center">
+                            <h2>SHOPPING CART</h2>
+                        </div>
+                        <div class="margin-top">
+                            <div class="col-12 container">
                                 <table class="table table-image text-center">
                                     <thead class="ThemeBackground">
                                         <tr>
@@ -103,16 +157,19 @@ export default class CartItemList extends Component {
 
                                 </table>
                                 <div class="text-center">
-                                    <Link to={`/cartCheckout`}>
-                                        <button class="btn ThemeBackground active">CHECKOUT</button>
+                                    <span></span>
+                                    <label>Total = {this.state.totalValue}</label>
+                                </div>
+                                <div class="text-center">
+                                    <Link to={`../BuyNow/checkout`}>
+                                        <button class="btn btn-primary active">CHECKOUT</button>
                                     </Link>
                                 </div>
-                            </>
-                        }
-
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                }
+            </>
         )
     }
 

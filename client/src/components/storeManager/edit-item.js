@@ -67,7 +67,8 @@ export default class EditItem extends Component {
     itemPhoto(e) {        
         console.log(e.target.files[0])
         this.setState({
-            itemPhoto: e.target.files[0]
+            itemPhoto: e.target.files[0],
+            image: URL.createObjectURL(e.target.files[0])
         })
     }
     
@@ -115,6 +116,8 @@ export default class EditItem extends Component {
                             <li>Discount is optional</li>
                         </ul>
                     </div>
+
+                    <img id="target" src={this.state.image} style={{width:"15%", marginLeft:"38%"}}/>
     
                     <form onSubmit={this.onSubmit}>
 

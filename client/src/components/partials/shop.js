@@ -6,15 +6,17 @@ import axios from "axios";
 const Item = (props) => (
   <div class="card-deck col-md-4 my-3">
     <div class="card h-100">
-      <Link to={`/items/${props.item._id}`} class="text-decoration-none">
-        <img
-          class="card-img-top"
-          src={`/items/${props.item._id}/itemPhoto`}
-          alt=""
-        />
-      </Link>
-
       <div class="card-body">
+        <div class="text-center">
+          <Link to={`/items/${props.item._id}`} class="text-decoration-none">
+            <img
+              class="card-img-top"
+              src={`/items/${props.item._id}/itemPhoto`}
+              alt=""
+            />
+          </Link>
+        </div>
+        <br />
         <h5 class="card-title">{props.item.itemName}</h5>
         {(props.item.discountedPrice < props.item.totalPrice && (
           <div class="float-right">
@@ -182,6 +184,7 @@ export default class Shop extends Component {
           </ul>
 
           <div className="my-5 row">{this.ItemList()}</div>
+
         </div>
       );
     }

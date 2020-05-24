@@ -88,10 +88,10 @@ class App extends Component {
             component={EditItem}
           />
 
-          <Route exact path="/cartList" component={CartItemList} />
-          <Route exact path="/cartCheckout" component={CartCheckout} />
-          <Route exact path="/wishlist" component={WishListItems} />
-          <Route exact path="/wishlistItems/:id" component={AddWishListToCart} />
+            <Route exact path="/cartList" component={CartItemList} />
+						<Route exact path="/cartCheckout" component={CartCheckout} />
+            <Route exact path="/wishlist" component={WishListItems} />
+            <Route exact path="/wishlistItems/:id" component={AddWishListToCart} />
 
           <Route exact path="/comments/:id" component={Comment} />
           <Route exact path="/boughtItems" component={BoughtItems} />
