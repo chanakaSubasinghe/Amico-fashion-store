@@ -38,15 +38,21 @@ export default class CartItemList extends Component {
             cart: [],
             totalValue: 0,
             quantity: 0,
-            discountedPrice: 0
+            discountedPrice: 0,
+            loading: false
         }
     }
 
     componentDidMount() {
 
+        this.setState({
+            loading: true
+        })
+
         axios.get('/cart/' + JSON.parse(localStorage.getItem("jwt")).user._id)
             .then(response => {
                 this.setState({
+                    loading: false,
                     cart: response.data
                 })
                 //cart total
@@ -132,45 +138,56 @@ export default class CartItemList extends Component {
     }
 
     render() {
-        return (
-            <>
-                {this.state.cart.length === 0 ? <h2 class="text-danger margin-top text-center">Empty Cart</h2> :
-                    <div>
-                        <div class="container margin-top text-center">
-                            <h2>SHOPPING CART</h2>
-                        </div>
-                        <div class="margin-top">
-                            <div class="col-12 container">
-                                <table class="table table-image text-center">
-                                    <thead class="ThemeBackground">
-                                        <tr>
-                                            <th scope="col">Product</th>
-                                            <th scope="col">Product Name</th>
-                                            <th scope="col">quantity</th>
-                                            <th scope="col">Price of the item</th>
-                                            <th scope="col">Total Price</th>
-                                            <th scope="col">Remove from Cart</th>
-                                        </tr>
-                                    </thead>
 
-                                    {this.CartList()}
+        if (this.state.loading) {
+            return (
+                <div class="text-center my-5">
+                    <div class="spinner-border" role="status" style={{ width: "3rem", height: "3rem" }}>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <>
+                    {this.state.cart.length === 0 ? <h2 class="text-danger margin-top text-center">Empty Cart</h2> :
+                        <div>
+                            <div class="container margin-top text-center">
+                                <h2>SHOPPING CART</h2>
+                            </div>
+                            <div class="margin-top">
+                                <div class="col-12 container">
+                                    <table class="table table-image text-center">
+                                        <thead class="ThemeBackground">
+                                            <tr>
+                                                <th scope="col">Product</th>
+                                                <th scope="col">Product Name</th>
+                                                <th scope="col">quantity</th>
+                                                <th scope="col">Price of the item</th>
+                                                <th scope="col">Total Price</th>
+                                                <th scope="col">Remove from Cart</th>
+                                            </tr>
+                                        </thead>
 
-                                </table>
-                                <div class="text-center">
-                                    <span></span>
-                                    <label>Total = {this.state.totalValue}</label>
-                                </div>
-                                <div class="text-center">
-                                    <Link to={`../BuyNow/checkout`}>
-                                        <button class="btn btn-primary active">CHECKOUT</button>
-                                    </Link>
+                                        {this.CartList()}
+
+                                    </table>
+                                    <div class="text-center">
+                                        <span></span>
+                                        <label>Total = {this.state.totalValue}</label>
+                                    </div>
+                                    <div class="text-center">
+                                        <Link to={`../BuyNow/checkout`}>
+                                            <button class="btn btn-primary active">CHECKOUT</button>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </>
-        )
+                    }
+                </>
+            )
+        }
     }
 
 }

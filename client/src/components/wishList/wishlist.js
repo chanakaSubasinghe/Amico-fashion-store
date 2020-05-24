@@ -31,14 +31,20 @@ export default class WishListItems extends Component {
 
         this.state = {
             wishlist: [],
+            loading: false
         };
     }
 
     componentDidMount() {
 
+        this.setState({
+            loading: true
+        })
+
         axios.get('/wishlist/' + JSON.parse(localStorage.getItem("jwt")).user._id)
             .then(response => {
                 this.setState({
+                    loading: false,
                     wishlist: response.data
                 })
             })
@@ -73,36 +79,47 @@ export default class WishListItems extends Component {
     }
 
     render() {
-        return (
 
-            <div>
-                {this.state.wishlist.length === 0 ? <h2 class="text-danger margin-top text-center">Empty WishList</h2> :
-                    <div>
-                        <div class="container margin-top text-center">
-                            <h2>WISH LIST</h2>
-                        </div>
-                        <div class="margin-top">
-                            <div class="col-12 container">
-                                <table class="table table-image text-center">
-                                    <thead class="ThemeBackground">
-                                        <tr>
-                                            <th scope="col">Product</th>
-                                            <th scope="col">Product Name</th>
-                                            <th scope="col">Price of the item</th>
-                                            <th scope="col">Action</th>
-                                            <th scope="col">Delete</th>
-                                        </tr>
-                                    </thead>
+        if (this.state.loading) {
+            return (
+                <div class="text-center my-5">
+                    <div class="spinner-border" role="status" style={{ width: "3rem", height: "3rem" }}>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
 
-                                    {this.wishLists()}
+                <div>
+                    {this.state.wishlist.length === 0 ? <h2 class="text-danger margin-top text-center">Empty WishList</h2> :
+                        <div>
+                            <div class="container margin-top text-center">
+                                <h2>WISH LIST</h2>
+                            </div>
+                            <div class="margin-top">
+                                <div class="col-12 container">
+                                    <table class="table table-image text-center">
+                                        <thead class="ThemeBackground">
+                                            <tr>
+                                                <th scope="col">Product</th>
+                                                <th scope="col">Product Name</th>
+                                                <th scope="col">Price of the item</th>
+                                                <th scope="col">Action</th>
+                                                <th scope="col">Delete</th>
+                                            </tr>
+                                        </thead>
 
-                                </table>
+                                        {this.wishLists()}
+
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
-        )
+                    }
+                </div>
+            )
+        }
     }
 
 

@@ -12,7 +12,9 @@ const Comment = props => (
         <img src={Image} style={{ maxWidth: "5%" }} class="img mx-auto float-left" alt="..." />
         <p>{props.comments.userName}</p>
         <p class="float-right"><span class="fa fa-star">{props.comments.rate}</span></p>
+        <br />
         <p class="text-primary ml-5">{props.comments.comment}</p>
+        <br />
         <a class="float-right date"><small>Date : {new Date(props.comments.createdAt).toDateString()}</small></a>
         {props.comments.userid === JSON.parse(localStorage.getItem("jwt")).user._id &&
             <span>
@@ -305,9 +307,9 @@ export default class PreviewItem extends Component {
                             <div>
                                 <form className="container">
                                     <div className="form-group text-center row">
-                                        <input style={{ width: '40%' }} type="Number" class="form-control ml-3" name="quantity" onChange={this.handleChange} />
-                                        <input type="submit" value="ADD TO CART" class="btn ThemeBackground ml-3" onClick={this.onSubmit} />
-                                        <input type="submit" value="ADD TO WISHLIST" class="btn ThemeBackground ml-3" onClick={this.addToWishList} />
+                                        <input style={{ width: '20%' }} type="Number" class="form-control ml-3" name="quantity" onChange={this.handleChange} />
+                                        <button class="btn btn-sm ThemeBackground ml-2" onClick={this.onSubmit}>Add to cart</button>
+                                        <button class="btn btn-sm ThemeBackground ml-2" onClick={this.addToWishList}>Add to WishList</button>
                                     </div>
                                 </form>
                             </div>

@@ -21,13 +21,16 @@ export default class NavBar extends Component {
     this.state = {
       userObj: isAuthenticated(),
       cardCount: 0,
-      wishlistCount: 0
+      wishlistCount: 0,
+      date: new Date().toLocaleTimeString()
     };
     // binding functions
     this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
+
+    // fetching counts of cart and wishList
     if (JSON.parse(localStorage.getItem("jwt")) && this.state.userObj.user.role === 'user') {
       setInterval(async () => {
         const cartResponse = await axios.get('/cart/' + JSON.parse(localStorage.getItem("jwt")).user._id)
@@ -43,6 +46,14 @@ export default class NavBar extends Component {
       }, 1000)
 
     }
+    // set time
+    setInterval(() => {
+      this.setState({
+        date: new Date().toLocaleTimeString()
+      })
+    }, 1000)
+
+
   }
 
   // logout function
@@ -59,18 +70,13 @@ export default class NavBar extends Component {
       <div>
         <nav class="navbar navbar-dark bg-dark">
           <div class=" container row">
+            <h5 class="ml-2 text-white">{this.state.date}</h5>
             <small class="text-white">
               <img src={phone} class="nav-icons" /> +94112345678
             </small>
             <small class="text-white">
               <img src={shoppingVan} class="nav-icons" /> free delivery on
               island wide
-            </small>
-            <small class="text-white">
-              <Link to="http://www.instagram.com">
-                <img src={instagram} class="nav-icons" />
-              </Link>{" "}
-              follow us
             </small>
           </div>
         </nav>
