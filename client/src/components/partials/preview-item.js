@@ -16,11 +16,12 @@ const Comment = props => (
         <p class="text-primary ml-5">{props.comments.comment}</p>
         <br />
         <a class="float-right date"><small>Date : {new Date(props.comments.createdAt).toDateString()}</small></a>
-        {props.comments.userid === JSON.parse(localStorage.getItem("jwt")).user._id &&
+        {isAuthenticated() && props.comments.userid === JSON.parse(localStorage.getItem("jwt")).user._id &&
             <span>
                 <a><Link to={`/comments/${props.comments.itemid}`}> <button class="btn-sm btn-primary" style={{ margin: "0.5%" }}>edit</button></Link></a>
                 <button onClick={() => { props.deleteComment(props.comments._id) }} class="btn-sm btn-danger ">Remove</button>
             </span>}
+        <br />
         <hr />
     </span>
 )
@@ -303,7 +304,7 @@ export default class PreviewItem extends Component {
                                 </div>
                             }
                         </div>
-                        {isAuthenticated().user.role === "user" &&
+                        {isAuthenticated() && isAuthenticated().user.role === "user" &&
                             <div>
                                 <form className="container">
                                     <div className="form-group text-center row">
